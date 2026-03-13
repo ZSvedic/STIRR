@@ -26,7 +26,7 @@ Hashtags are prefered over links or x.y.z numbers as they are easier to refactor
   Leftmost extension `.#[HC/RH/AI/Mix]` in a file/directory name indicates control.  
   E.g. dir `forms.#RH` indicates that AI agent can change contained files, but each change must be approved by a human before a commit. 
   Rename to `forms.#HC` stop AI suggesting changes to any form.  
-  Text/markdown/code files with `.#Mix` extension mark blocks as `#[HC/RH/AI]`, in any way human and AI will understand.   
+  Text/markdown/code files with `.#Mix` extension will mark blocks as `#[HC/RH/AI]`, in any way human and AI will understand.   
 
 - **Tree inheritance / `#TreeRL`** — When ommited, `#HashRL` and `#ControlRL` are inherited from a parent in a filesystem tree.
 
@@ -36,8 +36,9 @@ Human long-term happines depends on the following, in the decreasing order:
   2. UX - easy to learn and use.
   3. Openness — uses open standards.
   4. Maintainability — less lines of code, less dependencies, less complexity.
-  5. Speed — works fast. 
-I.e. don't work on speed if software is not working correctly.
+  5. Speed — works fast.  
+    
+  I.e. don't work on speed if software is not working correctly.
 
 - 
 
