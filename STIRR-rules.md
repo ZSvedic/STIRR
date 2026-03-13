@@ -1,5 +1,5 @@
 # `#STIRR`
-**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is a tool-free iterative AI development workflow. 
+**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is a tool-free, iterative AI development workflow. 
 
 Currently, AI agents tooling is in its infancy.
 But AI agents work great with plain text, command line, git, and bash.
@@ -22,7 +22,8 @@ Hashtags are prefered over links or x.y.z numbers as they are easier to refactor
   - `#RH` - **R**eviewed by **H**uman 
   - `#AI` - **AI** controled
   - `#Mix` - **Mix**ed control  
-  For files and dirs, leftmost extension `.#[HC/RH/AI/Mix]` in a filename indicates control. 
+  
+For files and dirs, leftmost extension `.#[HC/RH/AI/Mix]` in a filename indicates control. 
   E.g. dir `forms.#RH` indicates that AI agent can change contained files, but each change must be approved by a human before a commit. 
   Rename to `forms.#HC` stop AI suggesting changes to any form.
   Text/markdown/code files with `.#Mix` extension prefix mark blocks as `#[HC/RH/AI]`, in any way human and AI will understand.   
