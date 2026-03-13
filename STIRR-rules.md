@@ -40,7 +40,7 @@ Human long-term happines depends on the following, in the decreasing order:
     
   I.e. don't work on speed if software is not working correctly.
 
-- 
+- **Human is the bottleneck / `#BottleneckRL`** — ToDo
 
 
 ## Examples
