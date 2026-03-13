@@ -1,5 +1,5 @@
 # `#STIRR`
-**S**pecify → **T**est → **I**mplement → **R**eview → **Repeat** is a tool-free iterative AI development workflow. 
+**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is a tool-free iterative AI development workflow. 
 
 Currently, AI agents tooling is in its infancy.
 But AI agents work great with plain text, command line, git, and bash.
@@ -9,8 +9,9 @@ This doc is intended for both human and AI consumption.
 
 ## Rules
 
-- **Text / `#TextRL`** — Specs are in plain text, [markdown](https://en.wikipedia.org/wiki/Markdown), [mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) diagrams, [JSON](https://www.json.org/json-en.html) or [YAML](https://yaml.org/). 
-Avoid binary format specs as LLMs and CLI tools prefer text. If you need images, use JPEG or PNG.
+- **Text / `#TextRL`** — Specs are in plain text, [markdown](https://en.wikipedia.org/wiki/Markdown), [mermaid diagrams](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams), [JSON](https://www.json.org/json-en.html) or [YAML](https://yaml.org/). 
+Avoid specs in binary format. 
+If you need images, use JPEG or PNG.
 
 - **Hashtags / `#HashRL`** — Terms are identified by `#FooBar` hashtags, and referenced from text, code, or filenames. 
 Hashtags are case-insensitive, so `#foobar` is the same as `#FooBar`.
