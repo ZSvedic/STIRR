@@ -41,7 +41,8 @@ E.g. `SelfContained.#mix.ipynb` [Jupyter notebook](https://jupyter.org/) has tex
   - correctness, 
   - ease of use, 
   - use of open standards, 
-  - maintainability, and speed.  
+  - maintainability, 
+  - speed.  
 
   I.e. don't optimize speed if software is not working correctly.
 
@@ -59,10 +60,10 @@ Because of `#NeedsRL`, start with a minimal spec for the simplest use case, on t
 Keep specification as short as possible for the given problem.
 
 - **Immutable Code / `#ImCodeRL`** — Code can also be part of the spec, if marked as such.
-It is used for critical code, code snippets shorter than their natural language description, and for code considered final. 
+Immutable code is used for critical parts, snippets shorter than their natural language description, and for code considered final. 
 
 - **Red Green Test-Driven Development / `#TDD`** — Tests are part of the spec.
-Use [Red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), 
+Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), 
 meaning that tests are written before implementation and must fail (red). 
 Goal of implementation is to make all tests green.
 `#NeedsRL` also applies to tests: humans can't predict all ways in software or AI can fail.
@@ -71,7 +72,7 @@ Therefore, new tests are added on every iteration.
 - **Brevity / `#BrevityRL`** — Don't repeat yourself (`#DRY`) in specs or tests, because they change with every iteration.
 A good rule of thumb is the rule of fifths:
 both specs size and tests size should be less than 1/5 of the implemented code size. 
-Larger sizes don't make sense because it is faster to write code directly than to read and edit specs and tests.
+Larger sizes don't make sense as then becomes faster to write code directly.
 
 - **Journal / `#JournalRL`** — Specs and tests need to be concise because they are constantly read and modified.
 Decisions, learnings, pivots, and experiments are appended to a separate daily journal that can be longer. 
