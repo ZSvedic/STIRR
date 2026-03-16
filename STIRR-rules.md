@@ -1,8 +1,7 @@
 # `#STIRR`
-**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an AI development workflow that is: 
-text-based, convention-based, spec-driven, test-driven, and iterative. 
+**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions, and spec/test-driven. 
 
-This doc is intended for both human and AI consumption.
+This document is intended for both human and AI consumption.
 
 ## Rules
 
