@@ -13,9 +13,9 @@ This document is intended for both human and AI consumption.
   - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
   - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
   - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
-  
-Avoid specs in binary format, because they require issue-prone conversion to text. 
-If you need images, use formats that multimodal LLMs understand (JPEG/PNG). 
+
+  Avoid specs in binary format, because they require issue-prone conversion to text. 
+  If you need images, use formats that multimodal LLMs understand (JPEG/PNG). 
 
 - **Convention over configuration / `#ConventionRL`** — Because plain text lacks metadata and to avoid configuration file hell, use [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) instead.
 
