@@ -5,7 +5,7 @@ This document is intended for both human and AI consumption.
 
 ## Rules
 
-- **Text / `#TextRL`** — Because LLMs prefer plain text, use text for everything:
+- **Text (`#TextRL`)** — Because LLMs prefer plain text, use text for everything:
   - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
   - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
   - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
@@ -14,7 +14,7 @@ This document is intended for both human and AI consumption.
   - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
   - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
 
-  Avoid specs in binary format, because they require issue-prone conversion to text. 
+  Avoid specs in binary format, as they require error-prone conversion to text. 
   If you need images, use formats that multimodal LLMs understand (JPEG/PNG). 
 
 - **Convention over configuration / `#ConventionRL`** — Because plain text lacks metadata and to avoid configuration file hell, use [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) instead.
