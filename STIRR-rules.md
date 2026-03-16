@@ -1,19 +1,19 @@
 # `#STIRR`
-**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions, and spec/test-driven. 
+**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions, and is spec/test-driven. 
 
 This document is intended for both human and AI consumption.
 
 ## Rules
 
 - **Text / `#TextRL`** — Because LLMs prefer plain text, use text for everything:
-specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
-diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
-tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
-hierarchical data ([JSON](https://www.json.org/json-en.html) and [YAML](https://yaml.org/)), 
-scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
-initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
-task management (markdown or [Org Mode](https://orgmode.org/)), 
-etc.
+  - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
+  - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
+  - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
+  - hierarchical data ([JSON](https://www.json.org/json-en.html) and [YAML](https://yaml.org/)), 
+  - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
+  - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
+  - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
+  
 Avoid specs in binary format, because they require issue-prone conversion to text. 
 If you need images, use formats that multimodal LLMs understand (JPEG/PNG). 
 
