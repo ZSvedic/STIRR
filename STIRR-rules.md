@@ -72,13 +72,13 @@ Therefore, new tests are added on every iteration.
 - **Brevity / `#BrevityRL`** — Don't repeat yourself (`#DRY`) in specs or tests, because they change with every iteration.
 A good rule of thumb is the rule of fifths:
 both specs size and tests size should be less than 1/5 of the implemented code size. 
-Larger sizes don't make sense as then becomes faster to write code directly.
+Larger sizes don't make sense as then it is faster to write code directly.
 
 - **Journal / `#JournalRL`** — Specs and tests need to be concise because they are constantly read and modified.
-Decisions, learnings, pivots, and experiments are appended to a separate daily journal that can be longer. 
+Separate daily journal that can be longer contains decisions, learnings, pivots, and experiments. 
 It is consulted only when a spec or test decision is not clear.
 
-- **AI implementation / `#ImplementRL`** — AI tries to generate code from specs that pass tests. 
+- **AI implementation / `#ImplementRL`** — AI tries to generate code from specs so the tests pass. 
 In the end AI reports the results and learnings.
 Implementation is stateless, meaning that the only inputs are specs and tests.
 
