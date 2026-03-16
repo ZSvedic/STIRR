@@ -86,7 +86,7 @@ Implementation is stateless, meaning that the only inputs are specs and tests.
 
 - **Human review / `#ReviewRL`** - [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop) manually tests an implementation and examines code diffs. 
 After discovery of an issue, the required specs, tests, or journal are updated.
-[Same as people](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal), instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code.
+Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [same as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
 If that happens, create hidden tests that are not part of the specification and run them manually.
 
 - **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. 
