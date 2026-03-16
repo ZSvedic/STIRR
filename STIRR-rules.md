@@ -5,7 +5,7 @@ This document is intended for both human and AI consumption.
 
 ## Rules
 
-- **Text (`#TextRL`)** — Because LLMs prefer plain text, use text for everything:
+- **Text / `#TextRL`** — Because LLMs prefer plain text, use text for everything:
   - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
   - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
   - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
@@ -23,24 +23,27 @@ This document is intended for both human and AI consumption.
 Hashtags are case-insensitive, so `#foobar` is the same as `#FooBar`.
 Hashtags are preferred over links or x.y.z numbers because they are short, descriptive, rarely change, and work everywhere (local, web, commit messages, etc). 
 
-- **Separation of control / `#ControlRL`** — AI work is separated from human work, via control hashtags:
+- **Separation of control / `#ControlRL`** — AI work is separated from human work via control hashtags:
   - `#HC` - **H**uman **C**ontroled 
   - `#RH` - **R**eviewed by **H**uman 
   - `#AI` - **AI** controlled
   - `#Mix` - **Mix**ed control  
   
   Leftmost extension `.#[HC/RH/AI/Mix]` in a file/directory name indicates control.  
-  E.g. dir `forms.#RH` indicates that an AI agent can change contained files, but each change must be approved by a human before a commit. 
-  Rename to `forms.#HC` to stop AI suggesting changes to any form.  
+  E.g. directory name `forms.#RH` indicates that an AI can change contained files, but each change must be approved by a human before a commit. 
+  Rename to `forms.#HC` to stop AI suggesting changes.  
   Text/markdown/code files with the `.#Mix` extension mark blocks as `#[HC/RH/AI]`, in any form humans and AI will understand. 
 
 - **Tree inheritance / `#TreeRL`** — When omitted, `#HashRL` and `#ControlRL` are inherited from a parent in a filesystem or document tree.
 E.g. `SelfContained.#mix.ipynb` [Jupyter notebook](https://jupyter.org/) has text cells marked as `#HC`, code cells marked as `#AI`, and testing section marked with `#RH`.
 
-- **The end goal is human satisfaction / `#GoalRL`** — Long-term satisfaction of software users and maintainers depends on, 
-in the decreasing order of importance: 
-correctness, ease of use, use of open standards, maintainability, and speed. 
-I.e. don't optimize speed if software is not working correctly.
+- **The end goal is human satisfaction / `#GoalRL`** — Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
+  - correctness, 
+  - ease of use, 
+  - use of open standards, 
+  - maintainability, and speed.  
+
+  I.e. don't optimize speed if software is not working correctly.
 
 - **Human is the bottleneck / `#BottleneckRL`** — AI output is cheap. 
 Human attention is not. 
