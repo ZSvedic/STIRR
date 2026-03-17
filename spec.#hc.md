@@ -1,6 +1,6 @@
 Read `#STIRR`.
 
-## Iteration 3
+## Iteration 4
 - Implement the `stirr.#hc` script as py with python3 shebang.
 - Requirements:
     - Just py stdlib.
@@ -11,21 +11,32 @@ Read `#STIRR`.
     - Traversal and printing of file/dir sizes in KB in py function `traverse`.
     - Use glob.glob() to recursevly traverse everything except hidden files.
     - For each file:
-        - Proceed only for text, md, or code file (add to journal how to detect) and is <100KB.
+        - Proceed only for text files smaller than <100KB. Use this to test for text:
+        ```py
+def is_text_file(path):
+    try:
+        with open(path, 'rb') as f:
+            chunk = f.read(4096)
+        return b'\x00' not in chunk
+    except:
+        return False
+        ```
         - Find hashtags inside those files (r"(?<!\w)#[A-Za-z][\w-]*" regex), and add them to a specific file set and total set. 
         - Each file should be printed in one line with: 
         indent_dir_depth, filename_without_path, file_sizeKB, and top 5 tags in the file.
     - After all files print total tags with their frequency.
     - Don't implement anything else.
 - Check that the test passes.
-- For example, this could be output (check it is logical):
+- For example, this could be output:
 ```console
 FILE TREE:
-. 19.6KB
-  STIRR-rules.md 6.7KB 7#HC 6#FooBar
-  /scripts/ 0.1KB
-    test-file.txt 0.1KB 2#RH
+. 19.62KB
+  STIRR-rules.md 6.71KB 7#HC 6#FooBar
+  scripts/ 0.14KB
+    test-file.txt 0.12KB 2#RH
 ...
 TAG TOTALS: 
 101#HC 37#RH 20#FooBar ...
 ```
+- Add another test in both py and bash variants, that creates a mock real temp files and check that output matches.
+  - Chech that test files work, and suggest which approach is better, bash or py. 
