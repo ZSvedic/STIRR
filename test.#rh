@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./stirr.#rh > test.log 2>&1
+./stirr.#hc > test.log 2>&1

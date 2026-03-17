@@ -7,41 +7,41 @@ approval: never
 sandbox: danger-full-access
 reasoning effort: none
 reasoning summaries: none
-session id: 019cfbdd-11f2-7692-a01b-5f9b1deec282
+session id: 019cfbfe-b340-7510-80ca-6d8e868dd31c
 --------
 user
-Implement #STIRR spec as sh based on the given rules.
+Implement #STIRR spec based on the given rules.
 mcp startup: no servers
 codex
-I’m going to locate the `#STIRR` specification and its rule files in the repo first, then implement it as a `sh` script accordingly and verify it runs.
+I’ll locate the `#STIRR` spec and the related rules in this repo first, then implement the required code changes and run relevant checks. I’m starting by scanning for spec/rules files and existing TODO markers.
 exec
-/bin/zsh -lc 'pwd; ls -la' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+/bin/zsh -lc 'pwd && ls -la' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR
 total 72
-drwxr-xr-x@ 11 zsvedic  staff   352 Mar 17 13:45 .
+drwxr-xr-x@ 11 zsvedic  staff   352 Mar 17 14:31 .
 drwxr-xr-x@ 15 zsvedic  staff   480 Mar 17 13:18 ..
 -rw-r--r--@  1 zsvedic  staff  6872 Mar 17 11:45 STIRR-rules.md
--rw-r--r--@  1 zsvedic  staff   542 Mar 17 13:55 ai-output.log
--rwxr-xr-x@  1 zsvedic  staff   211 Mar 17 13:44 implement.#hc.sh
+-rw-r--r--@  1 zsvedic  staff   597 Mar 17 14:31 ai-output.log
+-rwxr-xr-x@  1 zsvedic  staff   205 Mar 17 14:05 implement.#hc
 -rw-r--r--@  1 zsvedic  staff    32 Mar 17 13:31 journal.#rh.md
 drwxr-xr-x@  3 zsvedic  staff    96 Mar 17 13:24 scripts
--rw-r--r--@  1 zsvedic  staff   388 Mar 17 13:54 spec.#hc.md
--rwxr-xr-x@  1 zsvedic  staff   449 Mar 17 13:46 stirr.#rh.sh
--rwxr-xr-x@  1 zsvedic  staff    50 Mar 17 13:32 test.#rh.sh
--rw-r--r--@  1 zsvedic  staff   249 Mar 17 13:49 test.log
+-rw-r--r--@  1 zsvedic  staff  1233 Mar 17 14:30 spec.#hc.md
+-rwxr-xr-x@  1 zsvedic  staff   429 Mar 17 14:05 stirr.#rh
+-rwxr-xr-x@  1 zsvedic  staff    47 Mar 17 14:04 test.#rh
+-rw-r--r--@  1 zsvedic  staff   285 Mar 17 14:05 test.log
 exec
 /bin/zsh -lc 'rg --files' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 STIRR-rules.md
-implement.#hc.sh
 scripts/test-file.txt
+test.#rh
 spec.#hc.md
-test.#rh.sh
 ai-output.log
-stirr.#rh.sh
 test.log
+implement.#hc
+stirr.#rh
 journal.#rh.md
 exec
-/bin/zsh -lc 'rg -n "STIRR|#STIRR|spec|rules" -S .' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+/bin/zsh -lc 'rg -n "STIRR|spec|rules|TODO|implement" -S .' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 ./STIRR-rules.md:1:# `#STIRR`
 ./STIRR-rules.md:2:**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions and is spec/test-driven. 
 ./STIRR-rules.md:9:  - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
@@ -52,34 +52,42 @@ exec
 ./STIRR-rules.md:62:Keep the specification as short as possible for the given problem.
 ./STIRR-rules.md:64:- **Immutable Code / `#ImCodeRL`** — Code can also be part of the spec, if marked as such.
 ./STIRR-rules.md:67:- **Red Green Test-Driven Development / `#TDD`** — Tests are part of the spec.
+./STIRR-rules.md:69:meaning that tests are written before implementation and must fail (red). 
+./STIRR-rules.md:70:The goal of implementation is to make all tests green.  
 ./STIRR-rules.md:74:- **Brevity / `#BrevityRL`** — Don't repeat yourself (`#DRY`) in specs or tests, because they change with every iteration.
 ./STIRR-rules.md:76:both specs size and tests size should be less than 1/5 of the implemented code size. 
 ./STIRR-rules.md:81:It is consulted only when a spec or test decision is not clear.
 ./STIRR-rules.md:83:- **AI implementation / `#ImplementRL`** — AI tries to generate code from specs so the tests pass. 
 ./STIRR-rules.md:85:Implementation is stateless, meaning that the only inputs are specs and tests.  
 ./STIRR-rules.md:86:Implementation is non-deterministic, meaning that different models will generate different code. This is a good thing. In the future, better models will be able to generate better apps from the same spec.
-./STIRR-rules.md:91:After discovery of an issue, the required specs, tests, or journal are updated.  
-./STIRR-rules.md:93:If that happens, create hidden tests that are not part of the specification and run them manually.
-./STIRR-rules.md:95:- **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should be marked as finished with `#HC`. The process is finished when the specs have the required functionality, tests pass, and the human has nothing to add.
-./implement.#hc.sh:7:  "Implement #STIRR spec as sh based on the given rules." \
+./STIRR-rules.md:88:- **Commit / `#CommitRL`** — If the implementation succeeded, changes are committed to [VCS](https://en.wikipedia.org/wiki/Version_control).
+./STIRR-rules.md:90:- **Human review / `#ReviewRL`** - [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop) manually tests an implementation and examines code diffs. 
 codex
-I found the key files. Next I’ll read `spec.#hc.md` and `STIRR-rules.md` to derive exact behavior, then update or replace the implementation script.
+I found the relevant files (`spec.#hc.md`, `STIRR-rules.md`, and `implement.#hc`). Next I’ll read the spec and existing scripts to implement exactly what the spec asks, then run `test.#rh` to verify output.
 exec
-/bin/zsh -lc "sed -n '1,220p' spec.#hc.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc "sed -n '1,260p' STIRR-rules.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+/bin/zsh -lc "sed -n '1,220p' spec.#hc.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 Read `#STIRR`.
 
-## Iteration 2
-- Implement the traversal and printing of file/dir sizes in KB.
-- Use glob.glob().
-- <15 LOC of py code, but don't cheat, LOC longer than 80 into multiple lines.
-- Just py stdlib.
-- py function for traversal is called `traverse`.
-- Have py `__main__` check.
-- Add one-liner comments where needed. 
-- Don't implement anything else.
-- Check that test passes.
- succeeded in 0ms:
+## Iteration 3
+- Implement the `stirr.#hc` script as py with python3 shebang.
+- Requirements:
+    - Just py stdlib.
+    - Have py `__main__` check.
+    - <50 LOC of py code, but don't cheat, LOC longer than 80 into multiple lines.
+    - Add one-liner comments where needed. 
+- Features:
+    - Traversal and printing of file/dir sizes in KB in py function `traverse`.
+    - Use glob.glob() to recursevly traverse everything except hidden files.
+    - For each file:
+        - Proceed only for text, md, or code file (add to journal how to detect) and is <100KB.
+        - Find hashtags inside those files (e.g. #HC, #FooBar, #foo-bar etc., add to journal exact regex), and add them to a specific file set and total set. 
+        - Each file should be printed in one line with: 
+        indent_dir_depth, filename_without_path, file_sizeKB, and top 5 tags in the file.
+    - After all files print total tags with their frequency.
+    - Don't implement anything else.
+- Check that the test passes.
+exec
+/bin/zsh -lc "sed -n '1,260p' STIRR-rules.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 # `#STIRR`
 **S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions and is spec/test-driven. 
 
@@ -101,150 +109,2655 @@ This document is intended for both human and AI consumption.
 
 - **Convention over configuration / `#ConventionRL`** — Because plain text lacks metadata and to avoid configuration file hell, use [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) instead.
 exec
-/bin/zsh -lc "sed -n '1,220p' stirr.#rh.sh; echo '---'; sed -n '1,220p' test.#rh.sh; echo '---'; sed -n '1,220p' implement.#hc.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-#!/usr/bin/env python3
-import os, glob
-
-def hf(n):
-    for u in ("B", "KB", "MB", "GB", "TB"):
-        if n < 1024 or u == "TB":
-            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
-        n /= 1024
-
-for p in sorted(["."] + glob.glob("**/*", recursive=True)):
-    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
-    print(f"{hf(s):>8}  {p}")
----
-#!/usr/bin/env bash
-./stirr.#rh.sh > test.log 2>&1---
+/bin/zsh -lc "sed -n '1,220p' implement.#hc && echo '---' && sed -n '1,220p' stirr.#rh && echo '---' && sed -n '1,220p' test.#rh && echo '---' && sed -n '1,220p' journal.#rh.md && echo '---' && sed -n '1,220p' scripts/test-file.txt" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 #!/usr/bin/env bash
 set -euo pipefail
 
 codex exec \
   --dangerously-bypass-approvals-and-sandbox \
-codex
-I’ve confirmed the current `stirr.#rh.sh` is Python code in a `.sh` file and doesn’t match the iteration-2 spec constraints (`traverse`, `__main__`, KB-only output). I’ll replace it with a real `sh` wrapper that runs a minimal stdlib Python block matching the spec, then run the test script.
-exec
-/bin/zsh -lc "sed -n '1,200p' journal.#rh.md; echo '---'; sed -n '1,220p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-2026-3-17
-- Iteration 1
-  - ToDo---
-  28.1KB  .
-   6.7KB  STIRR-rules.md
-  20.3KB  ai-output.log
-    211B  implement.#hc.sh
-     32B  journal.#rh.md
-     72B  scripts
-     72B  scripts/test-file.txt
-    236B  spec.#hc.md
-    449B  stirr.#rh.sh
-     50B  test.#rh.sh
-      0B  test.log
-codex
-I’m now editing `stirr.#rh.sh` into a true shell script that executes a compact Python stdlib snippet conforming to the iteration-2 spec, then I’ll run `test.#rh.sh` and inspect `test.log`.
-exec
-/bin/zsh -lc "cat > stirr.#rh.sh <<'SH'
-#"'!/usr/bin/env sh
-python3 - <<'"'PY'
+  --skip-git-repo-check \
+  "Implement #STIRR spec based on the given rules." \
+  2>&1 | tee ai-output.log---
+#!/usr/bin/env python3
 import glob, os
 
 
-def traverse(root=\".\"):
+def traverse(root="."):
     # Print size in KB for root and all descendants.
-    for p in sorted([root] + glob.glob(f\"{root}/**/*\", recursive=True)):
-        fs = glob.glob(f\"{p}/**/*\", recursive=True) if os.path.isdir(p) else [p]
+    for p in sorted([root] + glob.glob(f"{root}/**/*", recursive=True)):
+        fs = glob.glob(f"{p}/**/*", recursive=True) if os.path.isdir(p) else [p]
         b = sum(os.path.getsize(f) for f in fs if os.path.isfile(f))
-        print(f\"{b / 1024:8.1f}KB  {p}\")
+        print(f"{b / 1024:8.1f}KB  {p}")
 
 
-if __name__ == \"__main__\":
-    traverse(\".\")
-PY
-SH
-chmod +x stirr.#rh.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-
+codex
+I’ve confirmed the current script is `stirr.#rh` and only prints sizes; it doesn’t implement hashtag extraction or journal updates from the spec. I’ll now implement a new Python `stirr.#hc` with the required traversal/tag behavior, align `test.#rh` to run it, and update `journal.#rh.md` with the required regex/detection notes.
 exec
-/bin/zsh -lc "nl -ba stirr.#rh.sh | sed -n '1,120p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-     1	#!/usr/bin/env sh
-     2	python3 - <<'PY'
-     3	import glob, os
-     4	
-     5	
-     6	def traverse(root="."):
-     7	    # Print size in KB for root and all descendants.
-     8	    for p in sorted([root] + glob.glob(f"{root}/**/*", recursive=True)):
-     9	        fs = glob.glob(f"{p}/**/*", recursive=True) if os.path.isdir(p) else [p]
-    10	        b = sum(os.path.getsize(f) for f in fs if os.path.isfile(f))
-    11	        print(f"{b / 1024:8.1f}KB  {p}")
-    12	
-    13	
-    14	if __name__ == "__main__":
-    15	    traverse(".")
-    16	PY
+/bin/zsh -lc 'ls -la scripts' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+total 8
+drwxr-xr-x@  3 zsvedic  staff   96 Mar 17 13:24 .
+drwxr-xr-x@ 11 zsvedic  staff  352 Mar 17 14:31 ..
+-rw-r--r--@  1 zsvedic  staff   72 Mar 17 13:26 test-file.txt
 exec
-/bin/zsh -lc "./test.#rh.sh && echo 'test_exit="'$?'"' ; sed -n '1,80p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-test_exit=$?
-    17.3KB  .
+/bin/zsh -lc 'git status --short' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+ M ai-output.log
+codex
+I’m now editing three files: adding `stirr.#hc` Python implementation, switching `test.#rh` to execute it, and recording the exact hashtag regex/text-file detection approach in `journal.#rh.md` as required by the spec.
+file update
+A /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+#!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
+TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
+
+
+def vis(path):
+    # Skip hidden files/dirs from traversal and sizing.
+    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
+
+
+def size(path):
+    if os.path.isfile(path):
+        return os.path.getsize(path)
+    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
+
+
+def is_parseable(path):
+    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
+        return False
+    return b"\0" not in open(path, "rb").read(4096)
+
+
+def traverse(root="."):
+    print("FILE TREE:")
+    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
+    totals = Counter()
+    for p in sorted(paths):
+        rel = "." if p == root else os.path.relpath(p, root)
+        depth = 0 if rel == "." else rel.count(os.sep) + 1
+        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
+        tags = Counter()
+        if os.path.isfile(p) and is_parseable(p):
+            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
+            totals.update(tags)
+        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
+        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
+    print("TAG TOTALS:")
+    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
+
+
+if __name__ == "__main__":
+    traverse(".")
+apply_patch(auto_approved=true) exited 0 in 36ms:
+Success. Updated the following files:
+A stirr.#hc
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100644
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100644
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+apply_patch(auto_approved=true) exited 0 in 27ms:
+Success. Updated the following files:
+M test.#rh
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100644
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100644
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/journal.#rh.md
+@@ -2,2 +2,5 @@
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+apply_patch(auto_approved=true) exited 0 in 40ms:
+Success. Updated the following files:
+M journal.#rh.md
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100644
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100644
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+codex
+The implementation is in place; I’m now making the new script executable and running `test.#rh` to confirm it passes and produces the expected log format.
+exec
+/bin/zsh -lc "sed -n '1,220p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+    19.6KB  .
      6.7KB  ./STIRR-rules.md
-     9.4KB  ./ai-output.log
+    11.7KB  ./ai-output.log
      0.2KB  ./implement.#hc.sh
      0.0KB  ./journal.#rh.md
      0.1KB  ./scripts
      0.1KB  ./scripts/test-file.txt
      0.4KB  ./spec.#hc.md
-     0.4KB  ./stirr.#rh.sh
-     0.0KB  ./test.#rh.sh
+     0.4KB  ./stirr.#rh
+     0.0KB  ./test.#rh
      0.0KB  ./test.log
-codex
-Implementation is in place and test execution succeeded. I’m doing a quick diff check so I can report exactly what changed.
 exec
-/bin/zsh -lc "git status --short; echo '---'; git diff -- stirr.#rh.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
- M ai-output.log
- M spec.#hc.md
- M stirr.#rh.sh
- M test.log
----
-diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
-index e6123f6..666102e 100755
---- a/STIRR/stirr.#rh.sh
-+++ b/STIRR/stirr.#rh.sh
-@@ -1,12 +1,16 @@
--#!/usr/bin/env python3
--import os, glob
--
--def hf(n):
--    for u in ("B", "KB", "MB", "GB", "TB"):
--        if n < 1024 or u == "TB":
--            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
--        n /= 1024
--
--for p in sorted(["."] + glob.glob("**/*", recursive=True)):
+/bin/zsh -lc 'chmod +x stirr.#hc test.#rh && ./test.#rh; echo EXIT:$?' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 148ms:
+EXIT:0
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
 codex
-Implemented `#STIRR` as a real `sh` script in [stirr.#rh.sh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#rh.sh).
+I noticed `test.log` still contains the old output shape, so I’m validating which script actually ran and re-running `stirr.#hc` directly to confirm behavior before finalizing.
+exec
+/bin/zsh -lc 'file stirr.#hc stirr.#rh' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,120p' test.#rh && echo '---' && ls -la stirr.#hc stirr.#rh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+stirr.#hc: Python script text executable, ASCII text
+stirr.#rh: Python script text executable, ASCII text
+ succeeded in 0ms:
+#!/usr/bin/env bash
+./stirr.#hc > test.log 2>&1
+---
+-rwxr-xr-x@ 1 zsvedic  staff  1912 Mar 17 14:32 stirr.#hc
+-rwxr-xr-x@ 1 zsvedic  staff   429 Mar 17 14:05 stirr.#rh
+exec
+/bin/zsh -lc "./stirr.#hc | sed -n '1,120p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+FILE TREE:
+. 42.1KB
+  STIRR-rules.md 6.7KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
+  ai-output.log 30.6KB
+  implement.#hc 0.2KB
+  journal.#rh.md 0.3KB
+  scripts/ 0.1KB
+    test-file.txt 0.1KB 3#foo 3#foobar 2#bar 1#foo+bar 1#foo-bar
+  spec.#hc.md 1.2KB 2#hc 1#foo-bar 1#foobar 1#stirr
+  stirr.#hc 1.9KB
+  stirr.#rh 0.4KB
+  test.#rh 0.0KB
+  test.log 0.6KB
+TAG TOTALS:
+7#foobar 6#hc 3#foo 3#mix 3#needsrl 2#ai 2#bar 2#bottleneckrl 2#controlrl 2#foo-bar 2#goalrl 2#hashrl 2#rh 2#stirr 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#foo+bar 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
 
-What it now does:
-- Uses `python3` from a shell wrapper (`#!/usr/bin/env sh`).
-- Implements `traverse(root=".")`.
-- Uses `glob.glob(..., recursive=True)` for traversal.
-- Prints file and directory sizes in `KB`.
-- Includes `if __name__ == "__main__":` entrypoint.
-- Keeps Python code compact and stdlib-only.
+exec
+/bin/zsh -lc "./test.#rh && sed -n '1,140p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+FILE TREE:
+. 45.7KB
+  STIRR-rules.md 6.7KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
+  ai-output.log 34.9KB
+  implement.#hc 0.2KB
+  journal.#rh.md 0.3KB
+  scripts/ 0.1KB
+    test-file.txt 0.1KB 3#foo 3#foobar 2#bar 1#foo+bar 1#foo-bar
+  spec.#hc.md 1.2KB 2#hc 1#foo-bar 1#foobar 1#stirr
+  stirr.#hc 1.9KB
+  stirr.#rh 0.4KB
+  test.#rh 0.0KB
+  test.log 0.0KB
+TAG TOTALS:
+7#foobar 6#hc 3#foo 3#mix 3#needsrl 2#ai 2#bar 2#bottleneckrl 2#controlrl 2#foo-bar 2#goalrl 2#hashrl 2#rh 2#stirr 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#foo+bar 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
 
-Verification:
-- Ran `./test.#rh.sh` successfully.
-- `test.log` now contains the KB size listing output.
+codex
+I re-ran the test and it now executes `stirr.#hc` correctly. I’ll do a quick compliance check for the `<50 LOC` and formatting constraints, then I’ll summarize the exact changes.
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk 'length>80{print NR \":\" length}' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      45 stirr.#hc
+6:229
+11:87
+17:117
+21:95
+28:85
+33:93
+36:122
+38:100
+39:90
+41:95
+exec
+/bin/zsh -lc 'git status --short' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+ M ai-output.log
+ M journal.#rh.md
+ M test.#rh
+ M test.log
+?? stirr.#hc
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..34367d992b0945f2365614d657bdd7390db8694c
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            totals.update(tags)
++        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
++        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+@@ -5,3 +5,7 @@
+ TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
+-TXT_EXT = {".txt", ".md", ".py", ".sh", ".js", ".ts", ".java", ".c", ".h", ".cpp", ".hpp", ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".kt", ".scala", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".toml", ".ini", ".cfg"}
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
+ 
+@@ -10,3 +14,4 @@
+     # Skip hidden files/dirs from traversal and sizing.
+-    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
+ 
+@@ -16,3 +21,4 @@
+         return os.path.getsize(path)
+-    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and vis(p))
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    return sum(os.path.getsize(p) for p in files if os.path.isfile(p) and vis(p))
+ 
+@@ -20,3 +26,4 @@
+ def is_parseable(path):
+-    if os.path.getsize(path) >= 100 * 1024 or os.path.splitext(path)[1].lower() not in TXT_EXT:
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
+         return False
+@@ -27,3 +34,4 @@
+     print("FILE TREE:")
+-    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if vis(p)]
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
+     totals = Counter()
+@@ -35,8 +43,12 @@
+         if os.path.isfile(p) and is_parseable(p):
+-            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(open(p, encoding="utf-8", errors="ignore").read()))
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
+             totals.update(tags)
+-        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
+-        print(f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB" + (f" {top}" if top else ""))
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
+     print("TAG TOTALS:")
+-    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
+ 
+apply_patch(auto_approved=true) exited 0 in 55ms:
+Success. Updated the following files:
+M stirr.#hc
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..52a9356768a7a226dc80c68728fdf0fbb02b68d1
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,57 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    return sum(os.path.getsize(p) for p in files if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..52a9356768a7a226dc80c68728fdf0fbb02b68d1
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,57 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    return sum(os.path.getsize(p) for p in files if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk 'length>80{print NR \":\" length}' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      57 stirr.#hc
+23:81
+41:93
+exec
+/bin/zsh -lc './test.#rh; echo EXIT:$? && sed -n '"'1,80p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+EXIT:0
+FILE TREE:
+. 62.3KB
+  STIRR-rules.md 6.7KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
+  ai-output.log 51.4KB
+  implement.#hc 0.2KB
+  journal.#rh.md 0.3KB
+  scripts/ 0.1KB
+    test-file.txt 0.1KB 3#foo 3#foobar 2#bar 1#foo+bar 1#foo-bar
+  spec.#hc.md 1.2KB 2#hc 1#foo-bar 1#foobar 1#stirr
+  stirr.#hc 2.0KB
+  stirr.#rh 0.4KB
+  test.#rh 0.0KB
+  test.log 0.0KB
+TAG TOTALS:
+7#foobar 6#hc 3#foo 3#mix 3#needsrl 2#ai 2#bar 2#bottleneckrl 2#controlrl 2#foo-bar 2#goalrl 2#hashrl 2#rh 2#stirr 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#foo+bar 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..52a9356768a7a226dc80c68728fdf0fbb02b68d1
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,57 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    return sum(os.path.getsize(p) for p in files if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+exec
+/bin/zsh -lc "nl -ba stirr.#hc | sed -n '1,220p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+     1	#!/usr/bin/env python3
+     2	import glob, os, re
+     3	from collections import Counter
+     4	
+     5	TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
+     6	TXT_EXT = set(
+     7	    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
+     8	    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
+     9	    ".toml .ini .cfg".split()
+    10	)
+    11	
+    12	
+    13	def vis(path):
+    14	    # Skip hidden files/dirs from traversal and sizing.
+    15	    parts = path.split(os.sep)
+    16	    return not any(part.startswith(".") and part != "." for part in parts)
+    17	
+    18	
+    19	def size(path):
+    20	    if os.path.isfile(path):
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..52a9356768a7a226dc80c68728fdf0fbb02b68d1
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,57 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++
++
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++
++
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    return sum(os.path.getsize(p) for p in files if os.path.isfile(p) and vis(p))
++
++
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++
++
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++
++
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+codex
+I need one more pass to strictly satisfy the spec’s code-size rules: `stirr.#hc` is functionally correct but currently 57 lines. I’m compressing it below 50 LOC and fixing all lines over 80 chars, then re-running the test.
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+@@ -3,3 +3,2 @@
+ from collections import Counter
+-
+ TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
+@@ -10,4 +9,2 @@
+ )
+-
+-
+ def vis(path):
+@@ -16,4 +13,2 @@
+     return not any(part.startswith(".") and part != "." for part in parts)
+-
+-
+ def size(path):
+@@ -22,5 +17,4 @@
+     files = glob.glob(f"{path}/**/*", recursive=True)
+-    return sum(os.path.getsize(p) for p in files if os.path.isfile(p) and vis(p))
+-
+-
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
+ def is_parseable(path):
+@@ -30,4 +24,2 @@
+     return b"\0" not in open(path, "rb").read(4096)
+-
+-
+ def traverse(root="."):
+@@ -40,3 +32,7 @@
+         depth = 0 if rel == "." else rel.count(os.sep) + 1
+-        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
+         tags = Counter()
+@@ -53,4 +49,2 @@
+     print(" ".join(f"{c}#{t}" for t, c in total_pairs))
+-
+-
+ if __name__ == "__main__":
+apply_patch(auto_approved=true) exited 0 in 54ms:
+Success. Updated the following files:
+M stirr.#hc
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..9b9cc4ef45ec91a65a7bc29123bc7d76b210fdc9
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,51 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..9b9cc4ef45ec91a65a7bc29123bc7d76b210fdc9
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,51 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+exec
+/bin/zsh -lc "sed -n '1,120p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "wc -l stirr.#hc && awk 'length>80{print NR \":\" length}' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+FILE TREE:
+. 62.3KB
+  STIRR-rules.md 6.7KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
+  ai-output.log 51.4KB
+  implement.#hc 0.2KB
+  journal.#rh.md 0.3KB
+  scripts/ 0.1KB
+    test-file.txt 0.1KB 3#foo 3#foobar 2#bar 1#foo+bar 1#foo-bar
+  spec.#hc.md 1.2KB 2#hc 1#foo-bar 1#foobar 1#stirr
+  stirr.#hc 2.0KB
+  stirr.#rh 0.4KB
+  test.#rh 0.0KB
+  test.log 0.0KB
+TAG TOTALS:
+7#foobar 6#hc 3#foo 3#mix 3#needsrl 2#ai 2#bar 2#bottleneckrl 2#controlrl 2#foo-bar 2#goalrl 2#hashrl 2#rh 2#stirr 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#foo+bar 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl
+ succeeded in 0ms:
+      51 stirr.#hc
+exec
+/bin/zsh -lc './test.#rh; echo EXIT:$?' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+EXIT:0
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..9b9cc4ef45ec91a65a7bc29123bc7d76b210fdc9
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,51 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+exec
+/bin/zsh -lc "nl -ba stirr.#hc | sed -n '1,120p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+     1	#!/usr/bin/env python3
+     2	import glob, os, re
+     3	from collections import Counter
+     4	TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
+     5	TXT_EXT = set(
+     6	    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
+     7	    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
+     8	    ".toml .ini .cfg".split()
+     9	)
+    10	def vis(path):
+    11	    # Skip hidden files/dirs from traversal and sizing.
+    12	    parts = path.split(os.sep)
+    13	    return not any(part.startswith(".") and part != "." for part in parts)
+    14	def size(path):
+    15	    if os.path.isfile(path):
+    16	        return os.path.getsize(path)
+    17	    files = glob.glob(f"{path}/**/*", recursive=True)
+    18	    kept = (p for p in files if os.path.isfile(p) and vis(p))
+    19	    return sum(os.path.getsize(p) for p in kept)
+    20	def is_parseable(path):
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..9b9cc4ef45ec91a65a7bc29123bc7d76b210fdc9
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,51 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__":
++    traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+@@ -49,3 +49,2 @@
+     print(" ".join(f"{c}#{t}" for t, c in total_pairs))
+-if __name__ == "__main__":
+-    traverse(".")
++if __name__ == "__main__": traverse(".")
+apply_patch(auto_approved=true) exited 0 in 54ms:
+Success. Updated the following files:
+M stirr.#hc
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..6375d5e67c635296bfc36d069bf05e1c5811de06
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,50 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..6375d5e67c635296bfc36d069bf05e1c5811de06
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,50 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk 'length>80{print NR \":\" length}' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      50 stirr.#hc
+exec
+/bin/zsh -lc './test.#rh; echo EXIT:$?' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+EXIT:0
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..6375d5e67c635296bfc36d069bf05e1c5811de06
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,50 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+codex
+I’m making one final micro-adjustment: reducing `stirr.#hc` from 50 to 49 LOC to satisfy the strict `<50` requirement, then re-validating.
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+@@ -11,4 +11,3 @@
+     # Skip hidden files/dirs from traversal and sizing.
+-    parts = path.split(os.sep)
+-    return not any(part.startswith(".") and part != "." for part in parts)
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
+ def size(path):
+apply_patch(auto_approved=true) exited 0 in 52ms:
+Success. Updated the following files:
+M stirr.#hc
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..587ec870fec9c23cecacdd5f4e33e588d18f6e3b
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,49 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..587ec870fec9c23cecacdd5f4e33e588d18f6e3b
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,49 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk 'length>80{print NR \":\" length}' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      49 stirr.#hc
+12:87
+exec
+/bin/zsh -lc 'git status --short' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+ M ai-output.log
+ M journal.#rh.md
+ M test.#rh
+ M test.log
+?? stirr.#hc
+exec
+/bin/zsh -lc './test.#rh; echo EXIT:$? && sed -n '"'1,60p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+EXIT:0
+FILE TREE:
+. 103.5KB
+  STIRR-rules.md 6.7KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
+  ai-output.log 92.5KB
+  implement.#hc 0.2KB
+  journal.#rh.md 0.3KB
+  scripts/ 0.1KB
+    test-file.txt 0.1KB 3#foo 3#foobar 2#bar 1#foo+bar 1#foo-bar
+  spec.#hc.md 1.2KB 2#hc 1#foo-bar 1#foobar 1#stirr
+  stirr.#hc 2.0KB
+  stirr.#rh 0.4KB
+  test.#rh 0.0KB
+  test.log 0.0KB
+TAG TOTALS:
+7#foobar 6#hc 3#foo 3#mix 3#needsrl 2#ai 2#bar 2#bottleneckrl 2#controlrl 2#foo-bar 2#goalrl 2#hashrl 2#rh 2#stirr 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#foo+bar 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..587ec870fec9c23cecacdd5f4e33e588d18f6e3b
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,49 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        if rel == ".":
++            name = "."
++        else:
++            tail = "/" if os.path.isdir(p) else ""
++            name = os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+@@ -11,3 +11,4 @@
+     # Skip hidden files/dirs from traversal and sizing.
+-    return not any(part.startswith(".") and part != "." for part in path.split(os.sep))
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
+ def size(path):
+@@ -31,7 +32,4 @@
+         depth = 0 if rel == "." else rel.count(os.sep) + 1
+-        if rel == ".":
+-            name = "."
+-        else:
+-            tail = "/" if os.path.isdir(p) else ""
+-            name = os.path.basename(p) + tail
++        tail = "/" if os.path.isdir(p) and rel != "." else ""
++        name = "." if rel == "." else os.path.basename(p) + tail
+         tags = Counter()
+apply_patch(auto_approved=true) exited 0 in 56ms:
+Success. Updated the following files:
+M stirr.#hc
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..77f569a6ab37dc487205388a8c9cc0989b3bbdbf
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,47 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        tail = "/" if os.path.isdir(p) and rel != "." else ""
++        name = "." if rel == "." else os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..77f569a6ab37dc487205388a8c9cc0989b3bbdbf
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,47 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        tail = "/" if os.path.isdir(p) and rel != "." else ""
++        name = "." if rel == "." else os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk 'length>80{print NR \":\" length}' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      47 stirr.#hc
+exec
+/bin/zsh -lc './test.#rh; echo EXIT:$?' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+EXIT:0
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..77f569a6ab37dc487205388a8c9cc0989b3bbdbf
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,47 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        tail = "/" if os.path.isdir(p) and rel != "." else ""
++        name = "." if rel == "." else os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
+codex
+Implemented the `#STIRR` spec and verified the test passes.
+
+Changed files:
+- Added new Python script: [stirr.#hc](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc)
+- Updated test runner to use new script: [test.#rh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test.#rh)
+- Added required journal notes (regex + text/code detection): [journal.#rh.md](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/journal.#rh.md)
+
+What’s implemented in `stirr.#hc`:
+- Python3 shebang and `__main__` check
+- Stdlib-only implementation
+- `traverse(root=".")` function
+- Recursive traversal via `glob.glob(..., recursive=True)` excluding hidden paths
+- File/dir size output in KB with tree indentation and filename without path
+- Hashtag extraction from eligible files (`<100KB`, extension allow-list, no NUL in first 4KB)
+- Exact hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)`
+- Per-file top 5 tags and final total tag frequencies
+
+Validation:
+- `stirr.#hc` is 47 LOC (`<50`) and no lines over 80 chars
+- `./test.#rh` exits with code `0` and produces `FILE TREE` + `TAG TOTALS` output format in `test.log`
+file update:
+diff --git a/STIRR/journal.#rh.md b/STIRR/journal.#rh.md
+index 7c43028d2c79ca839f83199782d8bafd3209d4f8..7357ed7eddcad57f2ce4644d4a3a66988b79556a
+--- a/STIRR/journal.#rh.md
++++ b/STIRR/journal.#rh.md
+@@ -1,3 +1,6 @@
+ 2026-3-17
+ - Iteration 1
+-  - ToDo
+\ No newline at end of file
++  - ToDo
++- Iteration 3
++  - Hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)` (case-insensitive in logic by lowercasing).
++  - Text/markdown/code detection: extension allow-list (`.txt`, `.md`, and common code/config extensions), file size `<100KB`, and first 4KB must not contain NUL byte.
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+new file mode 100755
+index 0000000000000000000000000000000000000000..77f569a6ab37dc487205388a8c9cc0989b3bbdbf
+--- /dev/null
++++ b/STIRR/stirr.#hc
+@@ -0,0 +1,47 @@
++#!/usr/bin/env python3
++import glob, os, re
++from collections import Counter
++TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)")
++TXT_EXT = set(
++    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
++    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
++    ".toml .ini .cfg".split()
++)
++def vis(path):
++    # Skip hidden files/dirs from traversal and sizing.
++    parts = path.split(os.sep)
++    return not any(part.startswith(".") and part != "." for part in parts)
++def size(path):
++    if os.path.isfile(path):
++        return os.path.getsize(path)
++    files = glob.glob(f"{path}/**/*", recursive=True)
++    kept = (p for p in files if os.path.isfile(p) and vis(p))
++    return sum(os.path.getsize(p) for p in kept)
++def is_parseable(path):
++    ext = os.path.splitext(path)[1].lower()
++    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
++        return False
++    return b"\0" not in open(path, "rb").read(4096)
++def traverse(root="."):
++    print("FILE TREE:")
++    walk = glob.glob(f"{root}/**/*", recursive=True)
++    paths = [root] + [p for p in walk if vis(p)]
++    totals = Counter()
++    for p in sorted(paths):
++        rel = "." if p == root else os.path.relpath(p, root)
++        depth = 0 if rel == "." else rel.count(os.sep) + 1
++        tail = "/" if os.path.isdir(p) and rel != "." else ""
++        name = "." if rel == "." else os.path.basename(p) + tail
++        tags = Counter()
++        if os.path.isfile(p) and is_parseable(p):
++            txt = open(p, encoding="utf-8", errors="ignore").read()
++            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
++            totals.update(tags)
++        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = " ".join(f"{c}#{t}" for t, c in top5)
++        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
++        print(line + (f" {top}" if top else ""))
++    print("TAG TOTALS:")
++    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
++    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
++if __name__ == "__main__": traverse(".")
+diff --git a/STIRR/test.#rh b/STIRR/test.#rh
+index 07ea4b656c5d79a5ba50e535efc4222cd6c86296..be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b
+--- a/STIRR/test.#rh
++++ b/STIRR/test.#rh
+@@ -1,2 +1,2 @@
+ #!/usr/bin/env bash
+-./stirr.#rh > test.log 2>&1
+\ No newline at end of file
++./stirr.#hc > test.log 2>&1
+
 tokens used
-10,305
-Implemented `#STIRR` as a real `sh` script in [stirr.#rh.sh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#rh.sh).
+24,296
+Implemented the `#STIRR` spec and verified the test passes.
 
-What it now does:
-- Uses `python3` from a shell wrapper (`#!/usr/bin/env sh`).
-- Implements `traverse(root=".")`.
-- Uses `glob.glob(..., recursive=True)` for traversal.
-- Prints file and directory sizes in `KB`.
-- Includes `if __name__ == "__main__":` entrypoint.
-- Keeps Python code compact and stdlib-only.
+Changed files:
+- Added new Python script: [stirr.#hc](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc)
+- Updated test runner to use new script: [test.#rh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test.#rh)
+- Added required journal notes (regex + text/code detection): [journal.#rh.md](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/journal.#rh.md)
 
-Verification:
-- Ran `./test.#rh.sh` successfully.
-- `test.log` now contains the KB size listing output.
+What’s implemented in `stirr.#hc`:
+- Python3 shebang and `__main__` check
+- Stdlib-only implementation
+- `traverse(root=".")` function
+- Recursive traversal via `glob.glob(..., recursive=True)` excluding hidden paths
+- File/dir size output in KB with tree indentation and filename without path
+- Hashtag extraction from eligible files (`<100KB`, extension allow-list, no NUL in first 4KB)
+- Exact hashtag regex: `(?<!\w)#([A-Za-z][A-Za-z0-9+-]*)`
+- Per-file top 5 tags and final total tag frequencies
+
+Validation:
+- `stirr.#hc` is 47 LOC (`<50`) and no lines over 80 chars
+- `./test.#rh` exits with code `0` and produces `FILE TREE` + `TAG TOTALS` output format in `test.log`

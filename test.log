@@ -1,11 +1,15 @@
-    19.6KB  .
-     6.7KB  ./STIRR-rules.md
-    11.7KB  ./ai-output.log
-     0.2KB  ./implement.#hc.sh
-     0.0KB  ./journal.#rh.md
-     0.1KB  ./scripts
-     0.1KB  ./scripts/test-file.txt
-     0.4KB  ./spec.#hc.md
-     0.4KB  ./stirr.#rh
-     0.0KB  ./test.#rh
-     0.0KB  ./test.log
+FILE TREE:
+. 114.9KB
+  STIRR-rules.md 6.7KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
+  ai-output.log 103.9KB
+  implement.#hc 0.2KB
+  journal.#rh.md 0.3KB
+  scripts/ 0.1KB
+    test-file.txt 0.1KB 3#foo 3#foobar 2#bar 1#foo+bar 1#foo-bar
+  spec.#hc.md 1.2KB 2#hc 1#foo-bar 1#foobar 1#stirr
+  stirr.#hc 2.0KB
+  stirr.#rh 0.4KB
+  test.#rh 0.0KB
+  test.log 0.0KB
+TAG TOTALS:
+7#foobar 6#hc 3#foo 3#mix 3#needsrl 2#ai 2#bar 2#bottleneckrl 2#controlrl 2#foo-bar 2#goalrl 2#hashrl 2#rh 2#stirr 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#foo+bar 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl

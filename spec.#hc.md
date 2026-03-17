@@ -12,7 +12,7 @@ Read `#STIRR`.
     - Use glob.glob() to recursevly traverse everything except hidden files.
     - For each file:
         - Proceed only for text, md, or code file (add to journal how to detect) and is <100KB.
-        - Find hashtags inside those files (e.g. #HC, #FooBar, #foo-bar etc., add to journal exact regex), and add them to a specific file set and total set. 
+        - Find hashtags inside those files (r"(?<!\w)#[A-Za-z][\w-]*" regex), and add them to a specific file set and total set. 
         - Each file should be printed in one line with: 
         indent_dir_depth, filename_without_path, file_sizeKB, and top 5 tags in the file.
     - After all files print total tags with their frequency.
