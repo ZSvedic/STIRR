@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+mkdir -p "$tmp/sub" "$tmp/.hidden"
+printf '#Foo #foo #Bar\n' > "$tmp/a.md"
+printf '#foo-bar #Foo\n' > "$tmp/sub/b.txt"
+printf '#NOPE\n' > "$tmp/.hidden/skip.md"
+printf '\0\1\2' > "$tmp/sub/bin.dat"
+python3 - <<PY > "$tmp/out.txt"
+import types
+from importlib.machinery import SourceFileLoader
+m = types.ModuleType("stirr")
+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
+m.traverse(r"$tmp")
+PY
+
+grep -q '^FILE TREE:$' "$tmp/out.txt"
+grep -q 'a.md .* 2#foo 1#bar' "$tmp/out.txt"
+grep -q 'b.txt .* 1#foo 1#foo-bar' "$tmp/out.txt"
+grep -q '^TAG TOTALS:$' "$tmp/out.txt"
+grep -q '3#foo 1#bar 1#foo-bar' "$tmp/out.txt"

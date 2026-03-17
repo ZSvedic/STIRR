@@ -2,46 +2,46 @@
 import glob, os, re
 from collections import Counter
 TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
-TXT_EXT = set(
-    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
-    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
-    ".toml .ini .cfg".split()
-)
-def vis(path):
-    # Skip hidden files/dirs from traversal and sizing.
-    parts = path.split(os.sep)
-    return not any(part.startswith(".") and part != "." for part in parts)
-def size(path):
+def is_text_file(path):
+    try:
+        with open(path, 'rb') as f:
+            chunk = f.read(4096)
+        return b'\x00' not in chunk
+    except:
+        return False
+def _visible(path):
+    # Hidden files and folders are excluded from traversal.
+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
+def _all(root):
+    found = glob.glob(f"{root}/**/*", recursive=True)
+    return [root] + [p for p in found if _visible(p)]
+def _size(path):
     if os.path.isfile(path):
         return os.path.getsize(path)
-    files = glob.glob(f"{path}/**/*", recursive=True)
-    kept = (p for p in files if os.path.isfile(p) and vis(p))
-    return sum(os.path.getsize(p) for p in kept)
-def is_parseable(path):
-    ext = os.path.splitext(path)[1].lower()
-    if os.path.getsize(path) >= 100 * 1024 or ext not in TXT_EXT:
-        return False
-    return b"\0" not in open(path, "rb").read(4096)
+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
 def traverse(root="."):
     print("FILE TREE:")
-    walk = glob.glob(f"{root}/**/*", recursive=True)
-    paths = [root] + [p for p in walk if vis(p)]
     totals = Counter()
-    for p in sorted(paths):
+    for p in sorted(_all(root)):
         rel = "." if p == root else os.path.relpath(p, root)
         depth = 0 if rel == "." else rel.count(os.sep) + 1
-        tail = "/" if os.path.isdir(p) and rel != "." else ""
-        name = "." if rel == "." else os.path.basename(p) + tail
+        name = "." if rel == "." else os.path.basename(p)
+        name += "/" if os.path.isdir(p) and rel != "." else ""
         tags = Counter()
-        if os.path.isfile(p) and is_parseable(p):
-            txt = open(p, encoding="utf-8", errors="ignore").read()
-            tags = Counter(m.group(1).lower() for m in TAG_RE.finditer(txt))
+        if (
+            os.path.isfile(p)
+            and os.path.getsize(p) < 100 * 1024
+            and is_text_file(p)
+        ):
+            with open(p, encoding="utf-8", errors="ignore") as f:
+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
             totals.update(tags)
         top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
         top = " ".join(f"{c}#{t}" for t, c in top5)
-        line = f"{'  ' * depth}{name} {size(p) / 1024:.1f}KB"
+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
         print(line + (f" {top}" if top else ""))
     print("TAG TOTALS:")
-    total_pairs = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-    print(" ".join(f"{c}#{t}" for t, c in total_pairs))
-if __name__ == "__main__": traverse(".")
+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
+    print(" ".join(f"{c}#{t}" for t, c in order))
+if __name__ == "__main__":
+    traverse(".")
