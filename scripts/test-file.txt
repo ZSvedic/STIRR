@@ -1,0 +1,7 @@
+'`#FooBar``
+#FooBar
+#foobar
+#foo-bar
+#foo+bar 
+#foo #Foo #fOO 
+#bar #Bar

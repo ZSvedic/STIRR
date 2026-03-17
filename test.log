@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/./stirr.#rh.sh", line 9, in <module>
+    raise NotImplementedError("This script is not implemented yet.")
+NotImplementedError: This script is not implemented yet.
