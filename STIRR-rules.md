@@ -52,6 +52,8 @@ In any workflow, the bottleneck is the human reading speed.
 The optimal process minimizes total human effort, and maximizes `#GoalRL`.
 
 - **AI output is often flawed / `#FlawedRL`** — Wrong or verbose AI outputs cause the `#BottleneckRL` problem.
+To detect errors without `#BottleneckRL` problem, use automated tests.
+To reduce verbosity, specify max lines-of-code (LOC) or max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity).
 
 - **Humans don't know their needs / `#NeedsRL`** — Needs are discovered gradually, by giving feedback on every iteration. 
 
@@ -89,4 +91,4 @@ After discovery of an issue, the required specs, tests, or journal are updated.
 Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [same as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
 If that happens, create hidden tests that are not part of the specification and run them manually.
 
-- **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. 
+- **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should be marked as finished with #HC. The process is complete when the specs have the required functionality, tests pass, and the human has nothing to add.
