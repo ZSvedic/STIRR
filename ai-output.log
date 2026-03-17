@@ -7,43 +7,31 @@ approval: never
 sandbox: danger-full-access
 reasoning effort: none
 reasoning summaries: none
-session id: 019cfc24-cc2e-7732-8d8b-1c75cf2bf3f3
+session id: 019cfc44-8704-74f0-877b-ff67559fcc3c
 --------
 user
 Implement #STIRR spec based on the given rules.
 mcp startup: no servers
 codex
-I’ll locate the `#STIRR` spec and the related rule files in the repo first, then implement the required changes and run available checks.
+I’ll locate the `#STIRR` specification and its rule files first, then implement the required changes directly in the codebase and run any available checks. I’m starting by scanning the repository structure and searching for spec references.
 exec
-/bin/zsh -lc 'pwd; ls -la' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+/bin/zsh -lc 'pwd && ls -la' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR
 total 80
-drwxr-xr-x@ 12 zsvedic  staff   384 Mar 17 14:32 .
+drwxr-xr-x@ 12 zsvedic  staff   384 Mar 17 15:43 .
 drwxr-xr-x@ 15 zsvedic  staff   480 Mar 17 13:18 ..
 -rw-r--r--@  1 zsvedic  staff  6872 Mar 17 11:45 STIRR-rules.md
--rw-r--r--@  1 zsvedic  staff   522 Mar 17 15:13 ai-output.log
+-rw-r--r--@  1 zsvedic  staff   627 Mar 17 15:48 ai-output.log
 -rwxr-xr-x@  1 zsvedic  staff   205 Mar 17 14:05 implement.#hc
 -rw-r--r--@  1 zsvedic  staff   357 Mar 17 15:12 journal.#rh.md
 drwxr-xr-x@  3 zsvedic  staff    96 Mar 17 13:24 scripts
--rw-r--r--@  1 zsvedic  staff  1571 Mar 17 15:12 spec.#hc.md
--rwxr-xr-x@  1 zsvedic  staff  2057 Mar 17 14:55 stirr.#hc
--rwxr-xr-x@  1 zsvedic  staff   429 Mar 17 14:05 stirr.#rh
--rwxr-xr-x@  1 zsvedic  staff    48 Mar 17 14:32 test.#rh
--rw-r--r--@  1 zsvedic  staff   633 Mar 17 14:34 test.log
+-rw-r--r--@  1 zsvedic  staff  1723 Mar 17 15:46 spec.#hc.md
+-rwxr-xr-x@  1 zsvedic  staff  1835 Mar 17 15:16 stirr.#rh
+-rwxr-xr-x@  1 zsvedic  staff    71 Mar 17 15:40 test1-run.#rh.sh
+-rw-r--r--@  1 zsvedic  staff   749 Mar 17 15:25 test1-run.log
+-rwxr-xr-x@  1 zsvedic  staff  1155 Mar 17 15:43 test2-mock.#rh.py
 exec
-/bin/zsh -lc 'rg --files .' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc 'rg -n "STIRR|#STIRR|spec|rules|rule" -S .' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-./STIRR-rules.md
-./scripts/test-file.txt
-./test.#rh
-./spec.#hc.md
-./stirr.#hc
-./ai-output.log
-./test.log
-./implement.#hc
-./stirr.#rh
-./journal.#rh.md
- succeeded in 0ms:
+/bin/zsh -lc 'rg -n "STIRR|#STIRR|spec|rules" -S .' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 ./STIRR-rules.md:1:# `#STIRR`
 ./STIRR-rules.md:2:**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions and is spec/test-driven. 
 ./STIRR-rules.md:9:  - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
@@ -55,7 +43,6 @@ exec
 ./STIRR-rules.md:64:- **Immutable Code / `#ImCodeRL`** — Code can also be part of the spec, if marked as such.
 ./STIRR-rules.md:67:- **Red Green Test-Driven Development / `#TDD`** — Tests are part of the spec.
 ./STIRR-rules.md:74:- **Brevity / `#BrevityRL`** — Don't repeat yourself (`#DRY`) in specs or tests, because they change with every iteration.
-./STIRR-rules.md:75:A good rule of thumb is the rule of fifths:
 ./STIRR-rules.md:76:both specs size and tests size should be less than 1/5 of the implemented code size. 
 ./STIRR-rules.md:81:It is consulted only when a spec or test decision is not clear.
 ./STIRR-rules.md:83:- **AI implementation / `#ImplementRL`** — AI tries to generate code from specs so the tests pass. 
@@ -64,52 +51,55 @@ exec
 ./STIRR-rules.md:91:After discovery of an issue, the required specs, tests, or journal are updated.  
 ./STIRR-rules.md:93:If that happens, create hidden tests that are not part of the specification and run them manually.
 ./STIRR-rules.md:95:- **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should be marked as finished with `#HC`. The process is finished when the specs have the required functionality, tests pass, and the human has nothing to add.
+./test1-run.log:3:  STIRR-rules.md 6.71KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
 codex
-I found the spec and rules files. Next I’m reading `spec.#hc.md` and existing `stirr` scripts to implement exactly what’s missing and align output with expected format.
+I found the key files: `spec.#hc.md` and `STIRR-rules.md`. Next I’ll read the spec and current implementation script to align code changes strictly with those rules.
 exec
-/bin/zsh -lc "sed -n '1,220p' spec.#hc.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-Read `#STIRR`.
-
-## Iteration 4
-- Implement the `stirr.#hc` script as py with python3 shebang.
-- Requirements:
-    - Just py stdlib.
-    - Have py `__main__` check.
-    - <50 LOC of py code, but don't cheat, LOC longer than 80 into multiple lines.
-    - Add one-liner comments where needed. 
-- Features:
-    - Traversal and printing of file/dir sizes in KB in py function `traverse`.
-    - Use glob.glob() to recursevly traverse everything except hidden files.
-    - For each file:
-        - Proceed only for text files smaller than <100KB. Use this to test for text:
-        ```py
+/bin/zsh -lc "sed -n '1,220p' spec.#hc.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,260p' stirr.#rh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,260p' STIRR-rules.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+#!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
 def is_text_file(path):
     try:
         with open(path, 'rb') as f:
             chunk = f.read(4096)
         return b'\x00' not in chunk
-exec
-/bin/zsh -lc "sed -n '1,220p' stirr.#rh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-#!/usr/bin/env python3
-import glob, os
+    except:
+        return False
+def _visible(path):
+    # Hidden files and folders are excluded from traversal.
+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
+def _all(root):
+    found = glob.glob(f"{root}/**/*", recursive=True)
+    return [root] + [p for p in found if _visible(p)]
+def _size(path):
+    if os.path.isfile(path):
+        return os.path.getsize(path)
+ succeeded in 0ms:
+Read `#STIRR`.
 
-
-def traverse(root="."):
-    # Print size in KB for root and all descendants.
-    for p in sorted([root] + glob.glob(f"{root}/**/*", recursive=True)):
-        fs = glob.glob(f"{p}/**/*", recursive=True) if os.path.isdir(p) else [p]
-        b = sum(os.path.getsize(f) for f in fs if os.path.isfile(f))
-        print(f"{b / 1024:8.1f}KB  {p}")
-
-
-if __name__ == "__main__":
-    traverse(".")
-exec
-/bin/zsh -lc "sed -n '1,220p' test.#rh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-#!/usr/bin/env bash
-./stirr.#hc > test.log 2>&1
-exec
-/bin/zsh -lc "sed -n '1,260p' STIRR-rules.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+## Iteration 5
+- Implement the `stirr.#hc` script as py with python3 shebang.
+- Requirements:
+    - Just py stdlib.
+    - Have py `__main__` check.
+    - <60 LOC of py code, but don't cheat:
+      - LOC longer than 80 into multiple lines.
+      - Empty rows between functions and declarations.
+    - Add one-liner comments where needed. 
+- Features:
+    - Traversal and printing of file/dir sizes in KB in py function `traverse`.
+      - Dir size should be calculated as sum of parsed files from that folder, not filesystem size.
+    - Use glob.glob() to recursevly traverse everything except hidden files.
+      - I think hidden files/dirs are automatically skipped by glob(), so no extra function for that is needed. 
+    - For each file:
+        - Proceed only for text files smaller than <100KB. Use this to test for text:
+        ```py
+def is_text_file(path):
+ succeeded in 0ms:
 # `#STIRR`
 **S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions and is spec/test-driven. 
 
@@ -131,39 +121,25 @@ This document is intended for both human and AI consumption.
 
 - **Convention over configuration / `#ConventionRL`** — Because plain text lacks metadata and to avoid configuration file hell, use [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) instead.
 exec
-/bin/zsh -lc "sed -n '1,260p' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc "sed -n '1,260p' implement.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-#!/usr/bin/env python3
-import glob, os, re
-from collections import Counter
-TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
-TXT_EXT = set(
-    ".txt .md .py .sh .js .ts .java .c .h .cpp .hpp .cs .go .rs "
-    ".rb .php .swift .kt .scala .html .css .json .yaml .yml .xml "
-    ".toml .ini .cfg".split()
-)
-def vis(path):
-    # Skip hidden files/dirs from traversal and sizing.
-    parts = path.split(os.sep)
-    return not any(part.startswith(".") and part != "." for part in parts)
-def size(path):
-    if os.path.isfile(path):
-        return os.path.getsize(path)
-    files = glob.glob(f"{path}/**/*", recursive=True)
-    kept = (p for p in files if os.path.isfile(p) and vis(p))
-    return sum(os.path.getsize(p) for p in kept)
-def is_parseable(path):
- succeeded in 0ms:
-#!/usr/bin/env bash
-set -euo pipefail
-
-codex exec \
-  --dangerously-bypass-approvals-and-sandbox \
-  --skip-git-repo-check \
-  "Implement #STIRR spec based on the given rules." \
-  2>&1 | tee ai-output.log
+/bin/zsh -lc 'ls -la scripts && rg -n "" scripts -S' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+total 8
+drwxr-xr-x@  3 zsvedic  staff   96 Mar 17 13:24 .
+drwxr-xr-x@ 12 zsvedic  staff  384 Mar 17 15:43 ..
+-rw-r--r--@  1 zsvedic  staff   72 Mar 17 13:26 test-file.txt
+scripts/test-file.txt:1:'`#FooBar``
+scripts/test-file.txt:2:#FooBar
+scripts/test-file.txt:3:#foobar
+scripts/test-file.txt:4:#foo-bar
+scripts/test-file.txt:5:#foo+bar 
+scripts/test-file.txt:6:#foo #Foo #fOO 
+scripts/test-file.txt:7:#bar #Bar
+codex
+I’ve confirmed there’s an existing `stirr.#rh` implementation, but the spec requires `stirr.#hc` with strict behavior and formatting limits. I’ll inspect the test runners now and then create/adjust `stirr.#hc` to satisfy them exactly.
 exec
-/bin/zsh -lc "sed -n '1,200p' journal.#rh.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+/bin/zsh -lc "sed -n '1,220p' journal.#rh.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,220p' implement.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,260p' test2-mock.#rh.py" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,220p' test1-run.#rh.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 2026-3-17
 - Iteration 3
   - Hashtag regex: r"(?<!\w)#[A-Za-z][\w-]*" (case-insensitive in logic by lowercasing).
@@ -179,184 +155,23 @@ exec
   ```
 - Iteration 4
   
-exec
-/bin/zsh -lc "sed -n '1,220p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-FILE TREE:
-. 114.9KB
-  STIRR-rules.md 6.7KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
-  ai-output.log 103.9KB
-  implement.#hc 0.2KB
-  journal.#rh.md 0.3KB
-  scripts/ 0.1KB
-    test-file.txt 0.1KB 3#foo 3#foobar 2#bar 1#foo+bar 1#foo-bar
-  spec.#hc.md 1.2KB 2#hc 1#foo-bar 1#foobar 1#stirr
-  stirr.#hc 2.0KB
-  stirr.#rh 0.4KB
-  test.#rh 0.0KB
-  test.log 0.0KB
-TAG TOTALS:
-7#foobar 6#hc 3#foo 3#mix 3#needsrl 2#ai 2#bar 2#bottleneckrl 2#controlrl 2#foo-bar 2#goalrl 2#hashrl 2#rh 2#stirr 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#foo+bar 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl
-codex
-I identified a few spec mismatches in `stirr.#hc` (notably hashtag extraction and text-file handling), so I’m now replacing it with a compact spec-aligned implementation and adding both a Bash and Python mock-files test as requested.
-exec
-/bin/zsh -lc "cat > test-mock.#rh.py <<'PY'
-#"'!/usr/bin/env python3
-import io, os, re, shutil, tempfile, importlib.util
-from contextlib import redirect_stdout
-
-spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
-mod = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mod)
-
-tmp = tempfile.mkdtemp()
-try:
-    os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
-    os.makedirs(os.path.join(tmp, ".hidden"), exist_ok=True)
-    with open(os.path.join(tmp, "a.md"), "w", encoding="utf-8") as f: f.write("#Foo #foo #Bar'"\\n\")
-    with open(os.path.join(tmp, \"sub\", \"b.txt\"), \"w\", encoding=\"utf-8\") as f: f.write(\"#foo-bar #Foo\\n\")
-    with open(os.path.join(tmp, \".hidden\", \"skip.md\"), \"w\", encoding=\"utf-8\") as f: f.write(\"#NOPE\\n\")
-    with open(os.path.join(tmp, \"sub\", \"bin.dat\"), \"wb\") as f: f.write(b\"\\x00\\x01\\x02\")
-    out = io.StringIO()
-    with redirect_stdout(out): mod.traverse(tmp)
-    txt = out.getvalue()
-    assert \"FILE TREE:\" in txt and \"TAG TOTALS:\" in txt
-    assert re.search(r\"a\\.md .* 2#foo 1#bar\", txt)
-    assert re.search(r\"b\\.txt .* 1#foo 1#foo-bar\", txt)
-    assert \"3#foo 1#bar 1#foo-bar\" in txt
-    assert \"skip.md\" not in txt
-finally:
-    shutil.rmtree(tmp)
-PY" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc "cat > stirr.#hc <<'PY'
-#"'!/usr/bin/env python3
-import glob, os, re
-from collections import Counter
-
-TAG_RE = re.compile(r"(?<!'"\\w)#[A-Za-z][\\w-]*\")
-
-def is_text_file(path):
-    try:
-        with open(path, 'rb') as f:
-            chunk = f.read(4096)
-        return b'\\x00' not in chunk
-    except:
-        return False
-
-def _visible(path):
-    return not any(part.startswith('.') and part "'!= '"'.' for part in path.split(os.sep))
-
-def _size(path):
-    if os.path.isfile(path): return os.path.getsize(path)
-    return sum(os.path.getsize(p) for p in glob.glob(f\"{path}/**/*\", recursive=True) if os.path.isfile(p) and _visible(p))
-
-def traverse(root=\".\"):
-    print(\"FILE TREE:\")
-    paths = [root] + [p for p in glob.glob(f\"{root}/**/*\", recursive=True) if _visible(p)]
-    totals = Counter()
-    for p in sorted(paths):
-        rel = \".\" if p == root else os.path.relpath(p, root)
-        depth = 0 if rel == \".\" else rel.count(os.sep) + 1
-        name = \".\" if rel == \".\" else os.path.basename(p) + (\"/\" if os.path.isdir(p) else \"\")
-        tags = Counter()
-        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
-            with open(p, encoding=\"utf-8\", errors=\"ignore\") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-            totals.update(tags)
-        top = \" \".join(f\"{c}#{t}\" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
-        print(f\"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB\" + (f\" {top}\" if top else \"\"))
-    print(\"TAG TOTALS:\")
-    print(\" \".join(f\"{c}#{t}\" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-
-if __name__ == \"__main__\":
-    traverse(\".\")
-PY" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc 'chmod +x stirr.#hc test-mock.#rh test-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc "cat > test-mock.#rh <<'SH'
-#"'!/usr/bin/env bash
-set -euo pipefail
-
-tmp="$(mktemp -d)"
-trap '"'rm -rf \""'$tmp"'"' EXIT
-mkdir -p \""'$tmp/sub" "$tmp/.hidden"
-printf '"'#Foo #foo #Bar\\n' > \""'$tmp/a.md"
-printf '"'#foo-bar #Foo\\n' > \""'$tmp/sub/b.txt"
-printf '"'#NOPE\\n' > \""'$tmp/.hidden/skip.md"
-printf '"'\\0\\1\\2' > \""'$tmp/sub/bin.dat"
-python3 - <<PY > "$tmp/out.txt"
-import importlib.util
-s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
-m = importlib.util.module_from_spec(s)
-s.loader.exec_module(m)
-m.traverse(r"$tmp")
-PY
-
-grep -q '"'"'^FILE TREE:$'"' \""'$tmp/out.txt"
-grep -q '"'a.md .* 2#foo 1#bar' \""'$tmp/out.txt"
-grep -q '"'b.txt .* 1#foo 1#foo-bar' \""'$tmp/out.txt"
-grep -q '"'"'^TAG TOTALS:$'"' \""'$tmp/out.txt"
-grep -q '"'3#foo 1#bar 1#foo-bar' \""'$tmp/out.txt"
-SH' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-
  succeeded in 0ms:
-
- succeeded in 0ms:
-
- succeeded in 0ms:
-
-codex
-I’ve written the new implementation and tests, but I need to quickly validate file contents because shell quoting looked noisy in the command echo. I’ll verify and fix any syntax issues, then run all tests.
-exec
-/bin/zsh -lc "sed -n '1,260p' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-#!/usr/bin/env python3
-import glob, os, re
-from collections import Counter
-
-TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
-
-def is_text_file(path):
-    try:
-        with open(path, 'rb') as f:
-            chunk = f.read(4096)
-        return b'\x00' not in chunk
-    except:
-        return False
-
-def _visible(path):
-    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-
-def _size(path):
-    if os.path.isfile(path): return os.path.getsize(path)
-    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-exec
-/bin/zsh -lc "sed -n '1,260p' test-mock.#rh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc "sed -n '1,260p' test-mock.#rh.py" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 #!/usr/bin/env bash
 set -euo pipefail
 
-tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT
-mkdir -p "$tmp/sub" "$tmp/.hidden"
-printf '#Foo #foo #Bar\n' > "$tmp/a.md"
-printf '#foo-bar #Foo\n' > "$tmp/sub/b.txt"
-printf '#NOPE\n' > "$tmp/.hidden/skip.md"
-printf '\0\1\2' > "$tmp/sub/bin.dat"
-python3 - <<PY > "$tmp/out.txt"
-import importlib.util
-s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
-m = importlib.util.module_from_spec(s)
-s.loader.exec_module(m)
-m.traverse(r"$tmp")
-PY
-
-grep -q '^FILE TREE:$' "$tmp/out.txt"
-grep -q 'a.md .* 2#foo 1#bar' "$tmp/out.txt"
+codex exec \
+  --dangerously-bypass-approvals-and-sandbox \
+  --skip-git-repo-check \
+  "Implement #STIRR spec based on the given rules." \
+  2>&1 | tee ai-output.log
  succeeded in 0ms:
 #!/usr/bin/env python3
-import io, os, re, shutil, tempfile, importlib.util
+import io, os, re, shutil, tempfile, types
 from contextlib import redirect_stdout
+from importlib.machinery import SourceFileLoader
 
-spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
-mod = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mod)
+mod = types.ModuleType("stirr")
+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
 
 tmp = tempfile.mkdtemp()
 try:
@@ -370,952 +185,1067 @@ try:
     with redirect_stdout(out): mod.traverse(tmp)
     txt = out.getvalue()
     assert "FILE TREE:" in txt and "TAG TOTALS:" in txt
+ succeeded in 0ms:
+#!/usr/bin/env bash
+set -euo pipefail
+./stirr.#hc > test1-run.log 2>&1
 codex
-I verified the files are valid. I’m doing one cleanup pass now to keep `stirr.#hc` within the style constraints (short lines, minimal comments) before running the Bash and Python tests.
+I now have enough context and I’m moving to implementation.  
+Plan:
+1. Create `stirr.#hc` as the spec-compliant Python script (`__main__`, stdlib only, `<60 LOC`, glob recursion, text-file filter, per-file top tags, directory sizes from parsed files, totals at end).
+2. Update tests so each test prints explicit `PASS`/`FAIL` and writes analysis output to log files.
+3. Make scripts executable where needed, run both tests, and verify green status with logs generated.
 exec
-/bin/zsh -lc "awk '{ if (length("'$0)>80) print NR ":" length($0) " " $0 }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-16:87     return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-20:122     return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-24:90     paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-29:93         name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-31:85         if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
-32:122             with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-34:100         top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
-35:91         print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-37:95     print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-file update
-M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
-@@ -15,7 +15,16 @@
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(
-+        part.startswith('.') and part != '.'
-+        for part in path.split(os.sep)
-+    )
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(
-+        os.path.getsize(p)
-+        for p in glob.glob(f"{path}/**/*", recursive=True)
-+        if os.path.isfile(p) and _visible(p)
-+    )
- 
-@@ -23,3 +32,5 @@
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-+    paths = [root] + [
-+        p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)
-+    ]
-     totals = Counter()
-@@ -28,11 +39,26 @@
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "."
-+        if rel != ".":
-+            name = os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top = " ".join(
-+            f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        )
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    print(
-+        " ".join(
-+            f"{c}#{t}"
-+            for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+        )
-+    )
- 
-apply_patch(auto_approved=true) exited 0 in 22ms:
-Success. Updated the following files:
-M stirr.#hc
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..15e28b902207c4fee8c49c58416e53b7f49ff47b
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -13,28 +13,54 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(
-+        part.startswith('.') and part != '.'
-+        for part in path.split(os.sep)
-+    )
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(
-+        os.path.getsize(p)
-+        for p in glob.glob(f"{path}/**/*", recursive=True)
-+        if os.path.isfile(p) and _visible(p)
-+    )
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-+    paths = [root] + [
-+        p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)
-+    ]
-     totals = Counter()
-     for p in sorted(paths):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "."
-+        if rel != ".":
-+            name = os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top = " ".join(
-+            f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        )
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    print(
-+        " ".join(
-+            f"{c}#{t}"
-+            for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+        )
-+    )
- 
- if __name__ == "__main__":
-     traverse(".")
+/bin/zsh -lc "cat > test1-run.#rh.sh <<'SH'
+#"'!/usr/bin/env bash
+set -euo pipefail
 
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..15e28b902207c4fee8c49c58416e53b7f49ff47b
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -13,28 +13,54 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(
-+        part.startswith('.') and part != '.'
-+        for part in path.split(os.sep)
-+    )
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(
-+        os.path.getsize(p)
-+        for p in glob.glob(f"{path}/**/*", recursive=True)
-+        if os.path.isfile(p) and _visible(p)
-+    )
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-+    paths = [root] + [
-+        p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)
-+    ]
-     totals = Counter()
-     for p in sorted(paths):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "."
-+        if rel != ".":
-+            name = os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top = " ".join(
-+            f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        )
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    print(
-+        " ".join(
-+            f"{c}#{t}"
-+            for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+        )
-+    )
- 
- if __name__ == "__main__":
-     traverse(".")
-
-exec
-/bin/zsh -lc "awk '{ if (length("'$0)>80) print NR ":" length($0) " " $0 }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-53:88             f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..15e28b902207c4fee8c49c58416e53b7f49ff47b
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -13,28 +13,54 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(
-+        part.startswith('.') and part != '.'
-+        for part in path.split(os.sep)
-+    )
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(
-+        os.path.getsize(p)
-+        for p in glob.glob(f"{path}/**/*", recursive=True)
-+        if os.path.isfile(p) and _visible(p)
-+    )
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-+    paths = [root] + [
-+        p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)
-+    ]
-     totals = Counter()
-     for p in sorted(paths):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "."
-+        if rel != ".":
-+            name = os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top = " ".join(
-+            f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        )
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    print(
-+        " ".join(
-+            f"{c}#{t}"
-+            for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+        )
-+    )
- 
- if __name__ == "__main__":
-     traverse(".")
-
-file update
-M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
-@@ -51,5 +51,4 @@
-             totals.update(tags)
--        top = " ".join(
--            f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
--        )
-+        order = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in order)
-         line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-apply_patch(auto_approved=true) exited 0 in 32ms:
-Success. Updated the following files:
-M stirr.#hc
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec10f965a2f43fd5edfd19e116b10d62431d5fb3
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -13,28 +13,53 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(
-+        part.startswith('.') and part != '.'
-+        for part in path.split(os.sep)
-+    )
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(
-+        os.path.getsize(p)
-+        for p in glob.glob(f"{path}/**/*", recursive=True)
-+        if os.path.isfile(p) and _visible(p)
-+    )
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-+    paths = [root] + [
-+        p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)
-+    ]
-     totals = Counter()
-     for p in sorted(paths):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "."
-+        if rel != ".":
-+            name = os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        order = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in order)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    print(
-+        " ".join(
-+            f"{c}#{t}"
-+            for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+        )
-+    )
- 
- if __name__ == "__main__":
-     traverse(".")
-
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec10f965a2f43fd5edfd19e116b10d62431d5fb3
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -13,28 +13,53 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(
-+        part.startswith('.') and part != '.'
-+        for part in path.split(os.sep)
-+    )
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(
-+        os.path.getsize(p)
-+        for p in glob.glob(f"{path}/**/*", recursive=True)
-+        if os.path.isfile(p) and _visible(p)
-+    )
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-+    paths = [root] + [
-+        p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)
-+    ]
-     totals = Counter()
-     for p in sorted(paths):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "."
-+        if rel != ".":
-+            name = os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        order = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in order)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    print(
-+        " ".join(
-+            f"{c}#{t}"
-+            for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+        )
-+    )
- 
- if __name__ == "__main__":
-     traverse(".")
-
-exec
-/bin/zsh -lc "wc -l stirr.#hc; nl -ba stirr.#hc | sed -n '1,220p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-      65 stirr.#hc
-     1	#!/usr/bin/env python3
-     2	import glob, os, re
-     3	from collections import Counter
-     4	
-     5	TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
-     6	
-     7	def is_text_file(path):
-     8	    try:
-     9	        with open(path, 'rb') as f:
-    10	            chunk = f.read(4096)
-    11	        return b'\x00' not in chunk
-    12	    except:
-    13	        return False
-    14	
-    15	def _visible(path):
-    16	    # Hidden files and folders are excluded from traversal.
-    17	    return not any(
-    18	        part.startswith('.') and part != '.'
-    19	        for part in path.split(os.sep)
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec10f965a2f43fd5edfd19e116b10d62431d5fb3
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -13,28 +13,53 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(
-+        part.startswith('.') and part != '.'
-+        for part in path.split(os.sep)
-+    )
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(
-+        os.path.getsize(p)
-+        for p in glob.glob(f"{path}/**/*", recursive=True)
-+        if os.path.isfile(p) and _visible(p)
-+    )
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-+    paths = [root] + [
-+        p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)
-+    ]
-     totals = Counter()
-     for p in sorted(paths):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "."
-+        if rel != ".":
-+            name = os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        order = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in order)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    print(
-+        " ".join(
-+            f"{c}#{t}"
-+            for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+        )
-+    )
- 
- if __name__ == "__main__":
-     traverse(".")
-
-codex
-I need one more adjustment: the script drifted above the `<50 LOC` cap. I’m tightening it to a compact form (still readable, with lines <=80) and then running all tests.
-exec
+if ./stirr.#hc > test1-run.log 2>&1; then
+  echo "PASS test1-run.#rh.sh"
+else
+  echo "FAIL test1-run.#rh.sh"
+  exit 1
+fi
+SH' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
 /bin/zsh -lc "cat > stirr.#hc <<'PY'
 #"'!/usr/bin/env python3
 import glob, os, re
 from collections import Counter
-TAG_RE = re.compile(r"(?<!'"\\w)#[A-Za-z][\\w-]*\")
+
+TAG_RE = re.compile(r"(?<!'"\\\\w)#[A-Za-z][\\\\w-]*\")
+
 
 def is_text_file(path):
     try:
-        with open(path, 'rb') as f:
-            chunk = f.read(4096)
-        return b'\\x00' not in chunk
-    except:
+        with open(path, \"rb\") as f:
+            chunk = f.read(2048)
+        return b\"\\x00\" not in chunk
+    except Exception:
         return False
 
-def _visible(path):
-    # Hidden files and folders are excluded from traversal.
-    return not any(x.startswith('.') and x "'!= '"'.' for x in path.split(os.sep))
-
-def _all(root):
-    found = glob.glob(f\"{root}/**/*\", recursive=True)
-    return [root] + [p for p in found if _visible(p)]
-
-def _size(path):
-    if os.path.isfile(path):
-        return os.path.getsize(path)
-    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
 
 def traverse(root=\".\"):
+    files, tags_by_file = [], {}
+    for path in sorted(glob.glob(os.path.join(root, \"**\", \"*\"), recursive=True)):
+        if not os.path.isfile(path):
+            continue
+        size = os.path.getsize(path)
+        if size >= 100 * 1024 or not is_text_file(path):
+            continue
+        with open(path, encoding=\"utf-8\", errors=\"ignore\") as f:
+            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+        files.append(path)
+        tags_by_file[path] = tags
+
+    dir_sizes = Counter({root: sum(os.path.getsize(p) for p in files)})
+    for p in files:
+        d = os.path.dirname(p)
+        while d.startswith(root):
+            dir_sizes[d] += os.path.getsize(p)
+            if d == root:
+                break
+            d = os.path.dirname(d)
+
     print(\"FILE TREE:\")
-    totals = Counter()
-    for p in sorted(_all(root)):
-        rel = \".\" if p == root else os.path.relpath(p, root)
-        depth = 0 if rel == \".\" else rel.count(os.sep) + 1
-        name = \".\" if rel == \".\" else os.path.basename(p)
-        name += \"/\" if os.path.isdir(p) and rel "'!= "." else ""
-        tags = Counter()
-        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
-            with open(p, encoding="utf-8", errors="ignore") as f:
-                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-            totals.update(tags)
-        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-        top = " ".join(f"{c}#{t}" for t, c in top5)
-        line = f"{'"'  ' * depth}{name} {_size(p) / 1024:.2f}KB\"
-        print(line + (f\" {top}\" if top else \"\"))
+    print(f\". {dir_sizes[root] / 1024:.2f}KB\")
+    paths = sorted(glob.glob(os.path.join(root, \"**\", \"*\"), recursive=True))
+    total_tags = Counter()
+    for path in paths:
+        rel = os.path.relpath(path, root)
+        depth = rel.count(os.sep) + 1
+        if os.path.isdir(path):
+            print(f\"{'  ' * depth}{os.path.basename(path)}/ \"
+                  f\"{dir_sizes[path] / 1024:.2f}KB\")
+            continue
+        if path not in tags_by_file:
+            continue
+        total_tags.update(tags_by_file[path])
+        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
+        tag_str = \" \".join(f\"{c}#{t}\" for t, c in top)
+        print(f\"{'  ' * depth}{os.path.basename(path)} \"
+              f\"{os.path.getsize(path) / 1024:.2f}KB {tag_str}\".rstrip())
+
     print(\"TAG TOTALS:\")
-    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-    print(\" \".join(f\"{c}#{t}\" for t, c in order))
+    ordered = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+    print(\" \".join(f\"{c}#{t}\" for t, c in ordered))
+
 
 if __name__ == \"__main__\":
     traverse(\".\")
 PY" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
 
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..66f0d13792a6236bf6462f885f0c5fc8af3fdfd2
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,7 +1,6 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
- 
- def is_text_file(path):
-@@ -13,28 +12,38 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
-         if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- 
- if __name__ == "__main__":
-     traverse(".")
-
-exec
-/bin/zsh -lc 'wc -l stirr.#hc' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc "awk '{ if (length("'$0)>80) print NR ":" length($0) " " $0 }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-      49 stirr.#hc
  succeeded in 0ms:
-36:85         if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
+
 exec
-/bin/zsh -lc 'python3 -m py_compile stirr.#hc test-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+/bin/zsh -lc "cat > test2-mock.#rh.py <<'PY'
+#"'!/usr/bin/env python3
+import io, os, re, shutil, tempfile, types
+from contextlib import redirect_stdout
+from importlib.machinery import SourceFileLoader
 
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..66f0d13792a6236bf6462f885f0c5fc8af3fdfd2
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,7 +1,6 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
- 
- def is_text_file(path):
-@@ -13,28 +12,38 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- 
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
-         if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- 
- if __name__ == "__main__":
-     traverse(".")
+mod = types.ModuleType("stirr")
+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
 
+tmp = tempfile.mkdtemp()
+log_path = "test2-mock.log"
+ok = False
+try:
+    os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
+    os.makedirs(os.path.join(tmp, ".hidden"), exist_ok=True)
+    with open(os.path.join(tmp, "a.md"), "w", encoding="utf-8") as f:
+        f.write("#Foo #foo #Bar'"\\\\n\")
+    with open(os.path.join(tmp, \"sub\", \"b.txt\"), \"w\", encoding=\"utf-8\") as f:
+        f.write(\"#foo-bar #Foo\\\\n\")
+    with open(os.path.join(tmp, \".hidden\", \"skip.md\"), \"w\", encoding=\"utf-8\") as f:
+        f.write(\"#NOPE\\\\n\")
+    with open(os.path.join(tmp, \"sub\", \"bin.dat\"), \"wb\") as f:
+        f.write(b\"\\\\x00\\\\x01\\\\x02\")
+    out = io.StringIO()
+    with redirect_stdout(out):
+        mod.traverse(tmp)
+    txt = out.getvalue()
+    with open(log_path, \"w\", encoding=\"utf-8\") as f:
+        f.write(txt)
+    assert \"FILE TREE:\" in txt and \"TAG TOTALS:\" in txt
+    assert re.search(r\"a\\\\.md .* 2#foo 1#bar\", txt)
+    assert re.search(r\"b\\\\.txt .* 1#foo 1#foo-bar\", txt)
+    assert \"3#foo 1#bar 1#foo-bar\" in txt
+    assert \"skip.md\" not in txt
+    ok = True
+except Exception as e:
+    with open(log_path, \"a\", encoding=\"utf-8\") as f:
+        f.write(f\"\\\\nERROR: {e}\\\\n\")
+finally:
+    shutil.rmtree(tmp)
+
+print(\"PASS test2-mock.#rh.py\" if ok else \"FAIL test2-mock.#rh.py\")
+if not ok:
+    raise SystemExit(1)
+PY" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+
+codex
+I’ve written the initial edits, but I need to validate the files for shell-quoting corruption before running tests. I’m checking the exact file contents and fixing any malformed lines.
+exec
+/bin/zsh -lc "sed -n '1,220p' test1-run.#rh.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,260p' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,260p' test2-mock.#rh.py" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ./stirr.#hc > test1-run.log 2>&1; then
+  echo "PASS test1-run.#rh.sh"
+else
+  echo "FAIL test1-run.#rh.sh"
+  exit 1
+fi
+ succeeded in 0ms:
+#!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!\\w)#[A-Za-z][\\w-]*")
+
+
+def is_text_file(path):
+    try:
+        with open(path, "rb") as f:
+            chunk = f.read(2048)
+        return b"\x00" not in chunk
+    except Exception:
+        return False
+
+
+def traverse(root="."):
+    files, tags_by_file = [], {}
+    for path in sorted(glob.glob(os.path.join(root, "**", "*"), recursive=True)):
+        if not os.path.isfile(path):
+ succeeded in 0ms:
+#!/usr/bin/env python3
+import io, os, re, shutil, tempfile, types
+from contextlib import redirect_stdout
+from importlib.machinery import SourceFileLoader
+
+mod = types.ModuleType("stirr")
+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
+
+tmp = tempfile.mkdtemp()
+log_path = "test2-mock.log"
+ok = False
+try:
+    os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
+    os.makedirs(os.path.join(tmp, ".hidden"), exist_ok=True)
+    with open(os.path.join(tmp, "a.md"), "w", encoding="utf-8") as f:
+        f.write("#Foo #foo #Bar\\n")
+    with open(os.path.join(tmp, "sub", "b.txt"), "w", encoding="utf-8") as f:
+        f.write("#foo-bar #Foo\\n")
+    with open(os.path.join(tmp, ".hidden", "skip.md"), "w", encoding="utf-8") as f:
+        f.write("#NOPE\\n")
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk '{ if(length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      64 stirr.#hc
+19:81
+53:81
+codex
+I found a few spec violations in `stirr.#hc` (`LOC` limit, regex escaping, and directory size double-counting). I’m rewriting that file now to stay under 60 lines and fix behavior before running tests.
+exec
+/bin/zsh -lc "cat > stirr.#hc <<'PY'
+#"'!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!'"\\w)#[A-Za-z][\\w-]*\")
+
+
+def is_text_file(path):
+    try:
+        with open(path, \"rb\") as f:
+            return b\"\\x00\" not in f.read(2048)
+    except Exception:
+        return False
+
+
+def traverse(root=\".\"):
+    files, tags_by_file = [], {}
+    pat = os.path.join(root, \"**\", \"*\")
+    for path in sorted(glob.glob(pat, recursive=True)):
+        if not os.path.isfile(path):
+            continue
+        size = os.path.getsize(path)
+        if size >= 100 * 1024 or not is_text_file(path):
+            continue
+        with open(path, encoding=\"utf-8\", errors=\"ignore\") as f:
+            tags_by_file[path] = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+        files.append(path)
+
+    dir_sizes = Counter()
+    for path in files:
+        size, d = os.path.getsize(path), os.path.dirname(path)
+        # Count parsed-file bytes into each ancestor directory.
+        while d.startswith(root):
+            dir_sizes[d] += size
+            if d == root:
+                break
+            d = os.path.dirname(d)
+
+    print(\"FILE TREE:\")
+    print(f\". {dir_sizes[root] / 1024:.2f}KB\")
+    total_tags = Counter()
+    for path in sorted(glob.glob(pat, recursive=True)):
+        rel, depth = os.path.relpath(path, root), os.path.relpath(path, root).count(os.sep) + 1
+        if os.path.isdir(path):
+            print(f\"{'  ' * depth}{os.path.basename(path)}/ {dir_sizes[path] / 1024:.2f}KB\")
+            continue
+        if path not in tags_by_file:
+            continue
+        total_tags.update(tags_by_file[path])
+        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
+        tags = \" \".join(f\"{c}#{t}\" for t, c in top)
+        print(f\"{'  ' * depth}{os.path.basename(path)} {os.path.getsize(path) / 1024:.2f}KB {tags}\".rstrip())
+
+    print(\"TAG TOTALS:\")
+    out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+    print(\" \".join(f\"{c}#{t}\" for t, c in out))
+
+
+if __name__ == \"__main__\":
+    traverse(\".\")
+PY" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+
+codex
+I’ve rewritten `stirr.#hc`; I’m now validating line count/length and then executing the test scripts.
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk '{ if(length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,240p' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      60 stirr.#hc
+26:89
+43:95
+45:92
+50:81
+52:109
+ succeeded in 0ms:
+#!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+
+
+def is_text_file(path):
+    try:
+        with open(path, "rb") as f:
+            return b"\x00" not in f.read(2048)
+    except Exception:
+        return False
+
+
+def traverse(root="."):
+    files, tags_by_file = [], {}
+    pat = os.path.join(root, "**", "*")
+    for path in sorted(glob.glob(pat, recursive=True)):
+        if not os.path.isfile(path):
+exec
+/bin/zsh -lc 'chmod +x stirr.#hc test1-run.#rh.sh test2-mock.#rh.py && ./test1-run.#rh.sh && ./test2-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR exited 1 in 174ms:
+PASS test1-run.#rh.sh
+FAIL test2-mock.#rh.py
+exec
+/bin/zsh -lc "sed -n '1,240p' test2-mock.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+FILE TREE:
+. 0.04KB
+  a.md 0.02KB 2#foo 1#bar
+  sub/ 0.03KB
+    b.txt 0.01KB 1#foo 1#foo-bar
+    bin.dat 0.01KB
+TAG TOTALS:
+3#foo 1#bar 1#foo-bar
+\nERROR: \n
+exec
+/bin/zsh -lc './test2-mock.#rh.py; echo EXIT:$?' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+FAIL test2-mock.#rh.py
+EXIT:1
+codex
+`test2` is failing because the test file itself has escaped literals (`\\x00`, `\\n`, overly escaped regex), and `stirr.#hc` still needs one more LOC/line-length pass. I’m fixing both now and rerunning all tests.
+exec
+/bin/zsh -lc "cat > stirr.#hc <<'PY'
+#"'!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!'"\\w)#[A-Za-z][\\w-]*\")
+
+
+def is_text_file(path):
+    try:
+        with open(path, \"rb\") as f:
+            return b\"\\x00\" not in f.read(2048)
+    except Exception:
+        return False
+
+
+def traverse(root=\".\"):
+    pat = os.path.join(root, \"**\", \"*\")
+    files, tags_by_file, dir_sizes = [], {}, Counter()
+    for path in sorted(glob.glob(pat, recursive=True)):
+        if not os.path.isfile(path):
+            continue
+        size = os.path.getsize(path)
+        if size >= 100 * 1024 or not is_text_file(path):
+            continue
+        with open(path, encoding=\"utf-8\", errors=\"ignore\") as f:
+            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+        files.append(path)
+        tags_by_file[path] = tags
+        d = os.path.dirname(path)
+        # Count parsed-file bytes into each ancestor directory.
+        while d.startswith(root):
+            dir_sizes[d] += size
+            if d == root:
+                break
+            d = os.path.dirname(d)
+
+    print(\"FILE TREE:\")
+    print(f\". {dir_sizes[root] / 1024:.2f}KB\")
+    total_tags = Counter()
+    for path in sorted(glob.glob(pat, recursive=True)):
+        rel = os.path.relpath(path, root)
+        depth = rel.count(os.sep) + 1
+        if os.path.isdir(path):
+            size = dir_sizes[path] / 1024
+            print(f\"{'  ' * depth}{os.path.basename(path)}/ {size:.2f}KB\")
+            continue
+        if path not in tags_by_file:
+            continue
+        total_tags.update(tags_by_file[path])
+        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
+        tags = \" \".join(f\"{c}#{t}\" for t, c in top)
+        size = os.path.getsize(path) / 1024
+        print(f\"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}\".rstrip())
+
+    print(\"TAG TOTALS:\")
+    out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+    print(\" \".join(f\"{c}#{t}\" for t, c in out))
+
+
+if __name__ == \"__main__\":
+    traverse(\".\")
+PY" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "cat > test2-mock.#rh.py <<'PY'
+#"'!/usr/bin/env python3
+import io, os, re, shutil, tempfile, types
+from contextlib import redirect_stdout
+from importlib.machinery import SourceFileLoader
+
+mod = types.ModuleType("stirr")
+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
+
+tmp = tempfile.mkdtemp()
+log_path = "test2-mock.log"
+ok = False
+try:
+    os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
+    os.makedirs(os.path.join(tmp, ".hidden"), exist_ok=True)
+    with open(os.path.join(tmp, "a.md"), "w", encoding="utf-8") as f:
+        f.write("#Foo #foo #Bar'"\\n\")
+    with open(os.path.join(tmp, \"sub\", \"b.txt\"), \"w\", encoding=\"utf-8\") as f:
+        f.write(\"#foo-bar #Foo\\n\")
+    with open(os.path.join(tmp, \".hidden\", \"skip.md\"), \"w\", encoding=\"utf-8\") as f:
+        f.write(\"#NOPE\\n\")
+    with open(os.path.join(tmp, \"sub\", \"bin.dat\"), \"wb\") as f:
+        f.write(b\"\\x00\\x01\\x02\")
+
+    out = io.StringIO()
+    with redirect_stdout(out):
+        mod.traverse(tmp)
+    txt = out.getvalue()
+    with open(log_path, \"w\", encoding=\"utf-8\") as f:
+        f.write(txt)
+
+    assert \"FILE TREE:\" in txt and \"TAG TOTALS:\" in txt
+    assert re.search(r\"a\\.md .* 2#foo 1#bar\", txt)
+    assert re.search(r\"b\\.txt .* 1#foo 1#foo-bar\", txt)
+    assert \"3#foo 1#bar 1#foo-bar\" in txt
+    assert \"skip.md\" not in txt and \"bin.dat\" not in txt
+    ok = True
+except Exception as e:
+    with open(log_path, \"a\", encoding=\"utf-8\") as f:
+        f.write(f\"\\nERROR: {e}\\n\")
+finally:
+    shutil.rmtree(tmp)
+
+print(\"PASS test2-mock.#rh.py\" if ok else \"FAIL test2-mock.#rh.py\")
+if not ok:
+    raise SystemExit(1)
+PY" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+
+ succeeded in 0ms:
+
+codex
+I’ve applied the fixes; I’m verifying the exact file content now (especially escaped literals), then I’ll run both tests again.
+exec
+/bin/zsh -lc "sed -n '1,260p' test2-mock.#rh.py" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,240p' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+#!/usr/bin/env python3
+import io, os, re, shutil, tempfile, types
+from contextlib import redirect_stdout
+from importlib.machinery import SourceFileLoader
+
+mod = types.ModuleType("stirr")
+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
+
+tmp = tempfile.mkdtemp()
+log_path = "test2-mock.log"
+ok = False
+try:
+    os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
+    os.makedirs(os.path.join(tmp, ".hidden"), exist_ok=True)
+    with open(os.path.join(tmp, "a.md"), "w", encoding="utf-8") as f:
+        f.write("#Foo #foo #Bar\n")
+    with open(os.path.join(tmp, "sub", "b.txt"), "w", encoding="utf-8") as f:
+        f.write("#foo-bar #Foo\n")
+    with open(os.path.join(tmp, ".hidden", "skip.md"), "w", encoding="utf-8") as f:
+        f.write("#NOPE\n")
+ succeeded in 0ms:
+#!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+
+
+def is_text_file(path):
+    try:
+        with open(path, "rb") as f:
+            return b"\x00" not in f.read(2048)
+    except Exception:
+        return False
+
+
+def traverse(root="."):
+    pat = os.path.join(root, "**", "*")
+    files, tags_by_file, dir_sizes = [], {}, Counter()
+    for path in sorted(glob.glob(pat, recursive=True)):
+        if not os.path.isfile(path):
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk '{ if(length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      61 stirr.#hc
+50:81
+53:85
+codex
+I’m doing a final cleanup pass on `stirr.#hc` to meet the strict formatting constraints: under 60 LOC and no lines over 80 characters. After that I’ll rerun tests.
 file update
 M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
-@@ -35,3 +35,7 @@
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-             with open(p, encoding="utf-8", errors="ignore") as f:
-apply_patch(auto_approved=true) exited 0 in 31ms:
+@@ -17,3 +17,3 @@
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+@@ -25,4 +25,4 @@
+         with open(path, encoding="utf-8", errors="ignore") as f:
+-            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
++            found = TAG_RE.findall(f.read())
++            tags = Counter(t[1:].lower() for t in found)
+         tags_by_file[path] = tags
+@@ -49,6 +49,9 @@
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
+apply_patch(auto_approved=true) exited 0 in 17ms:
 Success. Updated the following files:
 M stirr.#hc
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..6de441c724bc9bbc5a8ba757c8600a9c0ede83d6
+index 8a6c1713de8b44e3598e7431c57137df045191b0..904b66efdbdcd5afe6d37eecb3b6275d281eb06c
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,7 +1,6 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
- 
- def is_text_file(path):
-@@ -13,28 +12,42 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+@@ -15,7 +15,7 @@
  
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -23,8 +23,8 @@
+         if size >= 100 * 1024 or not is_text_file(path):
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+-            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
++            found = TAG_RE.findall(f.read())
++            tags = Counter(t[1:].lower() for t in found)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+         # Count parsed-file bytes into each ancestor directory.
+@@ -47,10 +47,13 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+index 8a6c1713de8b44e3598e7431c57137df045191b0..904b66efdbdcd5afe6d37eecb3b6275d281eb06c
+--- a/STIRR/stirr.#hc
++++ b/STIRR/stirr.#hc
+@@ -15,7 +15,7 @@
+ 
+ def traverse(root="."):
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -23,8 +23,8 @@
+         if size >= 100 * 1024 or not is_text_file(path):
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+-            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
++            found = TAG_RE.findall(f.read())
++            tags = Counter(t[1:].lower() for t in found)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+         # Count parsed-file bytes into each ancestor directory.
+@@ -47,10 +47,13 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
+     print("TAG TOTALS:")
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk '{ if(length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc && sed -n '1,240p' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      64 stirr.#hc
+#!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+
+
+def is_text_file(path):
+    try:
+        with open(path, "rb") as f:
+            return b"\x00" not in f.read(2048)
+    except Exception:
+        return False
+
+
+def traverse(root="."):
+    pat = os.path.join(root, "**", "*")
+    tags_by_file, dir_sizes = {}, Counter()
+    for path in sorted(glob.glob(pat, recursive=True)):
+exec
+/bin/zsh -lc 'chmod +x stirr.#hc test1-run.#rh.sh test2-mock.#rh.py && ./test1-run.#rh.sh && ./test2-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+PASS test1-run.#rh.sh
+PASS test2-mock.#rh.py
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+index 8a6c1713de8b44e3598e7431c57137df045191b0..904b66efdbdcd5afe6d37eecb3b6275d281eb06c
+--- a/STIRR/stirr.#hc
++++ b/STIRR/stirr.#hc
+@@ -15,7 +15,7 @@
+ 
+ def traverse(root="."):
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -23,8 +23,8 @@
+         if size >= 100 * 1024 or not is_text_file(path):
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+-            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
++            found = TAG_RE.findall(f.read())
++            tags = Counter(t[1:].lower() for t in found)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+         # Count parsed-file bytes into each ancestor directory.
+@@ -47,10 +47,13 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
+     print("TAG TOTALS:")
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+
+codex
+Both tests are now green. I still need one last formatting adjustment because `stirr.#hc` is at 64 lines, and the spec requires `<60`; I’m trimming it without changing behavior.
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+@@ -6,3 +6,2 @@
+ 
+-
+ def is_text_file(path):
+@@ -25,7 +24,5 @@
+         with open(path, encoding="utf-8", errors="ignore") as f:
+-            found = TAG_RE.findall(f.read())
+-            tags = Counter(t[1:].lower() for t in found)
++            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+@@ -49,5 +46,3 @@
+         total_tags.update(tags_by_file[path])
+-        top = sorted(
+-            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
+-        )[:5]
++        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+@@ -60,3 +55,2 @@
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
+ 
+apply_patch(auto_approved=true) exited 0 in 34ms:
+Success. Updated the following files:
+M stirr.#hc
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+index 8a6c1713de8b44e3598e7431c57137df045191b0..626d2c48164d7eba334a3c930ee6a0c34864e384
+--- a/STIRR/stirr.#hc
++++ b/STIRR/stirr.#hc
+@@ -4,7 +4,6 @@
+ 
+ TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
+-
+ def is_text_file(path):
+     try:
+         with open(path, "rb") as f:
+@@ -15,7 +14,7 @@
+ 
+ def traverse(root="."):
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +23,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -50,12 +47,12 @@
+         top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
+     print("TAG TOTALS:")
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
  
  if __name__ == "__main__":
      traverse(".")
 
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..6de441c724bc9bbc5a8ba757c8600a9c0ede83d6
+index 8a6c1713de8b44e3598e7431c57137df045191b0..626d2c48164d7eba334a3c930ee6a0c34864e384
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,7 +1,6 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
+@@ -4,7 +4,6 @@
+ 
  TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
  
+-
  def is_text_file(path):
-@@ -13,28 +12,42 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+     try:
+         with open(path, "rb") as f:
+@@ -15,7 +14,7 @@
  
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +23,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -50,12 +47,12 @@
+         top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
  
  if __name__ == "__main__":
      traverse(".")
 
 exec
-/bin/zsh -lc "wc -l stirr.#hc; awk '{ if (length("'$0)>80) print NR ":" length($0) " " $0 }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-      53 stirr.#hc
+/bin/zsh -lc "wc -l stirr.#hc && awk '{ if(length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc && sed -n '1,220p' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      58 stirr.#hc
+47:81
+#!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+
+def is_text_file(path):
+    try:
+        with open(path, "rb") as f:
+            return b"\x00" not in f.read(2048)
+    except Exception:
+        return False
+
+
+def traverse(root="."):
+    pat = os.path.join(root, "**", "*")
+    tags_by_file, dir_sizes = {}, Counter()
+    for path in sorted(glob.glob(pat, recursive=True)):
+exec
+/bin/zsh -lc './test1-run.#rh.sh && ./test2-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+PASS test1-run.#rh.sh
+PASS test2-mock.#rh.py
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..6de441c724bc9bbc5a8ba757c8600a9c0ede83d6
+index 8a6c1713de8b44e3598e7431c57137df045191b0..626d2c48164d7eba334a3c930ee6a0c34864e384
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,7 +1,6 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
+@@ -4,7 +4,6 @@
+ 
  TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
  
+-
  def is_text_file(path):
-@@ -13,28 +12,42 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+     try:
+         with open(path, "rb") as f:
+@@ -15,7 +14,7 @@
  
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +23,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -50,12 +47,12 @@
+         top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
+ 
+ if __name__ == "__main__":
+     traverse(".")
+
+codex
+I’m making one final micro-edit: one line is 81 chars, so I’ll wrap it to satisfy the `<80` formatting rule, then re-run tests once more.
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
+@@ -46,3 +46,5 @@
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+apply_patch(auto_approved=true) exited 0 in 30ms:
+Success. Updated the following files:
+M stirr.#hc
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+index 8a6c1713de8b44e3598e7431c57137df045191b0..442720e279367266caf5446a918f0fe22404f973
+--- a/STIRR/stirr.#hc
++++ b/STIRR/stirr.#hc
+@@ -4,7 +4,6 @@
+ 
+ TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
+-
+ def is_text_file(path):
+     try:
+         with open(path, "rb") as f:
+@@ -15,7 +14,7 @@
+ 
+ def traverse(root="."):
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +23,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +44,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
+     print("TAG TOTALS:")
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
+ 
+ if __name__ == "__main__":
+     traverse(".")
+
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+index 8a6c1713de8b44e3598e7431c57137df045191b0..442720e279367266caf5446a918f0fe22404f973
+--- a/STIRR/stirr.#hc
++++ b/STIRR/stirr.#hc
+@@ -4,7 +4,6 @@
+ 
+ TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
+-
+ def is_text_file(path):
+     try:
+         with open(path, "rb") as f:
+@@ -15,7 +14,7 @@
+ 
+ def traverse(root="."):
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +23,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +44,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
+     print("TAG TOTALS:")
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
+ 
+ if __name__ == "__main__":
+     traverse(".")
+
+exec
+/bin/zsh -lc "wc -l stirr.#hc && awk '{ if(length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      60 stirr.#hc
+exec
+/bin/zsh -lc 'git status --short' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+ M ai-output.log
+ M test1-run.#rh.sh
+ M test1-run.log
+ M test2-mock.#rh.py
+?? stirr.#hc
+?? test2-mock.log
+exec
+/bin/zsh -lc './test1-run.#rh.sh && ./test2-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+PASS test1-run.#rh.sh
+PASS test2-mock.#rh.py
+file update:
+diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
+index 8a6c1713de8b44e3598e7431c57137df045191b0..442720e279367266caf5446a918f0fe22404f973
+--- a/STIRR/stirr.#hc
++++ b/STIRR/stirr.#hc
+@@ -4,7 +4,6 @@
+ 
+ TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
+-
+ def is_text_file(path):
+     try:
+         with open(path, "rb") as f:
+@@ -15,7 +14,7 @@
+ 
+ def traverse(root="."):
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +23,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +44,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
+     print("TAG TOTALS:")
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
  
  if __name__ == "__main__":
      traverse(".")
@@ -1325,1905 +1255,372 @@ exec
      1	#!/usr/bin/env python3
      2	import glob, os, re
      3	from collections import Counter
-     4	TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
-     5	
-     6	def is_text_file(path):
-     7	    try:
-     8	        with open(path, 'rb') as f:
-     9	            chunk = f.read(4096)
-    10	        return b'\x00' not in chunk
-    11	    except:
+     4	
+     5	TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+     6	
+     7	def is_text_file(path):
+     8	    try:
+     9	        with open(path, "rb") as f:
+    10	            return b"\x00" not in f.read(2048)
+    11	    except Exception:
     12	        return False
     13	
-    14	def _visible(path):
-    15	    # Hidden files and folders are excluded from traversal.
-    16	    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-    17	
-    18	def _all(root):
-    19	    found = glob.glob(f"{root}/**/*", recursive=True)
-    20	    return [root] + [p for p in found if _visible(p)]
+    14	
+    15	def traverse(root="."):
+    16	    pat = os.path.join(root, "**", "*")
+    17	    tags_by_file, dir_sizes = {}, Counter()
+    18	    for path in sorted(glob.glob(pat, recursive=True)):
+    19	        if not os.path.isfile(path):
+    20	            continue
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..6de441c724bc9bbc5a8ba757c8600a9c0ede83d6
+index 8a6c1713de8b44e3598e7431c57137df045191b0..442720e279367266caf5446a918f0fe22404f973
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,7 +1,6 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
+@@ -4,7 +4,6 @@
+ 
  TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
  
+-
  def is_text_file(path):
-@@ -13,28 +12,42 @@
-         return False
- 
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- 
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+     try:
+         with open(path, "rb") as f:
+@@ -15,7 +14,7 @@
  
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +23,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +44,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
+-
  
  if __name__ == "__main__":
      traverse(".")
 
 file update
 M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
-@@ -4,3 +4,2 @@
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-@@ -12,3 +11,2 @@
-         return False
--
- def _visible(path):
-@@ -16,3 +14,2 @@
-     return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
--
- def _all(root):
-@@ -20,3 +17,2 @@
-     return [root] + [p for p in found if _visible(p)]
--
- def _size(path):
-@@ -25,3 +21,2 @@
-     return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+@@ -13,3 +13,2 @@
+ 
 -
  def traverse(root="."):
-@@ -50,3 +45,2 @@
-     print(" ".join(f"{c}#{t}" for t, c in order))
--
- if __name__ == "__main__":
-apply_patch(auto_approved=true) exited 0 in 35ms:
+apply_patch(auto_approved=true) exited 0 in 31ms:
 Success. Updated the following files:
 M stirr.#hc
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
+index 8a6c1713de8b44e3598e7431c57137df045191b0..476a83730872ebae6b336bf620d274cd1523f04e
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
+@@ -4,18 +4,16 @@
+ 
  TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
 -
  def is_text_file(path):
      try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
+         with open(path, "rb") as f:
+             return b"\x00" not in f.read(2048)
+     except Exception:
          return False
 -
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+ 
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +22,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +43,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
 -
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+ 
  if __name__ == "__main__":
      traverse(".")
 
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
+index 8a6c1713de8b44e3598e7431c57137df045191b0..476a83730872ebae6b336bf620d274cd1523f04e
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
+@@ -4,18 +4,16 @@
+ 
  TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
 -
  def is_text_file(path):
      try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
+         with open(path, "rb") as f:
+             return b"\x00" not in f.read(2048)
+     except Exception:
          return False
 -
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+ 
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +22,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +43,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
 -
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-
-exec
-/bin/zsh -lc "wc -l stirr.#hc; awk '{ if (length("'$0)>80) print NR ":" length($0) " " $0 }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-      47 stirr.#hc
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+ 
  if __name__ == "__main__":
      traverse(".")
 
 codex
-I’m wiring the main test runner to execute both new mock tests, then I’ll run the full suite and confirm results.
-file update
-M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-apply_patch(auto_approved=true) exited 0 in 22ms:
-Success. Updated the following files:
-M test.#rh
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
+I removed one extra spacer line to satisfy the strict LOC cap. I’m doing a final verification sweep now.
 exec
-/bin/zsh -lc 'echo $?' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-0
+/bin/zsh -lc "wc -l stirr.#hc && awk '{ if(length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+      59 stirr.#hc
 exec
-/bin/zsh -lc 'chmod +x test.#rh test-mock.#rh test-mock.#rh.py && ./test.#rh' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR exited 1 in 204ms:
-Traceback (most recent call last):
-  File "<stdin>", line 3, in <module>
-  File "<frozen importlib._bootstrap>", line 562, in module_from_spec
-AttributeError: 'NoneType' object has no attribute 'loader'
+/bin/zsh -lc './test1-run.#rh.sh && ./test2-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+PASS test1-run.#rh.sh
+PASS test2-mock.#rh.py
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
+index 8a6c1713de8b44e3598e7431c57137df045191b0..476a83730872ebae6b336bf620d274cd1523f04e
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
+@@ -4,18 +4,16 @@
+ 
  TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
 -
  def is_text_file(path):
      try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
+         with open(path, "rb") as f:
+             return b"\x00" not in f.read(2048)
+     except Exception:
          return False
 -
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+ 
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +22,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +43,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
 -
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+ 
  if __name__ == "__main__":
      traverse(".")
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
 
 codex
-The suite failed on dynamic import because `stirr.#hc` has a non-standard extension. I’m switching both tests to `SourceFileLoader`, then rerunning.
-file update
-M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test-mock.#rh
-@@ -11,6 +11,6 @@
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
-apply_patch(auto_approved=true) exited 0 in 46ms:
-Success. Updated the following files:
-M test-mock.#rh
+Implemented the `#STIRR` spec and aligned tests.
+
+Changed files:
+- [stirr.#hc](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc)
+- [test1-run.#rh.sh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test1-run.#rh.sh)
+- [test2-mock.#rh.py](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test2-mock.#rh.py)
+
+What’s now true:
+- `stirr.#hc` is Python 3 with `__main__`, stdlib-only.
+- `stirr.#hc` is `<60 LOC` (59 lines) and no line exceeds 80 chars.
+- Traversal uses `glob.glob(..., recursive=True)` and excludes hidden paths by glob behavior.
+- Only text files `<100KB` are parsed with the required `is_text_file` logic.
+- Per-file output includes indent by depth, basename, size in KB, and top 5 tags.
+- Directory size is computed from parsed files in that directory subtree.
+- End output includes total tag frequencies.
+
+Tests:
+- `./test1-run.#rh.sh` → `PASS`
+- `./test2-mock.#rh.py` → `PASS`
+- Both tests write analysis logs:
+  - [test1-run.log](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test1-run.log)
+  - [test2-mock.log](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test2-mock.log)
 file update:
 diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
+index 8a6c1713de8b44e3598e7431c57137df045191b0..476a83730872ebae6b336bf620d274cd1523f04e
 --- a/STIRR/stirr.#hc
 +++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
+@@ -4,18 +4,16 @@
+ 
  TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+ 
 -
  def is_text_file(path):
      try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
+         with open(path, "rb") as f:
+             return b"\x00" not in f.read(2048)
+     except Exception:
          return False
 -
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
+ 
  def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
+     pat = os.path.join(root, "**", "*")
+-    files, tags_by_file, dir_sizes = [], {}, Counter()
++    tags_by_file, dir_sizes = {}, Counter()
+     for path in sorted(glob.glob(pat, recursive=True)):
+         if not os.path.isfile(path):
+             continue
+@@ -24,10 +22,8 @@
+             continue
+         with open(path, encoding="utf-8", errors="ignore") as f:
+             tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
+-        files.append(path)
+         tags_by_file[path] = tags
+         d = os.path.dirname(path)
+-        # Count parsed-file bytes into each ancestor directory.
+         while d.startswith(root):
+             dir_sizes[d] += size
+             if d == root:
+@@ -47,15 +43,17 @@
+         if path not in tags_by_file:
+             continue
+         total_tags.update(tags_by_file[path])
+-        top = sorted(tags_by_file[path].items(), key=lambda x: (-x[1], x[0]))[:5]
++        top = sorted(
++            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
++        )[:5]
+         tags = " ".join(f"{c}#{t}" for t, c in top)
+         size = os.path.getsize(path) / 1024
+-        print(f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}".rstrip())
++        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
++        print(line.rstrip())
+ 
      print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
+     out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
+     print(" ".join(f"{c}#{t}" for t, c in out))
 -
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
+ 
  if __name__ == "__main__":
      traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-file update
-M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test-mock.#rh.py
-@@ -1,8 +1,8 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
-apply_patch(auto_approved=true) exited 0 in 52ms:
-Success. Updated the following files:
-M test-mock.#rh.py
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-exec
-/bin/zsh -lc './test.#rh; echo "TEST_EXIT=$?"; sed -n '"'1,80p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-TEST_EXIT=1
-FILE TREE:
-. 112.87KB
-  STIRR-rules.md 6.71KB 4##hc 3##foobar 3##mix 3##needsrl 2##ai
-  ai-output.log 99.89KB 163##hc 97##rh 12##foo 8##nope 7##stirr
-  implement.#hc 0.20KB 1##stirr
-  journal.#rh.md 0.35KB
-  scripts/ 0.07KB
-    test-file.txt 0.07KB 4##foo 3##foobar 2##bar 1##foo-bar
-  spec.#hc.md 1.53KB 1##hc 1##stirr
-  stirr.#hc 1.79KB
-  stirr.#rh 0.42KB
-  test-mock.#rh 0.69KB 3##foo 1##bar 1##foo-bar 1##hc 1##nope
-  test-mock.#rh.py 1.13KB 3##foo 1##bar 1##foo-bar 1##hc 1##nope
-  test.#rh 0.10KB 2##rh 1##hc
-  test.log 0.00KB
-TAG TOTALS:
-171##hc 101##rh 22##foo 10##nope 10##stirr 8##bar 7##foo-bar 6##foobar 4##needsrl 3##mix 2##ai 2##bottleneckrl 2##brevityrl 2##controlrl 2##conventionrl 2##dry 2##goalrl 2##hashrl 2##imcoderl 2##implementrl 2##repeatrl 2##sdd 2##tdd 2##textrl 1##commitrl 1##flawedrl 1##journalrl 1##reviewrl 1##treerl
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..db011481fee0b1dea61b11d7c5c541e095a5ccba
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-codex
-I found the failure: tags were printed as `##tag` because the regex match includes `#`. I’m normalizing tags by removing the leading `#`, then rerunning the full test suite.
-file update
-M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc
-@@ -36,3 +36,3 @@
-             with open(p, encoding="utf-8", errors="ignore") as f:
--                tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
-apply_patch(auto_approved=true) exited 0 in 61ms:
-Success. Updated the following files:
-M stirr.#hc
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec1993bc7aca7dd4dc709289277223f127940352
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec1993bc7aca7dd4dc709289277223f127940352
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-exec
-/bin/zsh -lc './test.#rh' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 194ms:
-
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec1993bc7aca7dd4dc709289277223f127940352
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-exec
-/bin/zsh -lc "wc -l stirr.#hc; awk '{ if (length("'$0)>80) print NR ":" length($0) }'"' stirr.#hc" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
-/bin/zsh -lc "sed -n '1,120p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-      47 stirr.#hc
- succeeded in 0ms:
-FILE TREE:
-. 128.39KB
-  STIRR-rules.md 6.71KB 4#hc 3#foobar 3#mix 3#needsrl 2#ai
-  ai-output.log 115.40KB
-  implement.#hc 0.20KB 1#stirr
-  journal.#rh.md 0.35KB
-  scripts/ 0.07KB
-    test-file.txt 0.07KB 4#foo 3#foobar 2#bar 1#foo-bar
-  spec.#hc.md 1.53KB 1#hc 1#stirr
-  stirr.#hc 1.79KB
-  stirr.#rh 0.42KB
-  test-mock.#rh 0.69KB 3#foo 1#bar 1#foo-bar 1#hc 1#nope
-  test-mock.#rh.py 1.13KB 3#foo 1#bar 1#foo-bar 1#hc 1#nope
-  test.#rh 0.10KB 2#rh 1#hc
-  test.log 0.00KB
-TAG TOTALS:
-10#foo 8#hc 6#foobar 4#bar 4#rh 3#foo-bar 3#mix 3#needsrl 3#stirr 2#ai 2#bottleneckrl 2#controlrl 2#goalrl 2#hashrl 2#nope 1#brevityrl 1#commitrl 1#conventionrl 1#dry 1#flawedrl 1#imcoderl 1#implementrl 1#journalrl 1#repeatrl 1#reviewrl 1#sdd 1#tdd 1#textrl 1#treerl
-exec
-/bin/zsh -lc 'git status --short' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
- M ai-output.log
- M stirr.#hc
- M test.#rh
- M test.log
-?? test-mock.#rh
-?? test-mock.#rh.py
-exec
-/bin/zsh -lc 'python3 -m py_compile stirr.#hc test-mock.#rh.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
-
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec1993bc7aca7dd4dc709289277223f127940352
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
-
-codex
-Implemented the `#STIRR` spec and added the requested tests.
-
-**What I changed**
-- Rewrote [`stirr.#hc`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc) as Python with:
-  - `python3` shebang and `__main__` guard
-  - stdlib-only
-  - `<50` LOC (`47` lines)
-  - `glob.glob(..., recursive=True)` traversal
-  - hidden path exclusion
-  - text-file check using the provided `is_text_file` logic
-  - `<100KB` text-file hashtag extraction using `r"(?<!\w)#[A-Za-z][\w-]*"`
-  - per-file top-5 tags + final totals output
-- Updated [`test.#rh`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test.#rh) to run the main output test plus both new mock tests.
-- Added Bash mock test: [`test-mock.#rh`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test-mock.#rh)
-- Added Python mock test: [`test-mock.#rh.py`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test-mock.#rh.py)
-
-**Verification**
-- Ran `./test.#rh` successfully (exit code `0`).
-- Both added mock tests pass.
-- Python compile check passes for script/tests.
-
-**Bash vs Python test approach**
-- Better default: **Python test** (`test-mock.#rh.py`) for stronger assertions and easier evolution.
-- Keep **Bash test** as a fast smoke/integration check.
-file update:
-diff --git a/STIRR/stirr.#hc b/STIRR/stirr.#hc
-index 98c70f48c3ed351ca1bd42f29eb5f8263b0f977d..ec1993bc7aca7dd4dc709289277223f127940352
---- a/STIRR/stirr.#hc
-+++ b/STIRR/stirr.#hc
-@@ -1,9 +1,7 @@
- #!/usr/bin/env python3
- import glob, os, re
- from collections import Counter
--
- TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
--
- def is_text_file(path):
-     try:
-         with open(path, 'rb') as f:
-@@ -11,30 +9,39 @@
-         return b'\x00' not in chunk
-     except:
-         return False
--
- def _visible(path):
--    return not any(part.startswith('.') and part != '.' for part in path.split(os.sep))
--
-+    # Hidden files and folders are excluded from traversal.
-+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
-+def _all(root):
-+    found = glob.glob(f"{root}/**/*", recursive=True)
-+    return [root] + [p for p in found if _visible(p)]
- def _size(path):
--    if os.path.isfile(path): return os.path.getsize(path)
--    return sum(os.path.getsize(p) for p in glob.glob(f"{path}/**/*", recursive=True) if os.path.isfile(p) and _visible(p))
--
-+    if os.path.isfile(path):
-+        return os.path.getsize(path)
-+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
- def traverse(root="."):
-     print("FILE TREE:")
--    paths = [root] + [p for p in glob.glob(f"{root}/**/*", recursive=True) if _visible(p)]
-     totals = Counter()
--    for p in sorted(paths):
-+    for p in sorted(_all(root)):
-         rel = "." if p == root else os.path.relpath(p, root)
-         depth = 0 if rel == "." else rel.count(os.sep) + 1
--        name = "." if rel == "." else os.path.basename(p) + ("/" if os.path.isdir(p) else "")
-+        name = "." if rel == "." else os.path.basename(p)
-+        name += "/" if os.path.isdir(p) and rel != "." else ""
-         tags = Counter()
--        if os.path.isfile(p) and os.path.getsize(p) < 100 * 1024 and is_text_file(p):
--            with open(p, encoding="utf-8", errors="ignore") as f: tags.update(t.lower() for t in TAG_RE.findall(f.read()))
-+        if (
-+            os.path.isfile(p)
-+            and os.path.getsize(p) < 100 * 1024
-+            and is_text_file(p)
-+        ):
-+            with open(p, encoding="utf-8", errors="ignore") as f:
-+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
-             totals.update(tags)
--        top = " ".join(f"{c}#{t}" for t, c in sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5])
--        print(f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB" + (f" {top}" if top else ""))
-+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
-+        top = " ".join(f"{c}#{t}" for t, c in top5)
-+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
-+        print(line + (f" {top}" if top else ""))
-     print("TAG TOTALS:")
--    print(" ".join(f"{c}#{t}" for t, c in sorted(totals.items(), key=lambda x: (-x[1], x[0]))))
--
-+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
-+    print(" ".join(f"{c}#{t}" for t, c in order))
- if __name__ == "__main__":
-     traverse(".")
-diff --git a/STIRR/test-mock.#rh b/STIRR/test-mock.#rh
-index 3e2448fb9299fc15c9097b3d5ec7987e7ffcc2e8..b9109cb4d293fd5b7dc54e434d85f174eb70d019
---- a/STIRR/test-mock.#rh
-+++ b/STIRR/test-mock.#rh
-@@ -9,10 +9,10 @@
- printf '#NOPE\n' > "$tmp/.hidden/skip.md"
- printf '\0\1\2' > "$tmp/sub/bin.dat"
- python3 - <<PY > "$tmp/out.txt"
--import importlib.util
--s = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--m = importlib.util.module_from_spec(s)
--s.loader.exec_module(m)
-+import types
-+from importlib.machinery import SourceFileLoader
-+m = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(m)
- m.traverse(r"$tmp")
- PY
- 
-diff --git a/STIRR/test-mock.#rh.py b/STIRR/test-mock.#rh.py
-index 78fa2f3a4e2906ea15e09247a784f69db236328f..f1f74eb478218611a5fa7734151104454a5a6998
---- a/STIRR/test-mock.#rh.py
-+++ b/STIRR/test-mock.#rh.py
-@@ -1,10 +1,10 @@
- #!/usr/bin/env python3
--import io, os, re, shutil, tempfile, importlib.util
-+import io, os, re, shutil, tempfile, types
- from contextlib import redirect_stdout
-+from importlib.machinery import SourceFileLoader
- 
--spec = importlib.util.spec_from_file_location("stirr", "./stirr.#hc")
--mod = importlib.util.module_from_spec(spec)
--spec.loader.exec_module(mod)
-+mod = types.ModuleType("stirr")
-+SourceFileLoader("stirr", "./stirr.#hc").exec_module(mod)
- 
- tmp = tempfile.mkdtemp()
- try:
-diff --git a/STIRR/test.#rh b/STIRR/test.#rh
-index be6903ed6cfe227a907842c8cb4efbf6aa0ecc9b..4fb486de440ed7456a828221c734186a99d277de
---- a/STIRR/test.#rh
-+++ b/STIRR/test.#rh
-@@ -1,2 +1,5 @@
- #!/usr/bin/env bash
-+set -euo pipefail
- ./stirr.#hc > test.log 2>&1
-+./test-mock.#rh
-+./test-mock.#rh.py
 
 tokens used
-54,195
-Implemented the `#STIRR` spec and added the requested tests.
+32,414
+Implemented the `#STIRR` spec and aligned tests.
 
-**What I changed**
-- Rewrote [`stirr.#hc`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc) as Python with:
-  - `python3` shebang and `__main__` guard
-  - stdlib-only
-  - `<50` LOC (`47` lines)
-  - `glob.glob(..., recursive=True)` traversal
-  - hidden path exclusion
-  - text-file check using the provided `is_text_file` logic
-  - `<100KB` text-file hashtag extraction using `r"(?<!\w)#[A-Za-z][\w-]*"`
-  - per-file top-5 tags + final totals output
-- Updated [`test.#rh`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test.#rh) to run the main output test plus both new mock tests.
-- Added Bash mock test: [`test-mock.#rh`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test-mock.#rh)
-- Added Python mock test: [`test-mock.#rh.py`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test-mock.#rh.py)
+Changed files:
+- [stirr.#hc](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#hc)
+- [test1-run.#rh.sh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test1-run.#rh.sh)
+- [test2-mock.#rh.py](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test2-mock.#rh.py)
 
-**Verification**
-- Ran `./test.#rh` successfully (exit code `0`).
-- Both added mock tests pass.
-- Python compile check passes for script/tests.
+What’s now true:
+- `stirr.#hc` is Python 3 with `__main__`, stdlib-only.
+- `stirr.#hc` is `<60 LOC` (59 lines) and no line exceeds 80 chars.
+- Traversal uses `glob.glob(..., recursive=True)` and excludes hidden paths by glob behavior.
+- Only text files `<100KB` are parsed with the required `is_text_file` logic.
+- Per-file output includes indent by depth, basename, size in KB, and top 5 tags.
+- Directory size is computed from parsed files in that directory subtree.
+- End output includes total tag frequencies.
 
-**Bash vs Python test approach**
-- Better default: **Python test** (`test-mock.#rh.py`) for stronger assertions and easier evolution.
-- Keep **Bash test** as a fast smoke/integration check.
+Tests:
+- `./test1-run.#rh.sh` → `PASS`
+- `./test2-mock.#rh.py` → `PASS`
+- Both tests write analysis logs:
+  - [test1-run.log](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test1-run.log)
+  - [test2-mock.log](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/test2-mock.log)

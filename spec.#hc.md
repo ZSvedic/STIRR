@@ -1,7 +1,7 @@
 Read `#STIRR`.
 
 ## Iteration 5
-- Implement the `stirr.#hc` script as py with python3 shebang.
+- Implement the `stirr.#rh` script as py with python3 shebang.
 - Requirements:
     - Just py stdlib.
     - Have py `__main__` check.
