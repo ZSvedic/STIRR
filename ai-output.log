@@ -1,0 +1,527 @@
+OpenAI Codex v0.115.0 (research preview)
+--------
+workdir: /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR
+model: gpt-5.3-codex
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 019cfbd4-4fed-78b0-89f8-329aa929f2f3
+--------
+user
+Implement #STIRR spec as sh based on the given rules.
+mcp startup: no servers
+codex
+I’ll locate the `#STIRR` spec and the rule files in this repo first, then implement the shell script to match that specification and run any available checks.
+exec
+/bin/zsh -lc 'ls -la' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+total 72
+drwxr-xr-x@ 11 zsvedic  staff   352 Mar 17 13:45 .
+drwxr-xr-x@ 15 zsvedic  staff   480 Mar 17 13:18 ..
+-rw-r--r--@  1 zsvedic  staff  6872 Mar 17 11:45 STIRR-rules.md
+-rw-r--r--@  1 zsvedic  staff   549 Mar 17 13:45 ai-output.log
+-rwxr-xr-x@  1 zsvedic  staff   211 Mar 17 13:44 implement.#hc.sh
+-rw-r--r--@  1 zsvedic  staff    32 Mar 17 13:31 journal.#rh.md
+drwxr-xr-x@  3 zsvedic  staff    96 Mar 17 13:24 scripts
+-rw-r--r--@  1 zsvedic  staff   236 Mar 17 13:27 spec.#hc.md
+-rwxr-xr-x@  1 zsvedic  staff   158 Mar 17 13:34 stirr.#rh.sh
+-rwxr-xr-x@  1 zsvedic  staff    50 Mar 17 13:32 test.#rh.sh
+-rw-r--r--@  1 zsvedic  staff   257 Mar 17 13:35 test.log
+exec
+/bin/zsh -lc 'rg --files' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+STIRR-rules.md
+implement.#hc.sh
+scripts/test-file.txt
+spec.#hc.md
+test.#rh.sh
+ai-output.log
+stirr.#rh.sh
+test.log
+journal.#rh.md
+codex
+I found the spec/rules files and existing `stirr.#rh.sh`. Next I’m reading those to implement exactly what the spec requires.
+exec
+/bin/zsh -lc "sed -n '1,220p' stirr.#rh.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,220p' implement.#hc.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+#!/usr/bin/env bash
+set -euo pipefail
+
+codex exec \
+  --dangerously-bypass-approvals-and-sandbox \
+  --skip-git-repo-check \
+  "Implement #STIRR spec as sh based on the given rules." \
+  2>&1 | tee ai-output.log
+ succeeded in 0ms:
+#!/usr/bin/env python3
+import os, glob
+
+# Functions:
+
+
+# Main:
+if __name__ == "__main__":
+    raise NotImplementedError("This script is not implemented yet.")
+exec
+/bin/zsh -lc "sed -n '1,220p' STIRR-rules.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+# `#STIRR`
+**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions and is spec/test-driven. 
+
+This document is intended for both human and AI consumption.
+
+## Rules
+
+- **Text / `#TextRL`** — Because LLMs prefer plain text, use text for everything:
+  - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
+  - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
+  - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
+  - hierarchical data ([JSON](https://www.json.org/json-en.html) and [YAML](https://yaml.org/)), 
+  - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
+  - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
+  - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
+
+  Avoid specs in binary format, as they require error-prone conversion to text. 
+  If you need images, use formats that multimodal LLMs understand (JPEG/PNG). 
+
+- **Convention over configuration / `#ConventionRL`** — Because plain text lacks metadata and to avoid configuration file hell, use [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) instead.
+exec
+/bin/zsh -lc "sed -n '1,220p' test.#rh.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,220p' spec.#hc.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+#!/usr/bin/env bash
+./stirr.#rh.sh > test.log 2>&1
+ succeeded in 0ms:
+Read `#STIRR`.
+
+## Iteration 1
+- Implement the traversal and printing of file/dir sizes in the human-friendly format.
+- Use glob.glob().
+- <10 LOC of py code.
+- Just py stdlib.
+- Don't implement anything else.
+- Check that test passes.
+codex
+I confirmed the current spec targets a tiny Python implementation (even though file extension is `.sh`). I’ll check the journal and sample files for expected output shape, then patch `stirr.#rh.sh` accordingly and run `test.#rh.sh`.
+exec
+/bin/zsh -lc 'cat test.log' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "sed -n '1,220p' journal.#rh.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+Traceback (most recent call last):
+  File "/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/./stirr.#rh.sh", line 9, in <module>
+    raise NotImplementedError("This script is not implemented yet.")
+NotImplementedError: This script is not implemented yet.
+ succeeded in 0ms:
+2026-3-17
+- Iteration 1
+  - ToDo
+exec
+/bin/zsh -lc "find scripts -maxdepth 3 -type f -print -exec ls -l {} \\;" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+scripts/test-file.txt
+-rw-r--r--@ 1 zsvedic  staff  72 Mar 17 13:26 scripts/test-file.txt
+codex
+I’m now editing `stirr.#rh.sh` with a minimal Python implementation that uses `glob.glob()` to traverse and prints both file and directory sizes in human-readable units, keeping the code compact per spec.
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#rh.sh
+@@ -3,7 +3,8 @@
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"): 
++        if n < 1024 or u == "TB": return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"; n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+apply_patch(auto_approved=true) exited 0 in 21ms:
+Success. Updated the following files:
+M stirr.#rh.sh
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..fdfcead475720033787ba5169f6be95b54fef3b5
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,10 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"): 
++        if n < 1024 or u == "TB": return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"; n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..fdfcead475720033787ba5169f6be95b54fef3b5
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,10 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"): 
++        if n < 1024 or u == "TB": return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"; n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+codex
+I’ve applied the implementation; next I’m running `test.#rh.sh` and checking `test.log` to confirm this iteration is green.
+exec
+/bin/zsh -lc "sed -n '1,200p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+Traceback (most recent call last):
+  File "/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/./stirr.#rh.sh", line 9, in <module>
+    raise NotImplementedError("This script is not implemented yet.")
+NotImplementedError: This script is not implemented yet.
+exec
+/bin/zsh -lc "./test.#rh.sh && echo 'TEST_EXIT:"'$?'"'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+TEST_EXIT:$?
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..fdfcead475720033787ba5169f6be95b54fef3b5
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,10 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"): 
++        if n < 1024 or u == "TB": return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"; n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+codex
+`test.log` still shows the old traceback, so I’m verifying the current `stirr.#rh.sh` contents and rerunning the test in a clean sequence to ensure the updated file is actually executed.
+exec
+/bin/zsh -lc 'head -n 20 test.log' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc 'ls -l stirr.#rh.sh test.#rh.sh' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRRexec
+/bin/zsh -lc "nl -ba stirr.#rh.sh | sed -n '1,120p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+16422.0TB  .
+6872.0TB  STIRR-rules.md
+8518.0TB  ai-output.log
+    211B  implement.#hc.sh
+     32B  journal.#rh.md
+     72B  scripts
+     72B  scripts/test-file.txt
+    236B  spec.#hc.md
+    431B  stirr.#rh.sh
+     50B  test.#rh.sh
+      0B  test.log
+ succeeded in 0ms:
+-rwxr-xr-x@ 1 zsvedic  staff  431 Mar 17 13:45 stirr.#rh.sh
+-rwxr-xr-x@ 1 zsvedic  staff   50 Mar 17 13:32 test.#rh.sh
+ succeeded in 0ms:
+     1	#!/usr/bin/env python3
+     2	import os, glob
+     3	
+     4	def hf(n):
+     5	    for u in ("B", "KB", "MB", "GB", "TB"): 
+     6	        if n < 1024 or u == "TB": return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"; n /= 1024
+     7	
+     8	for p in sorted(["."] + glob.glob("**/*", recursive=True)):
+     9	    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
+    10	    print(f"{hf(s):>8}  {p}")
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..fdfcead475720033787ba5169f6be95b54fef3b5
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,10 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"): 
++        if n < 1024 or u == "TB": return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"; n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+codex
+I found a formatting bug in the human-readable size function (`n` wasn’t being reduced per unit step). I’m patching that now and rerunning the test so units are correct.
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#rh.sh
+@@ -4,4 +4,6 @@
+ def hf(n):
+-    for u in ("B", "KB", "MB", "GB", "TB"): 
+-        if n < 1024 or u == "TB": return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"; n /= 1024
++    for u in ("B", "KB", "MB", "GB", "TB"):
++        if n < 1024 or u == "TB":
++            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
++        n /= 1024
+ 
+apply_patch(auto_approved=true) exited 0 in 24ms:
+Success. Updated the following files:
+M stirr.#rh.sh
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..e6123f62377dd7feadc72f4c224e755c1640e525
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,12 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"):
++        if n < 1024 or u == "TB":
++            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
++        n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..e6123f62377dd7feadc72f4c224e755c1640e525
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,12 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"):
++        if n < 1024 or u == "TB":
++            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
++        n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+exec
+/bin/zsh -lc "sed -n '1,60p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+16422.0TB  .
+6872.0TB  STIRR-rules.md
+8518.0TB  ai-output.log
+    211B  implement.#hc.sh
+     32B  journal.#rh.md
+     72B  scripts
+     72B  scripts/test-file.txt
+    236B  spec.#hc.md
+    431B  stirr.#rh.sh
+     50B  test.#rh.sh
+      0B  test.log
+exec
+/bin/zsh -lc './test.#rh.sh; echo EXIT:$?' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+EXIT:0
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..e6123f62377dd7feadc72f4c224e755c1640e525
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,12 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"):
++        if n < 1024 or u == "TB":
++            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
++        n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+codex
+The test output still shows stale values, so I’m directly executing `stirr.#rh.sh` and re-checking its current contents to verify what interpreter is actually running.
+exec
+/bin/zsh -lc "nl -ba stirr.#rh.sh | sed -n '1,80p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+     1	#!/usr/bin/env python3
+     2	import os, glob
+     3	
+     4	def hf(n):
+     5	    for u in ("B", "KB", "MB", "GB", "TB"):
+     6	        if n < 1024 or u == "TB":
+     7	            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
+     8	        n /= 1024
+     9	
+    10	for p in sorted(["."] + glob.glob("**/*", recursive=True)):
+    11	    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
+    12	    print(f"{hf(s):>8}  {p}")
+exec
+/bin/zsh -lc 'which python3; python3 --version' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+/usr/bin/python3
+Python 3.9.6
+exec
+/bin/zsh -lc "./stirr.#rh.sh | sed -n '1,20p'" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+  23.2KB  .
+   6.7KB  STIRR-rules.md
+  15.2KB  ai-output.log
+    211B  implement.#hc.sh
+     32B  journal.#rh.md
+     72B  scripts
+     72B  scripts/test-file.txt
+    236B  spec.#hc.md
+    449B  stirr.#rh.sh
+     50B  test.#rh.sh
+    249B  test.log
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..e6123f62377dd7feadc72f4c224e755c1640e525
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,12 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"):
++        if n < 1024 or u == "TB":
++            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
++        n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+codex
+I verified the script itself is correct; the stale `test.log` came from reading it in parallel with the test run. I’m rerunning test serially and confirming the final log contents.
+exec
+/bin/zsh -lc "./test.#rh.sh && sed -n '1,40p' test.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR succeeded in 0ms:
+  25.1KB  .
+   6.7KB  STIRR-rules.md
+  17.4KB  ai-output.log
+    211B  implement.#hc.sh
+     32B  journal.#rh.md
+     72B  scripts
+     72B  scripts/test-file.txt
+    236B  spec.#hc.md
+    449B  stirr.#rh.sh
+     50B  test.#rh.sh
+      0B  test.log
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..e6123f62377dd7feadc72f4c224e755c1640e525
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,12 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"):
++        if n < 1024 or u == "TB":
++            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
++        n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+codex
+Implemented `#STIRR` Iteration 1 in [stirr.#rh.sh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#rh.sh).
+
+What it now does:
+- Traverses files/directories using `glob.glob(..., recursive=True)`.
+- Computes size for files and aggregate size for directories.
+- Prints sizes in human-friendly units (`B`, `KB`, `MB`, `GB`, `TB`).
+
+Validation:
+- Ran `./test.#rh.sh` successfully (`exit 0`).
+- `test.log` now contains the expected size listing output from the script.
+file update:
+diff --git a/STIRR/stirr.#rh.sh b/STIRR/stirr.#rh.sh
+index 558201da69a387888ef7c83d78fb2abf33e86d15..e6123f62377dd7feadc72f4c224e755c1640e525
+--- a/STIRR/stirr.#rh.sh
++++ b/STIRR/stirr.#rh.sh
+@@ -1,9 +1,12 @@
+ #!/usr/bin/env python3
+ import os, glob
+ 
+-# Functions:
+-
++def hf(n):
++    for u in ("B", "KB", "MB", "GB", "TB"):
++        if n < 1024 or u == "TB":
++            return f"{int(n)}{u}" if u == "B" else f"{n:.1f}{u}"
++        n /= 1024
+ 
+-# Main:
+-if __name__ == "__main__":
+-    raise NotImplementedError("This script is not implemented yet.")
+\ No newline at end of file
++for p in sorted(["."] + glob.glob("**/*", recursive=True)):
++    s = os.path.getsize(p) if os.path.isfile(p) else sum(os.path.getsize(f) for f in glob.glob(f"{p}/**/*", recursive=True) if os.path.isfile(f))
++    print(f"{hf(s):>8}  {p}")
+
+tokens used
+18,109
+Implemented `#STIRR` Iteration 1 in [stirr.#rh.sh](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/stirr.#rh.sh).
+
+What it now does:
+- Traverses files/directories using `glob.glob(..., recursive=True)`.
+- Computes size for files and aggregate size for directories.
+- Prints sizes in human-friendly units (`B`, `KB`, `MB`, `GB`, `TB`).
+
+Validation:
+- Ran `./test.#rh.sh` successfully (`exit 0`).
+- `test.log` now contains the expected size listing output from the script.

@@ -1,4 +1,11 @@
-Traceback (most recent call last):
-  File "/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/./stirr.#rh.sh", line 9, in <module>
-    raise NotImplementedError("This script is not implemented yet.")
-NotImplementedError: This script is not implemented yet.
+  28.1KB  .
+   6.7KB  STIRR-rules.md
+  20.3KB  ai-output.log
+    211B  implement.#hc.sh
+     32B  journal.#rh.md
+     72B  scripts
+     72B  scripts/test-file.txt
+    236B  spec.#hc.md
+    449B  stirr.#rh.sh
+     50B  test.#rh.sh
+      0B  test.log
