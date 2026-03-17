@@ -35,9 +35,9 @@ Hashtags are preferred over links or x.y.z numbers because they are short, descr
   Text/markdown/code files with the `.#Mix` extension mark blocks as `#[HC/RH/AI]`, in any form that humans and AIs will understand. 
 
 - **Tree inheritance / `#TreeRL`** — When omitted, `#HashRL` and `#ControlRL` are inherited from a parent in a filesystem or document tree.
-E.g. `SelfContained.#mix.ipynb` [Jupyter notebook](https://jupyter.org/) has text cells marked as `#HC`, code cells marked as `#AI`, and testing section marked with `#RH`.
+E.g. `SelfContained.#mix.ipynb` [Jupyter notebook](https://jupyter.org/) has text cells marked as `#HC` and code cells marked as `#AI`.
 
-- **The end goal is human satisfaction / `#GoalRL`** — Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
+- **The end goal is human satisfaction / `#GoalRL`** — Long-term satisfaction users and maintainers of software depends on, in the decreasing order of importance: 
   - correctness, 
   - ease of use, 
   - use of open standards, 
@@ -92,4 +92,4 @@ After discovery of an issue, the required specs, tests, or journal are updated.
 Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [same as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
 If that happens, create hidden tests that are not part of the specification and run them manually.
 
-- **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should be marked as finished with `#HC`. The process is complete when the specs have the required functionality, tests pass, and the human has nothing to add.
+- **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should be marked as finished with `#HC`. The process is finished when the specs have the required functionality, tests pass, and the human has nothing to add.
