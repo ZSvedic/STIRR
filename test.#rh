@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-./stirr.#hc > test.log 2>&1
-./test-mock.#rh
-./test-mock.#rh.py

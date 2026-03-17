@@ -1,14 +1,47 @@
 #!/usr/bin/env python3
-import glob, os
-
-
+import glob, os, re
+from collections import Counter
+TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+def is_text_file(path):
+    try:
+        with open(path, 'rb') as f:
+            chunk = f.read(4096)
+        return b'\x00' not in chunk
+    except:
+        return False
+def _visible(path):
+    # Hidden files and folders are excluded from traversal.
+    return not any(x.startswith('.') and x != '.' for x in path.split(os.sep))
+def _all(root):
+    found = glob.glob(f"{root}/**/*", recursive=True)
+    return [root] + [p for p in found if _visible(p)]
+def _size(path):
+    if os.path.isfile(path):
+        return os.path.getsize(path)
+    return sum(os.path.getsize(p) for p in _all(path)[1:] if os.path.isfile(p))
 def traverse(root="."):
-    # Print size in KB for root and all descendants.
-    for p in sorted([root] + glob.glob(f"{root}/**/*", recursive=True)):
-        fs = glob.glob(f"{p}/**/*", recursive=True) if os.path.isdir(p) else [p]
-        b = sum(os.path.getsize(f) for f in fs if os.path.isfile(f))
-        print(f"{b / 1024:8.1f}KB  {p}")
-
-
+    print("FILE TREE:")
+    totals = Counter()
+    for p in sorted(_all(root)):
+        rel = "." if p == root else os.path.relpath(p, root)
+        depth = 0 if rel == "." else rel.count(os.sep) + 1
+        name = "." if rel == "." else os.path.basename(p)
+        name += "/" if os.path.isdir(p) and rel != "." else ""
+        tags = Counter()
+        if (
+            os.path.isfile(p)
+            and os.path.getsize(p) < 100 * 1024
+            and is_text_file(p)
+        ):
+            with open(p, encoding="utf-8", errors="ignore") as f:
+                tags.update(t[1:].lower() for t in TAG_RE.findall(f.read()))
+            totals.update(tags)
+        top5 = sorted(tags.items(), key=lambda x: (-x[1], x[0]))[:5]
+        top = " ".join(f"{c}#{t}" for t, c in top5)
+        line = f"{'  ' * depth}{name} {_size(p) / 1024:.2f}KB"
+        print(line + (f" {top}" if top else ""))
+    print("TAG TOTALS:")
+    order = sorted(totals.items(), key=lambda x: (-x[1], x[0]))
+    print(" ".join(f"{c}#{t}" for t, c in order))
 if __name__ == "__main__":
     traverse(".")
