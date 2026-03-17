@@ -51,8 +51,8 @@ Human attention is not.
 In any workflow, the bottleneck is the human reading speed.
 The optimal process minimizes total human effort, and maximizes `#GoalRL`.
 
-- **AI output is often flawed / `#FlawedRL`** — Wrong or verbose AI outputs cause the `#BottleneckRL` problem.
-To detect errors without `#BottleneckRL` problem, use automated tests.
+- **AI output is often flawed / `#FlawedRL`** — Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
+To detect errors without human review, use automated tests.  
 To reduce verbosity, specify max lines-of-code (LOC) or max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity).
 
 - **Humans don't know their needs / `#NeedsRL`** — Needs are discovered gradually, by giving feedback on every iteration. 
