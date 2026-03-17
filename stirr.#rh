@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+import glob, os
+
+
+def traverse(root="."):
+    # Print size in KB for root and all descendants.
+    for p in sorted([root] + glob.glob(f"{root}/**/*", recursive=True)):
+        fs = glob.glob(f"{p}/**/*", recursive=True) if os.path.isdir(p) else [p]
+        b = sum(os.path.getsize(f) for f in fs if os.path.isfile(f))
+        print(f"{b / 1024:8.1f}KB  {p}")
+
+
+if __name__ == "__main__":
+    traverse(".")
