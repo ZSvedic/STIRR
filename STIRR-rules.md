@@ -1,12 +1,10 @@
-# `#STIRR`
-**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI dev system that is based on text conventions and is spec/test-driven. 
+`#STIRR` (**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat) is an iterative AI dev system that is based on text conventions and is spec/test-driven. 
 
 `#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading 3 pages below (~7min read). If you don't like something, just change it.
 
-## Rules
+# Rules
 
-
-### `#TextRL` — Because LLMs prefer plain text, use text for everything:
+## `#TextRL` — Because LLMs prefer plain text, use text for everything:
   - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
   - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
   - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
