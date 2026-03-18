@@ -20,22 +20,17 @@ If you need images, use formats that multimodal LLMs understand (JPEG or PNG).
 ### `#ConventionRL` — Convention over configuration 
 To make text files manageable, use the following [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration):
 
-  #### `#HashRL` — Terms 
-  are identified by `#FooBar` hashtags, and referenced from text, code, or filenames. 
-  Hashtags are case-insensitive, so `#foobar` is the same as `#FooBar`.
+  - **Hashtags** — Terms are identified by `#FooBar` hashtags, are case-insensitive, and are referenced from text or code. 
 
-  - **Separation of control / `#ControlRL`** — AI work is separated from human work via control hashtags:
-    - `#HC` - **H**uman **C**ontrolled 
-    - `#RH` - **R**eviewed by **H**uman 
-    - `#AI` - **AI** controlled
-    - `#Mix` - **Mix**ed control  
+  - **Separation of ownership** — AI work is separated from human work via hashtags:
+    - `#Human` - Created or reviewed by human.
+    - `#AI` - Created and modified by AI.
     
-    Leftmost extension `.#[HC/RH/AI/Mix]` in a file/directory name indicates control.  
-    E.g. the directory name `forms.#RH` indicates that an AI can change contained files, but each change must be approved by a human before a commit. 
-    Rename to `forms.#HC` to stop the AI from suggesting changes.  
-    Text/markdown/code files with the `.#Mix` extension mark blocks as `#[HC/RH/AI]`, in any form that humans and AIs will understand. 
+    First hashtag in a text file indicates ownership. 
+    Put it in the top comment or the [fontmatter](https://docs.github.com/en/contributing/writing-for-github-docs/using-yaml-frontmatter).
+    Add dummy file named `#Human` or `#AI` to dir to indicates ownership of all files. That is the only option for binary files.
 
-  - **Tree inheritance / `#TreeRL`** — When omitted, `#HashRL` and `#ControlRL` are inherited from a parent in a filesystem or document tree.
+  - **Tree inheritance** — When omitted, ownership is inherited from a parent in a filesystem or document tree.
   E.g. `SelfContained.#mix.ipynb` [Jupyter notebook](https://jupyter.org/) has text cells marked as `#HC` and code cells marked as `#AI`.
 
 - **The end goal is human satisfaction / `#GoalRL`** — Long-term satisfaction users and maintainers of software depends on, in the decreasing order of importance: 
