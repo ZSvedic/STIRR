@@ -48,7 +48,7 @@
 - **Human is the bottleneck / `#BottleneckRL`** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.
-Minimize total human effort, and maximize `#GoalRL`.
+Minimize total human effort and maximize `#GoalRL`.
 
 - **AI is unreliable / `#FlawedRL`** — Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
 To detect errors without human review, use automated tests.  
