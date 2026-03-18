@@ -9,13 +9,13 @@
   - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
   - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
   - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
-  - hierarchical data ([JSON](https://www.json.org/json-en.html), [YAML](https://yaml.org/), and [TOML](https://toml.io/en/)), 
+  - hierarchical data ([JSON](https://www.json.org/json-en.html), [YAML](https://yaml.org/), or [TOML](https://toml.io/en/)), 
   - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
   - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
   - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
 
   Avoid specs in binary format, as they require error-prone conversion to text. 
-  If you need images, use formats that multimodal LLMs understand (JPEG/PNG). 
+  If you need images, use formats that multimodal LLMs understand (JPEG or PNG). 
 
 - **Convention over configuration / `#ConventionRL`** — Because plain text lacks metadata and to avoid configuration file hell, use [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) instead.
 
