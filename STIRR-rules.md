@@ -6,8 +6,7 @@
 ## Rules
 
 
-### `#TextRL`
-- **Text / `#TextRL`** — Because LLMs prefer plain text, use text for everything:
+### `#TextRL` — Because LLMs prefer plain text, use text for everything:
   - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
   - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
   - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
