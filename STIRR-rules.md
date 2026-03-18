@@ -2,9 +2,9 @@
 
 `#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading 3 pages below (~7min read). If you don't like something, just change it.
 
-## Rules
+# Rules
 
-### `#TextRL` — Text for everything
+## `#TextRL` — Text for everything
 Because LLMs prefer plain text, use text for:
 - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
 - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
@@ -17,10 +17,10 @@ Because LLMs prefer plain text, use text for:
 Avoid specs in binary format, as they require error-prone conversion to text. 
 If you need images, use formats that multimodal LLMs understand (JPEG or PNG). 
 
-### `#ConventionRL` — Convention over configuration 
-To make text files manageable, use the following[convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration):
+## `#ConventionRL` — Convention over configuration 
+To make text files manageable, use the following [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration):
 
-#### `#HashRL` — Terms 
+### `#HashRL` — Terms 
 are identified by `#FooBar` hashtags, and referenced from text, code, or filenames. 
 Hashtags are case-insensitive, so `#foobar` is the same as `#FooBar`.
 
