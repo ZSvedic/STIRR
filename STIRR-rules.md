@@ -13,14 +13,16 @@ Because LLMs prefer plain text, use text for:
 - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
 - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
 - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
+
 Avoid specs in binary format, as they require error-prone conversion to text. 
 If you need images, use formats that multimodal LLMs understand (JPEG or PNG). 
 
 ### `#ConventionRL` — Convention over configuration 
 To make text files manageable, use the following[convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration):
 
-  - **Hashtags / `#HashRL`** — Terms are identified by `#FooBar` hashtags, and referenced from text, code, or filenames. 
-  Hashtags are case-insensitive, so `#foobar` is the same as `#FooBar`.
+#### `#HashRL` — Terms 
+are identified by `#FooBar` hashtags, and referenced from text, code, or filenames. 
+Hashtags are case-insensitive, so `#foobar` is the same as `#FooBar`.
 
   - **Separation of control / `#ControlRL`** — AI work is separated from human work via control hashtags:
     - `#HC` - **H**uman **C**ontrolled 
