@@ -1,7 +1,7 @@
 # `#STIRR`
-**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI development workflow that is based on text conventions and is spec/test-driven. 
+**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI dev system that is based on text conventions and is spec/test-driven. 
 
-This document is intended for both human and AI consumption.
+`#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading 3 pages below (~7min read). If you don't like something, just change it.
 
 ## Rules
 
@@ -9,7 +9,7 @@ This document is intended for both human and AI consumption.
   - specs ([markdown](https://en.wikipedia.org/wiki/Markdown)), 
   - diagrams ([mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
   - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
-  - hierarchical data ([JSON](https://www.json.org/json-en.html) and [YAML](https://yaml.org/)), 
+  - hierarchical data ([JSON](https://www.json.org/json-en.html), [YAML](https://yaml.org/), and [TOML](https://toml.io/en/)), 
   - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
   - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
   - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
@@ -21,7 +21,6 @@ This document is intended for both human and AI consumption.
 
 - **Hashtags / `#HashRL`** — Terms are identified by `#FooBar` hashtags, and referenced from text, code, or filenames. 
 Hashtags are case-insensitive, so `#foobar` is the same as `#FooBar`.
-Hashtags are preferred over links or x.y.z numbers because they are short, descriptive, rarely change, and work everywhere (local, web, commit messages, etc.). 
 
 - **Separation of control / `#ControlRL`** — AI work is separated from human work via control hashtags:
   - `#HC` - **H**uman **C**ontrolled 
