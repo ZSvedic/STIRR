@@ -1,7 +1,7 @@
 # `#STIRR`
 **S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat is an iterative AI dev system that is based on text conventions and is spec/test-driven. 
 
-`#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading 3 pages below (~7min read). If you don't like something, just change it.
+#STIRR is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading 3 pages below (~7min read). If you don't like something, just change it.
 
 ## Rules
 
