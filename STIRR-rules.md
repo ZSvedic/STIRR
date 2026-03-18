@@ -2,7 +2,7 @@
 
 `#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading 3 pages below (~7min read). If you don't like something, just change it.
 
-**RULES:**
+# Rules
 
 ## `#TextRL` — Text for everything
 Because LLMs prefer plain text, use text for:
