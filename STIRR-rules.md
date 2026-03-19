@@ -58,8 +58,8 @@ To reduce verbosity, specify max [LOC](https://en.wikipedia.org/wiki/Source_line
 ### `#NeedsRL` — Humans don't know their needs
 Needs are discovered gradually by giving feedback on every iteration.  
 That also applies to legacy systems: 
-- Fully covering all legacy system behaviors often exceeds `#BrevityRL` rule below.
-- Even with full coverage, implementing that will reproduce the same app—bugs, quirks, and bloat—without AI gains.
+- Fully covering all legacy system behavior often exceeds `#BrevityRL` rule below.
+- Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
 
 ### `#SDD` — Specification-Driven Development
 All implementation follows from specs. 
@@ -87,13 +87,13 @@ A separate iteration journal, which can be longer, contains decisions, learnings
 It is consulted only when a spec or test decision is not clear.
 
 ### `#CommitRL` — Commit before AI
-Because AI tends to be code-happy, commit human changes to a [VCS](https://en.wikipedia.org/wiki/Version_control) before AI implementation.
+Because AI tends to be code-happy, commit human edits to a [VCS](https://en.wikipedia.org/wiki/Version_control) before AI implementation.
 That will enable:
 - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
 - Rolling back and changing spec, if AI output is `#FlawedRL`. 
 
 ### `#ImplementRL` — AI implements code from specs so the tests pass
-In the end, AI reports the results and learnings.  
+After implementation, AI reports the results and learnings.  
 Implementation is stateless, meaning that the only inputs are the specs and tests.  
 Implementation is non-deterministic, meaning that different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
