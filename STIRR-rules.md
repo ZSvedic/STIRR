@@ -110,4 +110,4 @@ Repeat the `Specify → Test → Implement → Review` loop, incrementally expan
 Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or load as [agent skill](https://agentskills.io/home).  
 To check compliance, run `./stirr` script.  
 Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
-If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.   
+If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.  
