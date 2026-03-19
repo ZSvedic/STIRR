@@ -32,7 +32,7 @@ To make text files manageable, use the following [convention over configuration]
     
     Explicit is better for practical reasons. 
     E.g. if each text file starts with owner and feature hashtags, 
-    find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](# "rg '#human' | rg '#signup'").
+    find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
 ### `#GoalRL` — The end goal is human satisfaction
 Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
