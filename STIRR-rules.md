@@ -26,66 +26,86 @@ To make text files manageable, use the following [convention over configuration]
     - `#Human` - Created or reviewed by human.
     - `#AI` - Created and modified by AI.
     
-    First hashtag in a text file indicates ownership. 
-    Put it in the top comment or the [fontmatter](https://docs.github.com/en/contributing/writing-for-github-docs/using-yaml-frontmatter).
-    Add dummy file named `#Human` or `#AI` to dir to indicates ownership of all files. That is the only option for binary files.
+    Onership is specified in three ways:
+    - **Directory** — A dummy file named `#Human` or `#AI` sets default ownership for contained files. 
+    - **Text file** — First hashtag in a text file indicates ownership. Unsually placed in the top comment or [fontmatter](https://docs.github.com/en/contributing/writing-for-github-docs/using-yaml-frontmatter).
+    - **Inherited** — Inheritance starts from repo root. Dirs and files without ownership tag inherit ownership from its parent.
 
-  - **Tree inheritance** — When omitted, ownership is inherited from a parent in a filesystem or document tree.
-  E.g. `SelfContained.#mix.ipynb` [Jupyter notebook](https://jupyter.org/) has text cells marked as `#HC` and code cells marked as `#AI`.
+### `#GoalRL`** — The end goal is human satisfaction
+Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
+- correctness, 
+- ease of use, 
+- use of open standards, 
+- maintainability, 
+- speed.  
 
-- **The end goal is human satisfaction / `#GoalRL`** — Long-term satisfaction users and maintainers of software depends on, in the decreasing order of importance: 
-  - correctness, 
-  - ease of use, 
-  - use of open standards, 
-  - maintainability, 
-  - speed.  
+I.e. don't optimize speed if software is not working correctly.
 
-  I.e. don't optimize speed if software is not working correctly.
-
-- **Human is the bottleneck / `#BottleneckRL`** — AI output is cheap. 
+### `#BottleneckRL` — Human is the bottleneck
+AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.
 Minimize total human effort and maximize `#GoalRL`.
 
-- **AI is unreliable / `#FlawedRL`** — Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
+### `#FlawedRL` — AI is unreliable
+Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
 To detect errors without human review, use automated tests.  
 To reduce verbosity, specify max lines-of-code (LOC) or max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity).
 
-- **Humans don't know their needs / `#NeedsRL`** — Needs are discovered gradually by giving feedback on every iteration. 
+### `#NeedsRL` — Humans don't know their needs
+Needs are discovered gradually by giving feedback on every iteration. 
+That also applies to legacy systems:
+- Fully covering all behaviors often exceeds `#BrevityRL` rule below.
+- Even with full coverage, implementing that reproduces the same app—bugs, quirks, bloat—without AI gains.
 
-- **Specification-Driven Development / `#SDD`** — All implementation follows from specs. 
+### `#SDD` — Specification-Driven Development
+All implementation follows from specs. 
 Because of `#NeedsRL`, start with a minimal spec for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec). 
 Keep the specification as short as possible for the given problem.
 
-- **Immutable Code / `#ImCodeRL`** — Code can also be part of the spec, if marked as such.
-Immutable code is used for critical parts, snippets shorter than their natural language description, and for code considered final. 
+### `#CodeRL` — Code spec
+Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
+Code spec is used for critical parts, snippets shorter than their natural language description, and for code considered final. 
 
-- **Red Green Test-Driven Development / `#TDD`** — Tests are part of the spec.
-Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), 
-meaning that tests are written before implementation and must fail (red). 
+### `#TDD` — Tests are part of the spec
+Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
 The goal of implementation is to make all tests green.  
 `#NeedsRL` also applies to tests: humans can't predict all ways in software or AI can fail.
-Therefore, new tests are added on every iteration.
+Therefore, tests are added iteratively.
 
-- **Brevity / `#BrevityRL`** — Don't repeat yourself (`#DRY`) in specs or tests, because they change with every iteration.
+### `#shortenRL` — Be short
+Don't repeat yourself in specs or tests, because they change with every iteration.
 A good rule of thumb is the rule of fifths:
-both specs size and tests size should be less than 1/5 of the implemented code size. 
-Larger sizes don't make sense, as it is then faster to write code directly.
+- Specs and tests each < 20% of code size.
+- If they exceed that, writing code directly is faster.
 
-- **Journal / `#JournalRL`** — Specs and tests need to be concise because they are constantly read and modified.
-A separate daily journal that can be longer contains decisions, learnings, pivots, and experiments. 
+### `#JournalRL` — Journal file
+A separate iteration journal that can be longer contains decisions, learnings, pivots, and experiments. 
 It is consulted only when a spec or test decision is not clear.
 
-- **AI implementation / `#ImplementRL`** — AI tries to generate code from specs so the tests pass. 
+### `#CommitRL` — Commit before AI
+Because AI tends to be code-happy, commit human changes to [VCS](https://en.wikipedia.org/wiki/Version_control) before running implementation.
+That will enable:
+- Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
+- Rolling back and changing spec, if AI output is `#FlawedRL`. 
+
+### `#ImplementRL` — AI implements code from specs so the tests pass
 In the end, AI reports the results and learnings.  
 Implementation is stateless, meaning that the only inputs are specs and tests.  
-Implementation is non-deterministic, meaning that different models will generate different code. This is a good thing. In the future, better models will be able to generate better apps from the same spec.
+Implementation is non-deterministic, meaning that different AI models will generate different code. This is a good thing. In the future, better models will be able to generate better apps from the same spec.
 
-- **Commit / `#CommitRL`** — If the implementation succeeded, changes are committed to [VCS](https://en.wikipedia.org/wiki/Version_control).
-
-- **Human review / `#ReviewRL`** - [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop) manually tests an implementation and examines code diffs. 
+### `#ReviewRL` — Human review
+[Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop) manually tests an implementation and examines code diffs. 
 After discovery of an issue, the required specs, tests, or journal are updated.  
 Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [same as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
-If that happens, create hidden tests that are not part of the specification and run them manually.
+If that happens, create hidden tests that are not part of the spec.
 
-- **Repeat / `#RepeatRL`** — Repeat the Specify → Test → Implement → Review loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should be marked as finished with `#HC`. The process is finished when the specs have the required functionality, tests pass, and the human has nothing to add.
+### `#RepeatRL` — Repeat
+Repeat the `Specify → Test → Implement → Review` loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should change ownership to `#Human`. The process is finished when the specs have the required functionality, tests pass, and the human has nothing to add.
+
+## Next steps
+Add this document to repo root or load as [agent skill](https://agentskills.io/home).  
+To check compliance, run `./stirr` script.  
+Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
+If you make major changes, don't forget to regenerate stirr script from its `#STIRR` spec.   
+
