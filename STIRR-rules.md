@@ -56,9 +56,9 @@ To detect errors without human review, use automated tests.
 To reduce verbosity, specify max [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "lines-of-code") or max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity).
 
 ### `#NeedsRL` — Humans don't know their needs
-Needs are discovered gradually by giving feedback on every iteration. 
+Needs are discovered gradually by giving feedback on every iteration.  
 That also applies to legacy systems: 
-- Fully covering all behaviors often exceeds `#BrevityRL` rule below.
+- Fully covering all legacy system behaviors often exceeds `#BrevityRL` rule below.
 - Even with full coverage, implementing that will reproduce the same app—bugs, quirks, and bloat—without AI gains.
 
 ### `#SDD` — Specification-Driven Development
