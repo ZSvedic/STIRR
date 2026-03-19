@@ -27,11 +27,11 @@ To make text files manageable, use the following [convention over configuration]
     - `#AI` - Created and modified by AI.
     
     Hashtags are specified in two ways:
-    - **Explicit** — Hashtags at the top of a text file. Usually placed in the top comment or [frontmatter](https://docs.github.com/en/contributing/writing-for-github-docs/using-yaml-frontmatter).
+    - **Explicit** — Hashtags at the top of a text file. Usually placed in the top comment or [frontmatter](https://docs.github.com/en/contributing/writing-for-github-docs/using-yaml-frontmatter "tags: #FooBar").
     - **Implicit** — A dummy directory file named `#FooBar` sets that tag for contained files. Only option for binary files.  
     
     Explicit is better for practical reasons. 
-    E.g. if each text/code file starts with owner and feature hashtags, 
+    E.g. if each text file starts with owner and feature hashtags, 
     find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](# "rg '#human' | rg '#signup'").
 
 ### `#GoalRL` — The end goal is human satisfaction
@@ -107,7 +107,7 @@ If that happens, create hidden tests that are not part of the spec.
 Repeat the `Specify → Test → Implement → Review` loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs have the required functionality, the tests pass, and the human has nothing to add.
 
 ## Next steps
-Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command) or load as [agent skill](https://agentskills.io/home).  
+Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or load as [agent skill](https://agentskills.io/home).  
 To check compliance, run `./stirr` script.  
 Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
 If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.   
