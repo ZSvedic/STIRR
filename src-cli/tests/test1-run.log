@@ -1,0 +1,21 @@
+FILE TREE:
+. 103.35KB
+  ai-output.log 96.37KB #AI (29#rh 21#ai 18#foo 16#foo-bar 3#human)
+  implement.sh 0.18KB #Human (1#human)
+  journal.md 0.74KB #Human (1#human)
+  spec.md 2.00KB #Human (3#human 1#stirr)
+  stirr 2.15KB #AI (1#ai)
+    test-dir/ 0.08KB
+      #AI.#Test 0.00KB - ()
+    test-dir/ -0.00KB
+      test-hashtags.txt 0.08KB #human (4#foo 3#foobar 2#bar 1#human 1#foo-bar)
+  tests/ 1.83KB
+    test1-run.log 0.00KB - ()
+  tests/ -0.00KB
+    test1-run.sh 0.14KB #Human (1#human)
+  tests/ -0.00KB
+    test2-mock.log 0.14KB #Foo (1#foo 1#foo-bar)
+  tests/ -0.00KB
+    test2-mock.py 1.55KB #AI (4#foo 2#foo-bar 1#ai 1#bar 1#nope)
+TAG TOTALS:
+29#rh 27#foo 23#ai 20#foo-bar 10#human 4#bar 3#foobar 2#stirr 1#test 1#nope

@@ -5,57 +5,65 @@ import glob, os, re
 from collections import Counter
 
 TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+GLOBAL_TAGS = set()
 
-def is_text_file(path):
+
+def get_file_text_hashtag(path):
     try:
-        with open(path, "rb") as f:
-            return b"\x00" not in f.read(2048)
-    except Exception:
-        return False
+        with open(path, 'rb') as f:
+            chunk = f.read(4096)
+        if b'\x00' in chunk:
+            return (False, None)
+        text = chunk.decode('utf-8', 'ignore')
+        m = TAG_RE.search(text)
+        return (True, m.group(0) if m else None)
+    except:
+        return (False, None)
+
+
+def get_text_file_info(path):
+    size = os.path.getsize(path)
+    if size >= 128 * 1024:
+        return (size, False, None, Counter())
+    is_text, first = get_file_text_hashtag(path)
+    if not is_text:
+        return (size, False, None, Counter())
+    with open(path, encoding='utf-8', errors='ignore') as f:
+        tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+    return (size, True, first, tags)
+
 
 def traverse(root="."):
-    pat = os.path.join(root, "**", "*")
-    tags_by_file, dir_sizes = {}, Counter()
-    for path in sorted(glob.glob(pat, recursive=True)):
+    files, dir_sizes, total = [], Counter(), Counter()
+    paths = glob.glob(os.path.join(root, "**", "*"), recursive=True)
+    for path in sorted(paths):
         if not os.path.isfile(path):
             continue
-        size = os.path.getsize(path)
-        if size >= 100 * 1024 or not is_text_file(path):
+        size, is_text, first, tags = get_text_file_info(path)
+        if not is_text:
             continue
-        with open(path, encoding="utf-8", errors="ignore") as f:
-            tags = Counter(t[1:].lower() for t in TAG_RE.findall(f.read()))
-        tags_by_file[path] = tags
-        d = os.path.dirname(path)
-        while d.startswith(root):
-            dir_sizes[d] += size
-            if d == root:
-                break
-            d = os.path.dirname(d)
+        files.append((path, size, first, tags))
+        dir_sizes[os.path.dirname(path)] += size
+        GLOBAL_TAGS.update(tags)
+        total.update(tags)
 
     print("FILE TREE:")
-    print(f". {dir_sizes[root] / 1024:.2f}KB")
-    total_tags = Counter()
-    for path in sorted(glob.glob(pat, recursive=True)):
-        rel = os.path.relpath(path, root)
-        depth = rel.count(os.sep) + 1
-        if os.path.isdir(path):
-            size = dir_sizes[path] / 1024
-            print(f"{'  ' * depth}{os.path.basename(path)}/ {size:.2f}KB")
-            continue
-        if path not in tags_by_file:
-            continue
-        total_tags.update(tags_by_file[path])
-        top = sorted(
-            tags_by_file[path].items(), key=lambda x: (-x[1], x[0])
-        )[:5]
-        tags = " ".join(f"{c}#{t}" for t, c in top)
-        size = os.path.getsize(path) / 1024
-        line = f"{'  ' * depth}{os.path.basename(path)} {size:.2f}KB {tags}"
-        print(line.rstrip())
+    print(f". {sum(s for _, s, _, _ in files) / 1024:.2f}KB")
+    for path, size, first, tags in files:
+        depth = os.path.relpath(path, root).count(os.sep) + 1
+        d = os.path.dirname(path)
+        if d != root:
+            dp = os.path.relpath(d, root).count(os.sep) + 1
+            name = os.path.basename(d) + "/"
+            print(f"{'  ' * dp}{name} {dir_sizes[d] / 1024:.2f}KB")
+            dir_sizes[d] = -1
+        top = " ".join(f"{c}{t}" for t, c in tags.most_common(5))
+        first = first or "-"
+        print(f"{'  ' * depth}{os.path.basename(path)} {size / 1024:.2f}KB "
+              f"{first} ({top})")
 
     print("TAG TOTALS:")
-    out = sorted(total_tags.items(), key=lambda x: (-x[1], x[0]))
-    print(" ".join(f"{c}#{t}" for t, c in out))
+    print(" ".join(f"{c}{t}" for t, c in total.most_common()))
 
-if __name__ == "__main__":
-    traverse(".")
+
+if __name__ == "__main__": traverse(".")

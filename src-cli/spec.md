@@ -3,7 +3,7 @@ tags: #Human
 --
 
 ## General
-- Read [#STIRR](../STIRR-rules.md).
+- Read [#STIRR](../STIRR-rules.md). To confirm reading rules, print hashtags of every rule.
 - Implement the `stirr` script as py with python3 shebang.
 - Just py stdlib.
 - Have py `__main__` check.
@@ -12,13 +12,11 @@ tags: #Human
   - Empty rows between functions and declarations.
 - Add one-liner comments where needed. 
 - Regex for hastags is r"(?<!\w)#[A-Za-z][\w-]*".
-- Traversal and printing of file/dir sizes in KB in py function `traverse`.
+- Sizes in KB.
+- Traversal of files/dirs in py function `traverse` that returns all info.
   - Dir size should be calculated as sum of parsed files from that folder, not filesystem size.
 - Use glob.glob() to recursevly traverse everything except hidden files.
   - Hidden files/dirs are automatically skipped by glob(), no extra code for hidden. 
-
-## Iteration 6
-- <70 LOC.
 - For each file call function `get_text_file_info`:
   - Proceed only for:
     - text files, 
@@ -58,3 +56,7 @@ TAG TOTALS:
   - Display Pass/FAIL.
   - Each test outputs file analysis to a log file in the same folder.
 - Check tests pass.
+
+## Iteration 7
+- <80 LOC.
+- Separate pure from printing functions: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.

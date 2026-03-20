@@ -4,5 +4,6 @@ set -euo pipefail
 
 trap 'echo FAIL; exit 1' ERR
 
-./stirr.#rh > test1-run.log 2>&1
+cd "$(dirname "$0")/.."
+./stirr > tests/test1-run.log 2>&1
 echo Pass

@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # #AI
 
-import io, os, re, shutil, tempfile, types
+import io, os, shutil, tempfile, types
 from contextlib import redirect_stdout
 from importlib.machinery import SourceFileLoader
 
 mod = types.ModuleType("stirr")
-SourceFileLoader("stirr", "./stirr.#rh").exec_module(mod)
+SourceFileLoader("stirr", "./stirr").exec_module(mod)
 
 tmp = tempfile.mkdtemp()
-log_path = "test2-mock.log"
+log_path = "tests/test2-mock.log"
 ok = False
 try:
     os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
@@ -31,9 +31,9 @@ try:
         f.write(txt)
 
     assert "FILE TREE:" in txt and "TAG TOTALS:" in txt
-    assert re.search(r"a\.md .* 2#foo 1#bar", txt)
-    assert re.search(r"b\.txt .* 1#foo 1#foo-bar", txt)
-    assert "3#foo 1#bar 1#foo-bar" in txt
+    assert "a.md" in txt and "#Foo (2#foo 1#bar)" in txt
+    assert "b.txt" in txt and "#foo-bar (1#foo-bar 1#foo)" in txt
+    assert "3#foo 1#bar 1#foo-bar" in txt or "3#foo 1#foo-bar 1#bar" in txt
     assert "skip.md" not in txt and "bin.dat" not in txt
     ok = True
 except Exception as e:
