@@ -48,7 +48,6 @@ FILE TREE:
 TAG TOTALS: 
 101#HC 37#RH 20#FooBar ...
 ```
-- Update test #2 to match the new specification.
 - Tests should:
   - Display Pass/FAIL.
   - Each test outputs file analysis to a log file in the same folder.

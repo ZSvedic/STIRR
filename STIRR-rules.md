@@ -1,6 +1,6 @@
 `#STIRR` (**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat) is an iterative AI dev system based on text conventions and is spec/test-driven. 
 
-`#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading the 3 pages below (~7min read). If you don't like something, just change it.
+`#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI reading the 7 rules below (~7min read). If you don't like something, just change it.
 
 ## Rules
 
@@ -34,44 +34,30 @@ To make text files manageable, use the following [convention over configuration]
     E.g. if each text file starts with owner and feature hashtags, 
     find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
-### `#GoalRL` — The end goal is human satisfaction
-Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
-- correctness, 
-- ease of use, 
-- use of open standards, 
-- maintainability, 
-- speed.  
-
-I.e. don't optimize speed if the software is not working correctly.
-
-### `#BottleneckRL` — Human is the bottleneck
-AI output is cheap. 
-Human attention is not. 
-In any workflow, the bottleneck is the human reading speed.
-Minimize total human effort and maximize `#GoalRL`.
-
-### `#FlawedRL` — AI is unreliable
-Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
-To detect errors without human review, use automated tests.  
-To reduce verbosity, specify:
-- Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating: 
-exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
-- Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
-
-### `#NeedsRL` — Humans don't know their needs
-Needs are discovered gradually by giving feedback on every iteration.  
-That also applies to legacy systems: 
-- Fully covering all legacy system behavior often exceeds `#BrevityRL` rule below.
-- Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
-
 ### `#SDD` — Specification-Driven Development
 All implementation follows from specs. 
-Because of `#NeedsRL`, start with a minimal spec for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec). 
+Start with a minimal spec, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec). 
 Keep the specification as short as possible for the given problem.
 
-### `#CodeRL` — Code spec
-Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
-Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
+  ### `#CodeRL` — Code spec
+  Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
+  Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
+
+  ### `#ShortenRL` — Be short
+  Don't repeat yourself in specs or tests, because they change with every iteration.
+  A good rule of thumb is the Rule of Fifths:
+  - Specs and tests each < 20% of code size.
+  - If they exceed that, writing code directly is faster.
+
+  ### `#JournalRL` — Journal file
+  A separate iteration journal, which can be longer, contains decisions, learnings, pivots, and experiments. 
+  It is consulted only when a spec or test decision is not clear.
+
+  ### `#CommitRL` — Commit before AI
+  Because AI tends to be code-happy, commit human edits to a [VCS](https://en.wikipedia.org/wiki/Version_control) before AI implementation.
+  That will enable:
+  - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
+  - Rolling back and changing spec, if AI output is `#FlawedRL`. 
 
 ### `#TDD` — Tests are part of the spec
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
@@ -79,32 +65,45 @@ The goal of implementation is to make all tests green.
 `#NeedsRL` also applies to tests: humans can't predict all ways software or AI can fail.
 Therefore, tests are added iteratively.
 
-### `#ShortenRL` — Be short
-Don't repeat yourself in specs or tests, because they change with every iteration.
-A good rule of thumb is the Rule of Fifths:
-- Specs and tests each < 20% of code size.
-- If they exceed that, writing code directly is faster.
-
-### `#JournalRL` — Journal file
-A separate iteration journal, which can be longer, contains decisions, learnings, pivots, and experiments. 
-It is consulted only when a spec or test decision is not clear.
-
-### `#CommitRL` — Commit before AI
-Because AI tends to be code-happy, commit human edits to a [VCS](https://en.wikipedia.org/wiki/Version_control) before AI implementation.
-That will enable:
-- Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
-- Rolling back and changing spec, if AI output is `#FlawedRL`. 
-
 ### `#ImplementRL` — AI implements code from specs so the tests pass
 After implementation, AI reports the results and learnings.  
 Implementation is stateless, meaning that the only inputs are the specs and tests.  
 Implementation is non-deterministic, meaning that different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
-### `#ReviewRL` — Human review
-[Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop) manually tests an implementation and examines code diffs. 
+### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
+Human manually tests an implementation and examines code diffs. 
 After the discovery of an issue, the required specs, tests, or the journal are updated.  
 Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [same as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
 If that happens, create hidden tests that are not part of the spec.
+
+  ### `#GoalRL` — The end goal is human satisfaction
+  Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
+  - correctness, 
+  - ease of use, 
+  - use of open standards, 
+  - maintainability, 
+  - speed.  
+
+I.e. don't optimize speed if the software is not working correctly.
+  ### `#BottleneckRL` — Human is the bottleneck
+  AI output is cheap. 
+  Human attention is not. 
+  In any workflow, the bottleneck is the human reading speed.
+  Minimize total human effort and maximize `#GoalRL`.
+
+  ### `#FlawedRL` — AI is unreliable
+  Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
+  To detect errors without human review, use automated tests.  
+  To reduce verbosity, specify:
+  - Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating: 
+  exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
+  - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
+
+  ### `#NeedsRL` — Humans don't know their needs
+  Needs are discovered gradually by giving feedback on every iteration.  
+  That also applies to legacy systems: 
+  - Fully covering all legacy system behavior often exceeds `#BrevityRL` rule below.
+  - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
 
 ### `#RepeatRL` — Repeat
 Repeat the `Specify → Test → Implement → Review` loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs have the required functionality, the tests pass, and the human has nothing to add.
