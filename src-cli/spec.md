@@ -3,14 +3,10 @@ tags: #Human
 --
 
 ## General
-- Read [#STIRR](../STIRR-rules.md). To confirm reading rules, print hashtags of every rule.
+- Read [#STIRR](../STIRR-rules.md). To confirm reading rules, repeat hashtags of every rule in the CLI coding agent.
 - Implement the `stirr` script as py with python3 shebang.
 - Just py stdlib.
 - Have py `__main__` check.
-- Min LOC, but don't cheat:
-  - LOC longer than 80 into multiple lines.
-  - Empty rows between functions and declarations.
-- Add one-liner comments where needed. 
 - Regex for hastags is r"(?<!\w)#[A-Za-z][\w-]*".
 - Sizes in KB.
 - Traversal of files/dirs in py function `traverse` that returns all info.
@@ -38,6 +34,7 @@ def get_file_text_hashtag(path):
   - Find and return file size, is_text, first hashtag, and hashtags with their frequency.
 - After processing a file, add hashtags to a global set and print in one line:
 indent_dir_depth, filename_without_path, sizeKB, first tag found, and top 5 tags in the file with frequency.
+- Separate pure from printing functions: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.
 - After all files print total tags with their frequency.
 - Don't implement anything else.
 - For example, this could be output:
@@ -57,6 +54,5 @@ TAG TOTALS:
   - Each test outputs file analysis to a log file in the same folder.
 - Check tests pass.
 
-## Iteration 7
-- <80 LOC.
-- Separate pure from printing functions: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.
+## Iteration 8
+- <100 LOC

@@ -23,13 +23,17 @@ try:
     with open(os.path.join(tmp, "sub", "bin.dat"), "wb") as f:
         f.write(b"\x00\x01\x02")
 
+    info = mod.traverse(tmp)
+    assert isinstance(info, dict) and "files" in info and "totals" in info
+
     out = io.StringIO()
     with redirect_stdout(out):
-        mod.traverse(tmp)
+        mod.print_all(info)
     txt = out.getvalue()
     with open(log_path, "w", encoding="utf-8") as f:
         f.write(txt)
 
+    assert "RULE TAGS:" in txt and "#TextRL" in txt
     assert "FILE TREE:" in txt and "TAG TOTALS:" in txt
     assert "a.md" in txt and "#Foo (2#foo 1#bar)" in txt
     assert "b.txt" in txt and "#foo-bar (1#foo-bar 1#foo)" in txt

@@ -53,7 +53,10 @@ Minimize total human effort and maximize `#GoalRL`.
 ### `#FlawedRL` — AI is unreliable
 Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
 To detect errors without human review, use automated tests.  
-To reduce verbosity, specify max [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "lines-of-code") or max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity).
+To reduce verbosity, specify:
+- Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating: 
+exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
+- Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
 ### `#NeedsRL` — Humans don't know their needs
 Needs are discovered gradually by giving feedback on every iteration.  
