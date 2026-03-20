@@ -1,7 +1,0 @@
-FILE TREE:
-. 0.03KB
-  a.md 0.01KB 2#foo 1#bar
-  sub/ 0.01KB
-    b.txt 0.01KB 1#foo 1#foo-bar
-TAG TOTALS:
-3#foo 1#bar 1#foo-bar

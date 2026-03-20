@@ -27,7 +27,7 @@ To make text files manageable, use the following [convention over configuration]
     - `#AI` - Created and modified by AI.
     
     Hashtags are specified in two ways:
-    - **Explicit** — Hashtags at the top of a text file. Usually placed in the top comment or [frontmatter](https://docs.github.com/en/contributing/writing-for-github-docs/using-yaml-frontmatter "tags: #FooBar").
+    - **Explicit** — First hashtag at the top of a text file. Usually placed in the top comment or [frontmatter](https://jekyllrb.com/docs/front-matter/ "tags: #FooBar").
     - **Implicit** — A dummy directory file named `#FooBar` sets that tag for contained files. Only option for binary files.  
     
     Explicit is better for practical reasons. 

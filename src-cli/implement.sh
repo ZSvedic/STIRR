@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# #Human
 set -euo pipefail
 
 codex exec \

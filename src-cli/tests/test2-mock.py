@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# #AI
+
 import io, os, re, shutil, tempfile, types
 from contextlib import redirect_stdout
 from importlib.machinery import SourceFileLoader
