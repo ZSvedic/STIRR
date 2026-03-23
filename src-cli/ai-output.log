@@ -1,0 +1,499 @@
+OpenAI Codex v0.115.0 (research preview)
+--------
+workdir: /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli
+model: gpt-5.3-codex
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 019d1b04-9afe-7d81-a8e2-ce52ed0f8613
+--------
+user
+Implement the spec.
+mcp startup: no servers
+codex
+I’ll locate the project spec in this repo first, then implement it and run verification steps. I’m starting by scanning files for any spec or TODO instructions.
+exec
+/bin/zsh -lc 'pwd && ls -la && rg --files | head -n 200' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli
+total 48
+drwxr-xr-x@ 8 zsvedic  staff   256 Mar 23 15:06 .
+drwxr-xr-x@ 5 zsvedic  staff   160 Mar 20 11:28 ..
+-rw-r--r--@ 1 zsvedic  staff  6148 Mar 23 14:55 .DS_Store
+-rw-r--r--@ 1 zsvedic  staff   527 Mar 23 15:06 ai-output.log
+-rwxr-xr-x@ 1 zsvedic  staff   186 Mar 20 12:46 implement.sh
+-rw-r--r--@ 1 zsvedic  staff    37 Mar 23 15:03 journal.md
+-rw-r--r--@ 1 zsvedic  staff  1546 Mar 23 15:05 spec.md
+drwxr-xr-x@ 5 zsvedic  staff   160 Mar 23 14:52 tests
+spec.md
+journal.md
+ai-output.log
+tests/test1-run.sh
+tests/test-dir/test-hashtags.txt
+tests/test-dir/#AI.#Test
+tests/test2-mock.py
+implement.sh
+exec
+/bin/zsh -lc "rg -n \"\\bspec\\b|SPEC|requirements|TODO|implement\" -S .. | head -n 200" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+../STIRR-rules.md:1:`#STIRR` (**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat) is an iterative AI dev system based on text conventions and is spec/test-driven. 
+../STIRR-rules.md:3:`#STIRR` is tool-free, meaning it works with any AI agent. It is "implemented" by humans and AI reading the 7 rules below (~7min read). If you don't like something, just change it.
+../STIRR-rules.md:38:All implementation follows from specs. 
+../STIRR-rules.md:40:- **Be short** — Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
+../STIRR-rules.md:49:- **Code spec** — Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
+../STIRR-rules.md:50:Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
+../STIRR-rules.md:59:  - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
+../STIRR-rules.md:62:Tests are part of the spec. 
+../STIRR-rules.md:63:Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
+../STIRR-rules.md:64:The goal of implementation is to make all tests green.  
+../STIRR-rules.md:67:### `#ImplementRL` — AI implementation 
+../STIRR-rules.md:68:AI implements specs in code so the tests pass.  
+../STIRR-rules.md:70:- **Use [VCS](https://en.wikipedia.org/wiki/Version_control)** — Commit human edits before AI implementation. That will enable:
+../STIRR-rules.md:72:  - Rolling back and changing spec, if AI output is flawed  
+../STIRR-rules.md:76:- **Implementation is non-deterministic** — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
+../STIRR-rules.md:79:The human manually tests an implementation and examines code diffs. 
+../STIRR-rules.md:95:If that happens, create hidden tests that are not part of the spec.
+../STIRR-rules.md:104:If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.  
+../src-cli/ai-output.log:13:Implement the spec.
+../src-cli/ai-output.log:16:I’ll locate the project spec in this repo first, then implement it and run verification steps. I’m starting by scanning files for any spec or TODO instructions.
+codex
+I found `spec.md` and test scripts in `tests/`. Next I’ll read those files and then implement exactly what they assert.
+exec
+/bin/zsh -lc "sed -n '1,200p' implement.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cliexec
+/bin/zsh -lc "sed -n '1,220p' spec.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+#!/usr/bin/env bash
+# #Human
+set -euo pipefail
+
+codex exec \
+  --dangerously-bypass-approvals-and-sandbox \
+  --skip-git-repo-check \
+  "Implement the spec." \
+  2>&1 | tee ai-output.log
+ succeeded in 0ms:
+--
+tags: #Human
+--
+
+## General
+- Read [#STIRR](../STIRR-rules.md). To confirm reading, repeat the rule tags in the CLI coding agent.
+- Implement the `stirr` script as: 
+  - py with python3 shebang.
+  - Just py stdlib.
+  - Use a py `__main__` check.
+- Example:
+```console
+> ./stirr
+FILE TREE:
+. 19.62KB
+  STIRR-rules.md 6.71KB #Human (7#HC 6#FooBar 3#Human 2#AI)
+  scripts/ 0.14KB
+    test-file.txt 0.12KB #human (...
+...
+TAG TOTALS: 
+exec
+/bin/zsh -lc "sed -n '1,200p' journal.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cliexec
+/bin/zsh -lc "sed -n '1,260p' tests/test1-run.sh" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cliexec
+/bin/zsh -lc "sed -n '1,260p' tests/test2-mock.py" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+--
+tags: #Human
+--
+
+## Iteration 1
+- 
+ succeeded in 0ms:
+#!/usr/bin/env bash
+# #Human
+set -euo pipefail
+
+trap 'echo FAIL; exit 1' ERR
+
+cd "$(dirname "$0")/.."
+./stirr > tests/test1-run.log 2>&1
+echo Pass
+ succeeded in 0ms:
+#!/usr/bin/env python3
+# #AI
+
+import io, os, shutil, tempfile, types
+from contextlib import redirect_stdout
+from importlib.machinery import SourceFileLoader
+
+mod = types.ModuleType("stirr")
+SourceFileLoader("stirr", "./stirr").exec_module(mod)
+
+tmp = tempfile.mkdtemp()
+log_path = "tests/test2-mock.log"
+ok = False
+try:
+    os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
+    os.makedirs(os.path.join(tmp, ".hidden"), exist_ok=True)
+    with open(os.path.join(tmp, "a.md"), "w", encoding="utf-8") as f:
+        f.write("#Foo #foo #Bar\n")
+    with open(os.path.join(tmp, "sub", "b.txt"), "w", encoding="utf-8") as f:
+        f.write("#foo-bar #Foo\n")
+codex
+I’ve confirmed the tests’ required output strings. I’ll now inspect `STIRR-rules.md` briefly for the rule tags and then create the `stirr` script to satisfy both the spec and tests.
+exec
+/bin/zsh -lc "sed -n '1,240p' ../STIRR-rules.md" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+`#STIRR` (**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat) is an iterative AI dev system based on text conventions and is spec/test-driven. 
+
+`#STIRR` is tool-free, meaning it works with any AI agent. It is "implemented" by humans and AI reading the 7 rules below (~7min read). If you don't like something, just change it.
+
+## Rules
+
+### `#TextRL` — Text for everything
+Because LLMs prefer plain text, use text for:
+- specs ([Markdown](https://en.wikipedia.org/wiki/Markdown)), 
+- diagrams ([Mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
+- tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
+- hierarchical data ([JSON](https://www.json.org/json-en.html), [YAML](https://yaml.org/), or [TOML](https://toml.io/en/)), 
+- scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
+- initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
+- task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
+
+Avoid specs in binary format, as they require error-prone conversion to text. 
+If you need images, use formats that multimodal LLMs understand (JPEG or PNG). 
+
+### `#ConventionRL` — Convention over configuration 
+codex
+I have enough context and will now create `./stirr` with the required functions (`traverse`, `get_file_text_hashtag`, `get_text_file_info`, `print_file_tree`, `print_file_info`, `print_hahstags`, `print_all`) and formatting that matches the tests. After that I’ll run both tests.
+exec
+/bin/zsh -lc "cat > stirr <<'PY'
+#"'!/usr/bin/env python3
+import glob, os, re
+from collections import Counter
+
+TAG_RE = re.compile(r"(?<!'"\\w)#[A-Za-z][\\w-]*\")
+RULE_TAGS = \"#TextRL #ConventionRL #SDD #TDD #ImplementRL #HITL #RepeatRL\"
+
+
+def fmt_size(n):
+    return f\"{n/1024:.2f}KB\"
+
+
+def get_file_text_hashtag(path):
+    try:
+        with open(path, 'rb') as f:
+            chunk = f.read(4096)
+        if b'\\x00' in chunk:
+            return (False, None)
+        text = chunk.decode('utf-8', 'ignore')
+        m = TAG_RE.search(text)
+        return (True, m.group(0) if m else None)
+    except:
+        return (False, None)
+
+
+def get_text_file_info(path):
+    is_text, first = get_file_text_hashtag(path)
+    try:
+        size = os.path.getsize(path)
+        if (not is_text) or size >= 128 * 1024:
+            return None
+        with open(path, encoding='utf-8', errors='ignore') as f:
+            tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+        return {\"name\": os.path.basename(path), \"path\": path, \"size\": size, \"first\": first, \"tags\": tags}
+    except:
+        return None
+
+
+def traverse(path):
+    node = {\"name\": os.path.basename(path.rstrip(os.sep)) or \".\", \"path\": path, \"size\": 0, \"dirs\": [], \"files\": [], \"totals\": Counter()}
+    for p in sorted(glob.glob(os.path.join(path, '*'))):
+        if os.path.isdir(p):
+            d = traverse(p)
+            node[\"dirs\"].append(d); node[\"size\"] += d[\"size\"]; node[\"totals\"].update(d[\"totals\"])
+        elif os.path.isfile(p):
+            fi = get_text_file_info(p)
+            if fi:
+                node[\"files\"].append(fi); node[\"size\"] += fi[\"size\"]; node[\"totals\"].update(fi[\"tags\"])
+    return node
+
+
+def print_file_info(fi, indent=''):
+    top = sorted(fi[\"tags\"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
+    top_s = ' '.join(f\"{c}{t}\" for t, c in top)
+    first = f\" {fi['first']}\" if fi[\"first\"] else ''
+    tail = f\" ({top_s})\" if top_s else ''
+    print(f\"{indent}{fi['name']} {fmt_size(fi['size'])}{first}{tail}\")
+
+
+def print_file_tree(node, indent=''):
+    label = '.' if indent == '' else f\"{node['name']}/\"
+    print(f\"{indent}{label} {fmt_size(node['size'])}\")
+    for d in node[\"dirs\"]:
+        print_file_tree(d, indent + '  ')
+    for fi in node[\"files\"]:
+        print_file_info(fi, indent + '  ')
+
+
+def print_hahstags(totals):
+    print(\"TAG TOTALS:\")
+    print(' '.join(f\"{c}{t}\" for t, c in sorted(totals.items(), key=lambda kv: (-kv[1], kv[0]))))
+
+
+def print_all(info):
+    print(\"RULE TAGS:\", RULE_TAGS)
+    print(\"FILE TREE:\")
+    print_file_tree(info)
+    print_hahstags(info[\"totals\"])
+
+
+if __name__ == '__main__':
+    print_all(traverse('.'))
+PY
+chmod +x stirr" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+
+codex
+The script is in place. I’m running both provided tests now and will adjust quickly if any assertion fails.
+exec
+/bin/zsh -lc 'python3 tests/test2-mock.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli exited 1 in 0ms:
+FAIL
+exec
+/bin/zsh -lc 'bash tests/test1-run.sh' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 299ms:
+Pass
+codex
+`test1` passed and `test2` failed. I’m checking `tests/test2-mock.log` to pinpoint the exact mismatch and patch it.
+exec
+/bin/zsh -lc "sed -n '1,260p' tests/test2-mock.log" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+RULE TAGS: #TextRL #ConventionRL #SDD #TDD #ImplementRL #HITL #RepeatRL
+FILE TREE:
+. 0.03KB
+  sub/ 0.01KB
+    b.txt 0.01KB #foo-bar (1#foo 1#foo-bar)
+  a.md 0.01KB #Foo (2#foo 1#bar)
+TAG TOTALS:
+3#foo 1#bar 1#foo-bar
+
+ERROR: 
+codex
+I found the mismatch: per-file tag tie ordering needs to follow first appearance, not alphabetical. I’m patching `stirr` to preserve tag appearance order for per-file `top 5` output.
+file update
+M /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli/stirr
+@@ -32,4 +32,7 @@
+         with open(path, encoding='utf-8', errors='ignore') as f:
+-            tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+-        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags}
++            found = [t.lower() for t in TAG_RE.findall(f.read())]
++        tags, order = Counter(found), {}
++        for i, t in enumerate(found):
++            order.setdefault(t, i)
++        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags, "order": order}
+     except:
+@@ -52,3 +55,3 @@
+ def print_file_info(fi, indent=''):
+-    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
++    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], fi["order"].get(kv[0], 10**9), kv[0]))[:5]
+     top_s = ' '.join(f"{c}{t}" for t, c in top)
+apply_patch(auto_approved=true) exited 0 in 18ms:
+Success. Updated the following files:
+M stirr
+file update:
+diff --git a/STIRR/src-cli/stirr b/STIRR/src-cli/stirr
+index 7fc25130241415b106cf3421ce076652b56e29fd..6b0c669de814653795a8ef6a7590501152ef8288
+--- a/STIRR/src-cli/stirr
++++ b/STIRR/src-cli/stirr
+@@ -30,8 +30,11 @@
+         if (not is_text) or size >= 128 * 1024:
+             return None
+         with open(path, encoding='utf-8', errors='ignore') as f:
+-            tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+-        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags}
++            found = [t.lower() for t in TAG_RE.findall(f.read())]
++        tags, order = Counter(found), {}
++        for i, t in enumerate(found):
++            order.setdefault(t, i)
++        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags, "order": order}
+     except:
+         return None
+ 
+@@ -50,7 +53,7 @@
+ 
+ 
+ def print_file_info(fi, indent=''):
+-    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
++    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], fi["order"].get(kv[0], 10**9), kv[0]))[:5]
+     top_s = ' '.join(f"{c}{t}" for t, c in top)
+     first = f" {fi['first']}" if fi["first"] else ''
+     tail = f" ({top_s})" if top_s else ''
+
+file update:
+diff --git a/STIRR/src-cli/stirr b/STIRR/src-cli/stirr
+index 7fc25130241415b106cf3421ce076652b56e29fd..6b0c669de814653795a8ef6a7590501152ef8288
+--- a/STIRR/src-cli/stirr
++++ b/STIRR/src-cli/stirr
+@@ -30,8 +30,11 @@
+         if (not is_text) or size >= 128 * 1024:
+             return None
+         with open(path, encoding='utf-8', errors='ignore') as f:
+-            tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+-        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags}
++            found = [t.lower() for t in TAG_RE.findall(f.read())]
++        tags, order = Counter(found), {}
++        for i, t in enumerate(found):
++            order.setdefault(t, i)
++        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags, "order": order}
+     except:
+         return None
+ 
+@@ -50,7 +53,7 @@
+ 
+ 
+ def print_file_info(fi, indent=''):
+-    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
++    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], fi["order"].get(kv[0], 10**9), kv[0]))[:5]
+     top_s = ' '.join(f"{c}{t}" for t, c in top)
+     first = f" {fi['first']}" if fi["first"] else ''
+     tail = f" ({top_s})" if top_s else ''
+
+exec
+/bin/zsh -lc 'bash tests/test1-run.sh' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+Pass
+exec
+/bin/zsh -lc 'python3 tests/test2-mock.py' in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+Pass
+file update:
+diff --git a/STIRR/src-cli/stirr b/STIRR/src-cli/stirr
+index 7fc25130241415b106cf3421ce076652b56e29fd..6b0c669de814653795a8ef6a7590501152ef8288
+--- a/STIRR/src-cli/stirr
++++ b/STIRR/src-cli/stirr
+@@ -30,8 +30,11 @@
+         if (not is_text) or size >= 128 * 1024:
+             return None
+         with open(path, encoding='utf-8', errors='ignore') as f:
+-            tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+-        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags}
++            found = [t.lower() for t in TAG_RE.findall(f.read())]
++        tags, order = Counter(found), {}
++        for i, t in enumerate(found):
++            order.setdefault(t, i)
++        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags, "order": order}
+     except:
+         return None
+ 
+@@ -50,7 +53,7 @@
+ 
+ 
+ def print_file_info(fi, indent=''):
+-    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
++    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], fi["order"].get(kv[0], 10**9), kv[0]))[:5]
+     top_s = ' '.join(f"{c}{t}" for t, c in top)
+     first = f" {fi['first']}" if fi["first"] else ''
+     tail = f" ({top_s})" if top_s else ''
+
+codex
+Both tests are now passing. I’ll do one final quick compliance check (`<90 LOC` and required function names) before I finish.
+exec
+/bin/zsh -lc "nl -ba stirr | sed -n '1,220p' && echo '---' && rg -n \"def (get_file_text_hashtag|get_text_file_info|traverse|print_file_tree|print_file_info|print_hahstags|print_all)\\b\" stirr" in /Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli succeeded in 0ms:
+     1	#!/usr/bin/env python3
+     2	import glob, os, re
+     3	from collections import Counter
+     4	
+     5	TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+     6	RULE_TAGS = "#TextRL #ConventionRL #SDD #TDD #ImplementRL #HITL #RepeatRL"
+     7	
+     8	
+     9	def fmt_size(n):
+    10	    return f"{n/1024:.2f}KB"
+    11	
+    12	
+    13	def get_file_text_hashtag(path):
+    14	    try:
+    15	        with open(path, 'rb') as f:
+    16	            chunk = f.read(4096)
+    17	        if b'\x00' in chunk:
+    18	            return (False, None)
+    19	        text = chunk.decode('utf-8', 'ignore')
+    20	        m = TAG_RE.search(text)
+file update:
+diff --git a/STIRR/src-cli/stirr b/STIRR/src-cli/stirr
+index 7fc25130241415b106cf3421ce076652b56e29fd..6b0c669de814653795a8ef6a7590501152ef8288
+--- a/STIRR/src-cli/stirr
++++ b/STIRR/src-cli/stirr
+@@ -30,8 +30,11 @@
+         if (not is_text) or size >= 128 * 1024:
+             return None
+         with open(path, encoding='utf-8', errors='ignore') as f:
+-            tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+-        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags}
++            found = [t.lower() for t in TAG_RE.findall(f.read())]
++        tags, order = Counter(found), {}
++        for i, t in enumerate(found):
++            order.setdefault(t, i)
++        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags, "order": order}
+     except:
+         return None
+ 
+@@ -50,7 +53,7 @@
+ 
+ 
+ def print_file_info(fi, indent=''):
+-    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
++    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], fi["order"].get(kv[0], 10**9), kv[0]))[:5]
+     top_s = ' '.join(f"{c}{t}" for t, c in top)
+     first = f" {fi['first']}" if fi["first"] else ''
+     tail = f" ({top_s})" if top_s else ''
+
+codex
+Implemented the spec by adding [`stirr`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli/stirr).
+
+What’s included:
+- Python3 shebang, stdlib-only, `__main__` entrypoint.
+- Required regex: `r"(?<!\w)#[A-Za-z][\w-]*"`.
+- Required functions: `get_file_text_hashtag`, `get_text_file_info`, `traverse`, `print_file_tree`, `print_file_info`, `print_hahstags`, `print_all`.
+- Recursive traversal via `glob.glob(...)`, skipping hidden entries by pattern behavior.
+- Text-file filtering with binary check and `<128KB` cutoff.
+- Per-file top 5 tags and total tag frequencies output.
+- `RULE TAGS:` output includes `#TextRL` and other STIRR rule tags.
+- Script is under 90 LOC (85 lines).
+
+Validation:
+- `bash tests/test1-run.sh` -> Pass
+- `python3 tests/test2-mock.py` -> Pass
+file update:
+diff --git a/STIRR/src-cli/stirr b/STIRR/src-cli/stirr
+index 7fc25130241415b106cf3421ce076652b56e29fd..6b0c669de814653795a8ef6a7590501152ef8288
+--- a/STIRR/src-cli/stirr
++++ b/STIRR/src-cli/stirr
+@@ -30,8 +30,11 @@
+         if (not is_text) or size >= 128 * 1024:
+             return None
+         with open(path, encoding='utf-8', errors='ignore') as f:
+-            tags = Counter(t.lower() for t in TAG_RE.findall(f.read()))
+-        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags}
++            found = [t.lower() for t in TAG_RE.findall(f.read())]
++        tags, order = Counter(found), {}
++        for i, t in enumerate(found):
++            order.setdefault(t, i)
++        return {"name": os.path.basename(path), "path": path, "size": size, "first": first, "tags": tags, "order": order}
+     except:
+         return None
+ 
+@@ -50,7 +53,7 @@
+ 
+ 
+ def print_file_info(fi, indent=''):
+-    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
++    top = sorted(fi["tags"].items(), key=lambda kv: (-kv[1], fi["order"].get(kv[0], 10**9), kv[0]))[:5]
+     top_s = ' '.join(f"{c}{t}" for t, c in top)
+     first = f" {fi['first']}" if fi["first"] else ''
+     tail = f" ({top_s})" if top_s else ''
+
+tokens used
+28,873
+Implemented the spec by adding [`stirr`](/Users/zsvedic/LOCAL/CODE-2026/Inge-Zel-repo/STIRR/src-cli/stirr).
+
+What’s included:
+- Python3 shebang, stdlib-only, `__main__` entrypoint.
+- Required regex: `r"(?<!\w)#[A-Za-z][\w-]*"`.
+- Required functions: `get_file_text_hashtag`, `get_text_file_info`, `traverse`, `print_file_tree`, `print_file_info`, `print_hahstags`, `print_all`.
+- Recursive traversal via `glob.glob(...)`, skipping hidden entries by pattern behavior.
+- Text-file filtering with binary check and `<128KB` cutoff.
+- Per-file top 5 tags and total tag frequencies output.
+- `RULE TAGS:` output includes `#TextRL` and other STIRR rule tags.
+- Script is under 90 LOC (85 lines).
+
+Validation:
+- `bash tests/test1-run.sh` -> Pass
+- `python3 tests/test2-mock.py` -> Pass

@@ -45,6 +45,7 @@ A good rule of thumb is the Rule of Fifths:
 - **Example is worth a thousand words** — LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
 Give multiple examples and AI will infer a generalization.
 Examples are in [text](#textrl--text-for-everything) with irrelevant parts shortened with `...`, AI can figure it out. 
+Bootstrap examples using modified outputs from each iteration for the next. 
 
 - **Code spec** — Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
 Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 

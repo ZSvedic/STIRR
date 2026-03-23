@@ -1,0 +1,8 @@
+RULE TAGS: #TextRL #ConventionRL #SDD #TDD #ImplementRL #HITL #RepeatRL
+FILE TREE:
+. 0.03KB
+  sub/ 0.01KB
+    b.txt 0.01KB #foo-bar (1#foo-bar 1#foo)
+  a.md 0.01KB #Foo (2#foo 1#bar)
+TAG TOTALS:
+3#foo 1#bar 1#foo-bar

@@ -3,7 +3,7 @@ tags: #Human
 --
 
 ## General
-- Read [#STIRR](../STIRR-rules.md). To confirm reading, repeat the rule tags in the CLI coding agent.
+- Read [#STIRR](../STIRR-rules.md). 
 - Implement the `stirr` script as: 
   - py with python3 shebang.
   - Just py stdlib.
@@ -43,5 +43,17 @@ def get_file_text_hashtag(path):
 - Print tags and frequencies: top 5 per file, in the end all tags.
 - Tests display Pass/FAIL, each test outputs analysis to a log file in the `tests` folder.
 
-## Iteration 1
-- stirr script <90 LOC.
+## Iteration 2
+- Display usage and accept args, e.g. (improve):
+```console
+> ./stirr -h
+USAGE: 
+  stirr [--dry-run] [PATH ...]
+  stirr --help
+
+  <PATH> ...
+      A file(s)/dir(s) to check. 
+  ...
+```
+- Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
+- stirr script <99 LOC, not counting blanks, comments, and docstrings.
