@@ -1,9 +1,0 @@
-RULE TAGS:
-#TextRL #ConventionRL #GoalRL #BottleneckRL #FlawedRL #NeedsRL #SDD #CodeRL #TDD #ShortenRL #JournalRL #CommitRL #ImplementRL #ReviewRL #RepeatRL
-FILE TREE:
-. 0.03KB
-  a.md 0.01KB #Foo (2#foo 1#bar)
-  sub/ 0.01KB
-    b.txt 0.01KB #foo-bar (1#foo-bar 1#foo)
-TAG TOTALS:
-3#foo 1#bar 1#foo-bar
