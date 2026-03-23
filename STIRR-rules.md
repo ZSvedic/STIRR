@@ -98,7 +98,7 @@ If that happens, create hidden tests that are not part of the spec.
 Repeat the `Specify→Test→Implement→Review` loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs have the required functionality, the tests pass, and the human has nothing to add.
 
 ## Next steps
-Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or it as an [agent skill](https://agentskills.io/home).  
-To check compliance, run `./stirr` script.  
-Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
+- Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or it as an [agent skill](https://agentskills.io/home).  
+- To check compliance, run `./stirr` script.  
+- Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
 If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.  
