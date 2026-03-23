@@ -88,8 +88,7 @@ Human attention is not.
 In any workflow, the bottleneck is the human reading speed.
 Minimize total human effort and maximize the end goal.
 
-- **AI is unreliable** — Wrong or verbose AI outputs cause the human bottleneck problem.  
-To detect errors without human review, use automated tests.  
+- **AI is verbose** — The more AI outputs, the bigger the human bottleneck problem.  
 To reduce verbosity, specify:
   - Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating: 
   exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
