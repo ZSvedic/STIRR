@@ -53,14 +53,18 @@ Code spec is used for critical parts, snippets shorter than their natural langua
 It contains decisions, learnings, pivots, and experiments. 
 It is loaded in context only when a history of decisions is needed.
 
+- **Humans don't know their needs** — Needs are discovered gradually through feedback in each iteration. 
+That also applies to legacy systems: 
+  - Fully covering all legacy system behavior produces specs that are too long.
+  - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
+
 ### `#TDD` — Test-Driven Development
 Tests are part of the spec. 
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
 The goal of implementation is to make all tests green.  
-`#NeedsRL` also applies to tests: humans can't predict all ways software or AI can fail.
-Therefore, tests are added iteratively.
+Humans can't predict all ways software or AI can fail. Therefore, tests are added iteratively.
 
-### `#ImplementRL` — AI implements code from specs so the tests pass
+### `#ImplementRL` — AI implements specs so the tests pass
 Before AI implementation, commit human edits to a [VCS](https://en.wikipedia.org/wiki/Version_control).
 That will enable:
 - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
@@ -73,8 +77,6 @@ Implementation is non-deterministic, meaning different AIs will generate differe
 ### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
 The human manually tests an implementation and examines code diffs. 
 After discovering an issue, the required specs, tests, or the journal are updated. 
-Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
-If that happens, create hidden tests that are not part of the spec.
 
 - **The end goal is human satisfaction** — Long-term satisfaction of software users and maintainers depends on, 
 in the decreasing order of importance: correctness, ease of use, use of open standards, maintainability, and speed.  
@@ -92,10 +94,8 @@ To reduce verbosity, specify:
   exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
   - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
-- **Humans don't know their needs** — Needs are discovered gradually through feedback in each iteration. 
-That also applies to legacy systems: 
-  - Fully covering all legacy system behavior produces specs that are too long.
-  - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
+- **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
+If that happens, create hidden tests that are not part of the spec.
 
 ### `#RepeatRL` — Repeat
 Repeat the `Specify→Test→Implement→Review` loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs have the required functionality, the tests pass, and the human has nothing to add.
