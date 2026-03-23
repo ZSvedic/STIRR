@@ -76,32 +76,29 @@ After the discovery of an issue, the required specs, tests, or the journal are u
 Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [same as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
 If that happens, create hidden tests that are not part of the spec.
 
-- **The end goal is human satisfaction**
-Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
-- correctness, 
-- ease of use, 
-- use of open standards, 
-- maintainability, 
-- speed.  
+- **The end goal is human satisfaction** — Long-term satisfaction of software users and maintainers depends on, 
+in the decreasing order of importance: 
+  - correctness, 
+  - ease of use, 
+  - use of open standards, 
+  - maintainability, 
+  - speed.  
 
 I.e. don't optimize speed if the software is not working correctly.
 
-- **Human is the bottleneck**
-AI output is cheap. 
+- **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.
 Minimize total human effort and maximize the end goal.
 
-- **AI is unreliable**
-Wrong or verbose AI outputs cause the human bottleneck problem.  
+- **AI is unreliable** — Wrong or verbose AI outputs cause the human bottleneck problem.  
 To detect errors without human review, use automated tests.  
 To reduce verbosity, specify:
 - Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating: 
 exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
 - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
-- **Humans don't know their needs**
-Needs are discovered gradually by giving feedback on every iteration.  
+- **Humans don't know their needs** — Needs are discovered gradually by giving feedback on every iteration.  
 That also applies to legacy systems: 
 - Fully covering all legacy system behavior produces specs that are too long.
 - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
