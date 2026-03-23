@@ -44,7 +44,7 @@ A good rule of thumb is the Rule of Fifths:
 
 - **Example is worth a thousand words** — LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
 Give multiple examples and AI will infere a generalization.
-Examples are in [text](#textrl--text-for-everything) but irrelevant parts shortened with `...`, AI can figure it out. 
+Examples are in [text](#textrl--text-for-everything) but with irrelevant parts shortened with `...`, AI can figure it out. 
 
 - **Code spec** — Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
 Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
@@ -54,6 +54,7 @@ It contains decisions, learnings, pivots, and experiments.
 It is loaded in context only when a history of decisions is needed.
 
 ### `#TDD` — Test-Driven Development
+Tests are part of the spec. 
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
 The goal of implementation is to make all tests green.  
 `#NeedsRL` also applies to tests: humans can't predict all ways software or AI can fail.
@@ -64,6 +65,7 @@ Before AI implementation, commit human edits to a [VCS](https://en.wikipedia.org
 That will enable:
 - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
 - Rolling back and changing spec, if AI output is flawed  
+
 After implementation, AI reports the results and learnings.  
 Implementation is stateless, meaning that the inputs are the specs and tests.  
 Implementation is non-deterministic, meaning that different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
