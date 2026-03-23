@@ -20,19 +20,19 @@ If you need images, use formats that multimodal LLMs understand (JPEG or PNG).
 ### `#ConventionRL` — Convention over configuration 
 To make text files manageable, use the following [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration):
 
-  - **Hashtags** — Terms are identified by case-insensitive `#FooBar` hashtags. 
+- **Hashtags** — Terms are identified by case-insensitive `#FooBar` hashtags. 
 
-  - **Separation of ownership** — AI work is separated from human work via hashtags:
-    - `#Human` - Created or reviewed by human.
-    - `#AI` - Created and modified by AI.
-    
-    Hashtags are specified in two ways:
-    - **Explicit** — First hashtag at the top of a text file. Usually placed in the top comment or [frontmatter](https://jekyllrb.com/docs/front-matter/ "tags: #FooBar").
-    - **Implicit** — A dummy directory file named `#FooBar` sets that tag for contained files. Only option for binary files.  
-    
-    Explicit is better for practical reasons. 
-    E.g. if each text file starts with owner and feature hashtags, 
-    find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
+- **Separation of ownership** — AI work is separated from human work via hashtags:
+  - `#Human` - Created or reviewed by human.
+  - `#AI` - Created and modified by AI.
+  
+- **Referencing hastags** — Hashtags are specified in two ways:
+  - **Explicit** — First hashtag at the top of a text file. Usually placed in the top comment or [frontmatter](https://jekyllrb.com/docs/front-matter/ "tags: #FooBar").
+  - **Implicit** — A dummy directory file named `#FooBar` sets that tag for contained files. Only option for binary files.  
+  
+  Explicit is better for practical reasons. 
+  E.g. if each text file starts with owner and feature hashtags, 
+  find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
 ### `#SDD` — Specification-Driven Development
 All implementation follows from specs. 
