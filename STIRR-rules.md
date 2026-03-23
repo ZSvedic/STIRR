@@ -35,7 +35,10 @@ To make text files manageable, use the following [convention over configuration]
     find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
 ### `#SDD` — Specification-Driven Development
-All implementation follows from specs. Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec). 
+All implementation follows from specs. 
+
+- **Be short**
+Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
 A good rule of thumb is the Rule of Fifths:
 - Specs and tests each <20% of code size.
 - If they exceed that, writing code directly is faster.
@@ -50,8 +53,9 @@ Code is often part of the spec, either embedded or in a separate file with `#Hum
 Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
 
 - **Journal file**
-A separate iteration journal, which can be longer, contains decisions, learnings, pivots, and experiments. 
-It is consulted only when a spec or test decision is not clear.
+A separate, append-only iteration journal can be longer.
+It contains decisions, learnings, pivots, and experiments. 
+It is loaded in context only when a history of decisions is needed.
 
 ### `#TDD` — Test-Driven Development
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
