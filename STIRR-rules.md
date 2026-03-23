@@ -40,8 +40,8 @@ All implementation follows from specs.
 - **Be short**
 Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
 A good rule of thumb is the Rule of Fifths:
-- Specs and tests each <20% of code size.
-- If they exceed that, writing code directly is faster.
+  - Specs and tests each <20% of code size.
+  - If they exceed that, writing code directly is faster.
 
 - **Example is worth a thousand words**
 LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
