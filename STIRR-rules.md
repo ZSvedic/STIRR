@@ -35,39 +35,37 @@ To make text files manageable, use the following [convention over configuration]
     find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
 ### `#SDD` — Specification-Driven Development
-All implementation follows from specs. 
-Start with a minimal spec, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec). 
-Keep the specification as short as possible for the given problem.
+All implementation follows from specs. Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec). 
+A good rule of thumb is the Rule of Fifths:
+- Specs and tests each <20% of code size.
+- If they exceed that, writing code directly is faster.
 
-  ### `#CodeRL` — Code spec
+  - **Example is worth a thousand words**
+  LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
+  Give multiple examples and AI will infere a generalization.
+  Examples are in [text](#textrl--text-for-everything) but irrelevant parts shortened with `...`, AI can figure it out.
+
+  — **Code spec**
   Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
   Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
 
-  ### `#ShortenRL` — Be short
-  Don't repeat yourself in specs or tests, because they change with every iteration.
-  A good rule of thumb is the Rule of Fifths:
-  - Specs and tests each < 20% of code size.
-  - If they exceed that, writing code directly is faster.
-
-  ### `#JournalRL` — Journal file
+  - **Journal file**
   A separate iteration journal, which can be longer, contains decisions, learnings, pivots, and experiments. 
   It is consulted only when a spec or test decision is not clear.
 
-  ### `#CommitRL` — Commit before AI
-  Because AI tends to be code-happy, commit human edits to a [VCS](https://en.wikipedia.org/wiki/Version_control) before AI implementation.
-  That will enable:
-  - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
-  - Rolling back and changing spec, if AI output is `#FlawedRL`. 
-
-### `#TDD` — Tests are part of the spec
+### `#TDD` — Test-Driven Development
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
 The goal of implementation is to make all tests green.  
 `#NeedsRL` also applies to tests: humans can't predict all ways software or AI can fail.
 Therefore, tests are added iteratively.
 
 ### `#ImplementRL` — AI implements code from specs so the tests pass
+Before AI implementation, commit human edits to a [VCS](https://en.wikipedia.org/wiki/Version_control).
+That will enable:
+- Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
+- Rolling back and changing spec, if AI output is flawed  
 After implementation, AI reports the results and learnings.  
-Implementation is stateless, meaning that the only inputs are the specs and tests.  
+Implementation is stateless, meaning that the inputs are the specs and tests.  
 Implementation is non-deterministic, meaning that different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
 ### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
@@ -76,7 +74,7 @@ After the discovery of an issue, the required specs, tests, or the journal are u
 Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [same as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
 If that happens, create hidden tests that are not part of the spec.
 
-  ### `#GoalRL` — The end goal is human satisfaction
+  — **The end goal is human satisfaction**
   Long-term satisfaction of software users and maintainers depends on, in the decreasing order of importance: 
   - correctness, 
   - ease of use, 
@@ -84,25 +82,26 @@ If that happens, create hidden tests that are not part of the spec.
   - maintainability, 
   - speed.  
 
-I.e. don't optimize speed if the software is not working correctly.
-  ### `#BottleneckRL` — Human is the bottleneck
+  I.e. don't optimize speed if the software is not working correctly.
+
+  — **Human is the bottleneck**
   AI output is cheap. 
   Human attention is not. 
   In any workflow, the bottleneck is the human reading speed.
-  Minimize total human effort and maximize `#GoalRL`.
+  Minimize total human effort and maximize the end goal.
 
-  ### `#FlawedRL` — AI is unreliable
-  Wrong or verbose AI outputs cause the `#BottleneckRL` problem.  
+  — **AI is unreliable**
+  Wrong or verbose AI outputs cause the human bottleneck problem.  
   To detect errors without human review, use automated tests.  
   To reduce verbosity, specify:
   - Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating: 
   exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
   - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
-  ### `#NeedsRL` — Humans don't know their needs
+  — **Humans don't know their needs**
   Needs are discovered gradually by giving feedback on every iteration.  
   That also applies to legacy systems: 
-  - Fully covering all legacy system behavior often exceeds `#BrevityRL` rule below.
+  - Fully covering all legacy system behavior produces specs that are too long.
   - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
 
 ### `#RepeatRL` — Repeat
