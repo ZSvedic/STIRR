@@ -53,7 +53,7 @@ Code spec is used for critical parts, snippets shorter than their natural langua
 It contains decisions, learnings, pivots, and experiments. 
 It is loaded in context only when a history of decisions is needed.
 
-- **Humans don't know their needs** — Needs are discovered gradually through feedback in each iteration. 
+- **Humans don't know their needs** — Needs are discovered gradually through feedback in each iteration.  
 That also applies to legacy systems: 
   - Fully covering all legacy system behavior produces specs that are too long.
   - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
