@@ -85,9 +85,9 @@ I.e. don't optimize speed if the software is not working correctly.
 
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
-In any workflow, the bottleneck is the human reading speed.
+In any workflow, the bottleneck is the human reading speed.  
 To reduce AI verbosity, specify:
-  - Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating: 
+  - Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating:  
   exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
   - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
