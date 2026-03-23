@@ -84,7 +84,7 @@ in the decreasing order of importance:
   - maintainability, 
   - speed.  
 
-I.e. don't optimize speed if the software is not working correctly.
+  I.e. don't optimize speed if the software is not working correctly.
 
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
