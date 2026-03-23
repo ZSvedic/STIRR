@@ -87,8 +87,8 @@ I.e. don't optimize speed if the software is not working correctly.
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.  
 To reduce AI verbosity, specify:
-  - Max logical lines-of-code ([LOC](https://en.wikipedia.org/wiki/Source_lines_of_code)) without cheating:  
-  exclude blanks and comments (humans need them), break lines at 80-char limit, no line-packing, etc. 
+  - Max logical [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "lines-of-code") without cheating:  
+  exclude blanks and comments, break lines at 80-char limit, no line-packing, etc. 
   - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
 - **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
