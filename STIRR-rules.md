@@ -40,18 +40,18 @@ A good rule of thumb is the Rule of Fifths:
 - Specs and tests each <20% of code size.
 - If they exceed that, writing code directly is faster.
 
-  - **Example is worth a thousand words**
-  LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
-  Give multiple examples and AI will infere a generalization.
-  Examples are in [text](#textrl--text-for-everything) but irrelevant parts shortened with `...`, AI can figure it out. 
+- **Example is worth a thousand words**
+LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
+Give multiple examples and AI will infere a generalization.
+Examples are in [text](#textrl--text-for-everything) but irrelevant parts shortened with `...`, AI can figure it out. 
 
-  — **Code spec**
-  Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
-  Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
+- **Code spec**
+Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
+Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
 
-  - **Journal file**
-  A separate iteration journal, which can be longer, contains decisions, learnings, pivots, and experiments. 
-  It is consulted only when a spec or test decision is not clear.
+- **Journal file**
+A separate iteration journal, which can be longer, contains decisions, learnings, pivots, and experiments. 
+It is consulted only when a spec or test decision is not clear.
 
 ### `#TDD` — Test-Driven Development
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
