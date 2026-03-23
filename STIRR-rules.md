@@ -64,15 +64,16 @@ Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-pattern
 The goal of implementation is to make all tests green.  
 Humans can't predict all ways software or AI can fail. Therefore, tests are added iteratively.
 
-### `#ImplementRL` — AI implements specs so the tests pass
-Before AI implementation, commit human edits to a [VCS](https://en.wikipedia.org/wiki/Version_control).
-That will enable:
-- Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
-- Rolling back and changing spec, if AI output is flawed  
+### `#ImplementRL` — AI implementation 
+AI implements specs in code so the tests pass.  
 
-After implementation, AI reports the results and learnings.  
-Implementation is stateless, meaning the inputs are the specs and tests.  
-Implementation is non-deterministic, meaning different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
+- **Use [VCS](https://en.wikipedia.org/wiki/Version_control)** — Commit human edits before AI implementation. That will enable:
+  - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
+  - Rolling back and changing spec, if AI output is flawed  
+
+- **Implementation is stateless** — the inputs are the specs and tests.  
+
+- **Implementation is non-deterministic** — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
 ### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
 The human manually tests an implementation and examines code diffs. 
