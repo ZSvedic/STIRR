@@ -37,23 +37,19 @@ To make text files manageable, use the following [convention over configuration]
 ### `#SDD` — Specification-Driven Development
 All implementation follows from specs. 
 
-- **Be short**
-Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
+- **Be short** — Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
 A good rule of thumb is the Rule of Fifths:
   - Specs and tests each <20% of code size.
   - If they exceed that, writing code directly is faster.
 
-- **Example is worth a thousand words**
-LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
+- **Example is worth a thousand words** — LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
 Give multiple examples and AI will infere a generalization.
 Examples are in [text](#textrl--text-for-everything) but irrelevant parts shortened with `...`, AI can figure it out. 
 
-- **Code spec**
-Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
+- **Code spec** — Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
 Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
 
-- **Journal file**
-A separate, append-only iteration journal can be longer.
+- **Journal file** — A separate, append-only iteration journal can be longer.
 It contains decisions, learnings, pivots, and experiments. 
 It is loaded in context only when a history of decisions is needed.
 
