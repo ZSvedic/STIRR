@@ -20,7 +20,7 @@ If you need images, use formats that multimodal LLMs understand (JPEG or PNG).
 ### `#ConventionRL` — Convention over configuration 
 To make text files manageable, use the following [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration):
 
-  - **Hashtags** — Terms are identified by `#FooBar` hashtags, are case-insensitive, and are referenced in text or code. 
+  - **Hashtags** — Terms are identified by case-insensitive `#FooBar` hashtags. 
 
   - **Separation of ownership** — AI work is separated from human work via hashtags:
     - `#Human` - Created or reviewed by human.
@@ -43,7 +43,7 @@ A good rule of thumb is the Rule of Fifths:
   - **Example is worth a thousand words**
   LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
   Give multiple examples and AI will infere a generalization.
-  Examples are in [text](#textrl--text-for-everything) but irrelevant parts shortened with `...`, AI can figure it out.
+  Examples are in [text](#textrl--text-for-everything) but irrelevant parts shortened with `...`, AI can figure it out. 
 
   — **Code spec**
   Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
