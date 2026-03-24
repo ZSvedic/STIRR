@@ -1,0 +1,11 @@
+DRY RUN
+RULE TAGS: #TextRL #ConventionRL #SDD #TDD #ImplementRL #HITL #RepeatRL
+FILE TREE:
+test-dir/ 0.08KB
+  #AI.#Test 0.00KB -
+  test-hashtags.txt 0.08KB #human (4#foo 3#foobar 2#bar 1#human 1#foo-bar)
+TAG TOTALS:
+4#foo 3#foobar 2#bar 1#foo-bar 1#human
+API KEYS:
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
