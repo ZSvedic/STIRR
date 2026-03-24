@@ -5,8 +5,8 @@ import io, os, shutil, tempfile, types
 from contextlib import redirect_stdout
 from importlib.machinery import SourceFileLoader
 
-mod = types.ModuleType("stirr")
-SourceFileLoader("stirr", "./stirr").exec_module(mod)
+mod = types.ModuleType("stirr.py")
+SourceFileLoader("stirr.py", "./stirr.py").exec_module(mod)
 
 tmp = tempfile.mkdtemp()
 log_path = "tests/test2-mock.log"

@@ -41,10 +41,7 @@ def get_file_text_hashtag(path):
 - For each file call function `get_text_file_info`, proceed only for text files smaller than <128KB. 
 - Separate pure from printing functions: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.
 - Print tags and frequencies: top 5 per file, in the end all tags.
-- Tests display Pass/FAIL, each test outputs analysis to a log file in the `tests` folder.
-
-## Iteration 2
-- Display usage and accept args, e.g. (improve):
+- Display usage and accept args, e.g.:
 ```console
 > ./stirr.py -h
 USAGE: 
@@ -55,7 +52,8 @@ USAGE:
       A file(s)/dir(s) to check. 
   ...
 ```
-- Create bash test3-help.sh to check if either -h, --help, or calling without PATH, displays help by searching for "USAGE:".
-- Create bash test4-dry-run.sh to check if "--dry-run" displays file tree by searching for "test-dir", "test-hashtags.txt", and "#FooBar".
 - Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
-- Use [lizard](lizard-filter.py) to check `stirr.py` script has SumToken <1000. 
+- Use [lizard](lizard-filter.py) to check `stirr.py`:
+  - SumToken <800
+  - NLOC <120 
+- Tests display Pass/FAIL, each test outputs analysis to a log file in the `tests` folder.
