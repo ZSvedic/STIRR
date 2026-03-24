@@ -4,13 +4,13 @@ tags: #Human
 
 ## General
 - Read [#STIRR](../STIRR-rules.md). 
-- Implement the `stirr` script as: 
+- Implement the `stirr.py` script as: 
   - py with python3 shebang.
   - Just py stdlib.
   - Use a py `__main__` check.
 - Example:
 ```console
-> ./stirr
+> ./stirr.py
 FILE TREE:
 . 19.62KB
   STIRR-rules.md 6.71KB #Human (7#HC 6#FooBar 3#Human 2#AI)
@@ -46,14 +46,16 @@ def get_file_text_hashtag(path):
 ## Iteration 2
 - Display usage and accept args, e.g. (improve):
 ```console
-> ./stirr -h
+> ./stirr.py -h
 USAGE: 
-  stirr [--dry-run] [PATH ...]
-  stirr --help
+  stirr.py [--dry-run] PATH1 [PATH2 ...]
+  stirr.py --help
 
-  <PATH> ...
+  <PATHx> ...
       A file(s)/dir(s) to check. 
   ...
 ```
+- Create bash test3-help.sh to check if either -h, --help, or calling without PATH, displays help by searching for "USAGE:".
+- Create bash test4-dry-run.sh to check if "--dry-run" displays file tree by searching for "test-dir", "test-hashtags.txt", and "#FooBar".
 - Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
-- stirr script <99 LOC, not counting blanks, comments, and docstrings.
+- Use [lizard](lizard-filter.py) to check `stirr.py` script has SumToken <1000. 

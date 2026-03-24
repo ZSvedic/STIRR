@@ -72,8 +72,6 @@ AI implements specs in code so the tests pass.
   - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
   - Rolling back and changing spec, if AI output is flawed  
 
-- **Implementation is stateless** — the inputs are the specs and tests.  
-
 - **Implementation is non-deterministic** — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
 ### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
@@ -87,9 +85,9 @@ I.e. don't optimize speed if the software is not working correctly.
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.  
-To reduce AI verbosity, specify:
-  - Max logical [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "lines-of-code") without cheating:  
-  exclude blanks and comments, break lines at 80-char limit, no line-packing, etc. 
+To reduce AI verbosity, use code complexity analyser (e.g. [lizard](https://github.com/terryyin/lizard)) and specify:
+  - Max NLOC (lines of code without comments),
+  - Max lexical tokens (operators + operands), or 
   - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
 
 - **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
