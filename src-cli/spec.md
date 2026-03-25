@@ -2,26 +2,39 @@
 tags: #Human
 --
 
-## General
 - Read [#STIRR](../STIRR-rules.md). 
-- Implement the `stirr.py` script as: 
-  - py with python3 shebang.
-  - Just py stdlib.
-  - Use a py `__main__` check.
-- Example:
-```console
-> ./stirr.py
+- Implement the `stirr.py` script with py3 shebang, just py stdlib, `__main__` check.
+
+## Examples
+```bash
+> ./stirr.py -h
+USAGE: 
+  stirr.py [--dry-run] PATH1 [PATH2 ...]
+  stirr.py --help
+
+  <PATHx> ...
+      A file(s)/dir(s) to check. 
+  ...
+
+> ./stirr.py .
 FILE TREE:
-. 19.62KB
-  STIRR-rules.md 6.71KB #Human (7#HC 6#FooBar 3#Human 2#AI)
-  scripts/ 0.14KB
-    test-file.txt 0.12KB #human (...
+src-cli/ 86.20 KB (17218 NLOC 69739 LTOK)
+·ai-output.log 74.68 KB (1721 NLOC 6973 LTOK) #AI (16#textrl 16#conventionrl 16#sdd) 
+·example.txt 0.00 KB (0 NLOC, 0 LTOK)
+·implement.sh 0.18 KB (8 NLOC 54 LTOK) #Human (1#human) 
 ...
-TAG TOTALS: 
-101#HC 37#RH 20#FooBar ...
+·tests/ 3.55 KB (1218 NLOC 6739 LTOK)
+··test1-run.log 0.11 KB (5 NLOC 44 LexTok) 
+...
+TAG TOTALS:
+20#textrl 19#conventionrl 19#hitl 19#implementrl...
+OPENAI_API_KEY=oi487356...
+ANTHROPIC_API_KEY=an3742...
 ```
+
+## Code spec
 - Regex for hashtags is `r"(?<!\w)#[A-Za-z][\w-]*"`.
-- Code for text detection and the first tag:
+- Text and first tag detection:
 ```py
 def get_file_text_hashtag(path):
     try:
@@ -35,29 +48,22 @@ def get_file_text_hashtag(path):
     except:
         return (False, None)
 ```
-- Py func `traverse` traverses files/dirs and returns all info:
-  - Dir size = sum(parsed files from that folder).
-  - Use glob.glob() to recursively traverse all except hidden files (automatically skipped by glob). 
-- For each file call function `get_text_file_info`, proceed only for text files smaller than <128KB. 
-- Separate pure from printing functions: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.
-- Print tags and frequencies: top 5 per file, in the end all tags.
-- Display usage and accept args, e.g.:
-```console
-> ./stirr.py -h
-USAGE: 
-  stirr.py [--dry-run] PATH1 [PATH2 ...]
-  stirr.py --help
-
-  <PATHx> ...
-      A file(s)/dir(s) to check. 
-  ...
+- NLOC and LTOK:
+```py
+LEXTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
+def get_nloc_lextokens(txt):
+    lines = [l for l in txt.splitlines() if l.strip()]
+    tokens = LEXTOK_RE.findall(txt)
+    return (len(lines), len(tokens))
 ```
+
+## Details
+- Py func `traverse` traverses files/dirs and returns all info:
+  - Dir size, nloc, ltok calculated as sum(parsed files from that folder).
+  - Use glob.glob() to recursively traverse non-hidden files (automatically skipped by glob). 
+- For each file call function `get_text_file_info`, proceed only for text files <128KB. 
+- Separate pure from printing funcs: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.
+- Print tags and frequencies: top 3 per file, in the end all tags.
+- Display usage on --help, -h and no args.
 - Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
 - Tests display Pass/FAIL, each test outputs analysis to a log file in the `tests` folder.
-
-# Iteration 3
-- Read [regex-tokenizer.py](../src-lloc/regex-tokenizer.py) and: 
-  - use exact same regex and NLOC calculation for `get_nloc_lextokens(txt)` function.
-  - display NLOC and LexTok in file tree. E.g.:
-    "  STIRR-rules.md 6.71KB #Human (71 NLOC, 455 LexTok) (7#HC 6#FooBar 3#Human 2#AI)"
-  - Check tests pass.
