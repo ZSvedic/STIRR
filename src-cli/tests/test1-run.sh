@@ -2,8 +2,10 @@
 # #Human
 set -euo pipefail
 
-trap 'echo FAIL; exit 1' ERR
-
 cd "$(dirname "$0")/.."
-./stirr.py > tests/test1-run.log 2>&1
+LOG="tests/test2-mock.log"
+trap 's=$?; echo "FAIL: ${BASH_COMMAND} (exit $s)"; exit $s' ERR
+
+./stirr.py > "$LOG" 2>&1
+
 echo Pass

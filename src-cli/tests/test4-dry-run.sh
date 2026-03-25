@@ -2,12 +2,13 @@
 # #Human
 set -euo pipefail
 
-trap 'echo FAIL; exit 1' ERR
-
 cd "$(dirname "$0")/.."
-./stirr.py --dry-run tests/test-dir > tests/test4-dry-run.log 2>&1
+LOG="tests/test4-dry-run.log"
+trap 's=$?; echo "FAIL: ${BASH_COMMAND} (exit $s)"; exit $s' ERR
 
-rg -q "test-dir" tests/test4-dry-run.log
-rg -q "test-hashtags.txt" tests/test4-dry-run.log
-rg -qi "#FooBar" tests/test4-dry-run.log
+./stirr.py --dry-run tests/test-dir > "$LOG" 2>&1
+
+rg -q "test-dir" "$LOG"
+rg -q "test-hashtags.txt" "$LOG"
+rg -qi "#FooBar" "$LOG"
 echo Pass

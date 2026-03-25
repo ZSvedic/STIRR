@@ -66,12 +66,10 @@ def get_nloc_lextokens(txt):
 - Print tags and frequencies: top 3 per file, in the end all tags.
 - Display usage on --help, -h and no args.
 - Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
-- Tests display Pass/FAIL, each test outputs analysis to a log file in the `tests` folder.
+- Each test:
+    - Display Pass or FAIL: BashFailedCommandCommand.
+    - Outputs analysis to a log file in the `tests` folder.
+    - Works from any folder.
+- Check that all tests pass.
 
 # Current iteration
-- Make `test2-mock.py` work from any folder (like test1 works), not just from parent folder.
-    - Create a bash version of test2 as `test2-mock.sh`, try to make it shorter than py version. 
-- Check that all tests that FAIL also display what failed.
-- There is `stirr-old.py` but that is too complex for human review. 
-    - Make a new `stirr.py` that is <1000 LTOK. 
-    - Use `stirr-old.py` to check LTOK.
