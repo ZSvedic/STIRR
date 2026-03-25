@@ -5,7 +5,7 @@
 ## Rules
 
 ### `#TextRL` — Text for everything
-Because LLMs prefer plain text, use text for:
+Because [agents](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/), [VCS](https://en.wikipedia.org/wiki/Version_control), and [diffs](https://en.wikipedia.org/wiki/Diff) all work on plain text, use text for:
 - specs ([Markdown](https://en.wikipedia.org/wiki/Markdown)), 
 - diagrams ([Mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) or [SVG](https://en.wikipedia.org/wiki/SVG)), 
 - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
@@ -14,7 +14,7 @@ Because LLMs prefer plain text, use text for:
 - initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
 - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
 
-Avoid specs in binary format, as they require error-prone conversion to text. 
+Avoid specs in binary format.
 If you need images, use formats that multimodal LLMs understand (JPEG or PNG). 
 
 ### `#ConventionRL` — Convention over configuration 
@@ -35,17 +35,16 @@ To make text files manageable, use the following [convention over configuration]
   find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
 ### `#SDD` — Specification-Driven Development
-All implementation follows from specs. 
+Write specs before implementation:
 
 - **Be short** — Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
-A good rule of thumb is the Rule of Fifths:
-  - Specs and tests each <20% of code size.
-  - If they exceed that, writing code directly is faster.
+A good rule of thumb is that specs size should be <30% of generated code size.
+If spec is larger, it is usually faster to write code directly.
 
 - **Example is worth a thousand words** — LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
 Give multiple examples and AI will infer a generalization.
 Examples are in [text](#textrl--text-for-everything) with irrelevant parts shortened with `...`, AI can figure it out. 
-Bootstrap examples using modified outputs from each iteration for the next. 
+Bootstrap examples using modified outputs from previous iteration for the next. 
 
 - **Code spec** — Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
 Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
@@ -55,24 +54,21 @@ It contains decisions, learnings, pivots, and experiments.
 It is loaded in context only when a history of decisions is needed.
 
 - **Humans don't know their needs** — Needs are discovered gradually through feedback in each iteration.  
-That also applies to legacy systems: 
-  - Fully covering all legacy system behavior produces specs that are too long.
-  - Even with full coverage, implementing that will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
+That also applies to legacy systems. Fully covering all legacy system behavior produces specs that are too long. Even with full coverage spec, implementing it will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
 
 ### `#TDD` — Test-Driven Development
-Tests are part of the spec. 
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
 The goal of implementation is to make all tests green.  
 Humans can't predict all ways software or AI can fail. Therefore, tests are added iteratively.
 
 ### `#ImplementRL` — AI implementation 
-AI implements specs in code so the tests pass.  
+AI implements specs in code so the tests pass. 
 
-- **Use [VCS](https://en.wikipedia.org/wiki/Version_control)** — Commit human edits before AI implementation. That will enable:
-  - Reviewing AI changes as [diffs](https://en.wikipedia.org/wiki/Diff),
-  - Rolling back and changing spec, if AI output is flawed  
+Commit human edits *before* AI implementation to enable:
+- Reviewing AI changes as diffs.
+- Rolling back and changing spec, if AI output is flawed.  
 
-- **Implementation is non-deterministic** — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
+*Implementation is non-deterministic* — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
 ### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
 The human manually tests an implementation and examines code diffs. 
@@ -85,19 +81,16 @@ I.e. don't optimize speed if the software is not working correctly.
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.  
-To reduce AI verbosity, use code complexity analyser (e.g. [lizard](https://github.com/terryyin/lizard)) and specify:
-  - Max NLOC (lines of code without comments),
-  - Max lexical tokens (operators + operands), or 
-  - Max [cyclomatic complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity). 
+To reduce AI verbosity, specify max lexical token count (LTOK). `stirr.py` script has simple LTOK calculation that works for all languages and text files. 
 
-- **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal).
-If that happens, create hidden tests that are not part of the spec.
+- **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
+If that happens, create hidden tests that are executed manually.
 
 ### `#RepeatRL` — Repeat
 Repeat the `Specify → Test → Implement → Review` loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs have the required functionality, the tests pass, and the human has nothing to add.
 
 ## Next steps
 - Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or it as an [agent skill](https://agentskills.io/home).  
-- To check compliance, run `./stirr` script.  
+- To check compliance, run `./stirr.py` script.  
 - Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
 If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.  
