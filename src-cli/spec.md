@@ -53,7 +53,11 @@ USAGE:
   ...
 ```
 - Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
-- Use [lizard](lizard-filter.py) to check `stirr.py`:
-  - SumToken <800
-  - NLOC <120 
 - Tests display Pass/FAIL, each test outputs analysis to a log file in the `tests` folder.
+
+# Iteration 3
+- Read [regex-tokenizer.py](../src-lloc/regex-tokenizer.py) and: 
+  - use exact same regex and NLOC calculation for `get_nloc_lextokens(txt)` function.
+  - display NLOC and LexTok in file tree. E.g.:
+    "  STIRR-rules.md 6.71KB #Human (71 NLOC, 455 LexTok) (7#HC 6#FooBar 3#Human 2#AI)"
+  - Check tests pass.
