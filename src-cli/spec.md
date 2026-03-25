@@ -73,3 +73,12 @@ def get_nloc_lextokens(txt):
 - Check that all tests pass.
 
 # Current iteration
+- Modify print functions to print to text stream.
+- If `--dry-run` then:
+    print to console
+  else: 
+    - Make a str/stream named `llm_query` with prompt to check project tree for #STIRR conformance. 
+    - Append [STIRR-rules.md)](../STIRR-rules.md) to `llm_query` inside ```STIRR-rules.md ``` block.
+    - Append `print_all` to `llm_query` inside ```bash ``` block.
+    - If OPENAI_API_KEY or ANTHROPIC_API_KEY are provided, then make a call to with `llm_query` to one of them and print the result. If no key was provided, just print `llm_query` and print "COPY/PASTE TO YOUR LLM OF CHOICE."
+- 'stirr.py` < 1600 LTOK.
