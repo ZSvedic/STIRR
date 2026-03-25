@@ -5,7 +5,7 @@ tags: #Human
 - Read [#STIRR](../STIRR-rules.md). 
 - Implement the `stirr.py` script with py3 shebang, just py stdlib, `__main__` check.
 
-## Examples
+# Examples
 ```bash
 > ./stirr.py -h
 USAGE: 
@@ -17,22 +17,22 @@ USAGE:
   ...
 
 > ./stirr.py .
-FILE TREE:
-src-cli/ 86.20 KB (17218 NLOC 69739 LTOK)
-·ai-output.log 74.68 KB (1721 NLOC 6973 LTOK) #AI (16#textrl 16#conventionrl 16#sdd) 
-·example.txt 0.00 KB (0 NLOC, 0 LTOK)
-·implement.sh 0.18 KB (8 NLOC 54 LTOK) #Human (1#human) 
+== FILE TREE as NAME SIZE (NLOC LTOK) #FirstTag (Top 3 tags) ===
+src-cli/ 121.92 KB (3246 NLOC 28147 LTOK)
+·ai-output.log 102.93 KB (2694 NLOC 23685 LTOK) #AI (16#textrl 14#conventionrl 13#human)
+·implement.sh 0.18 KB (8 NLOC 54 LTOK) #Human (1#human)
 ...
-·tests/ 3.55 KB (1218 NLOC 6739 LTOK)
-··test1-run.log 0.11 KB (5 NLOC 44 LexTok) 
+··test-dir/ 0.08 KB (8 NLOC 32 LTOK)
+···#AI.#Test 0.00 KB (0 NLOC 0 LTOK)
+···test-hashtags.txt 0.08 KB (8 NLOC 32 LTOK) #human (4#foo 3#foobar 2#bar)
 ...
-TAG TOTALS:
-20#textrl 19#conventionrl 19#hitl 19#implementrl...
-OPENAI_API_KEY=oi487356...
-ANTHROPIC_API_KEY=an3742...
+== TAG TOTALS ===
+22#human 17#foo 17#textrl 14#conventionrl ...
+OPENAI_API_KEY=oi...
+ANTHROPIC_API_KEY=an...
 ```
 
-## Code spec
+# Code spec
 - Regex for hashtags is `r"(?<!\w)#[A-Za-z][\w-]*"`.
 - Text and first tag detection:
 ```py
@@ -57,7 +57,7 @@ def get_nloc_lextokens(txt):
     return (len(lines), len(tokens))
 ```
 
-## Details
+# Details
 - Py func `traverse` traverses files/dirs and returns all info:
   - Dir size, nloc, ltok calculated as sum(parsed files from that folder).
   - Use glob.glob() to recursively traverse non-hidden files (automatically skipped by glob). 
@@ -67,3 +67,11 @@ def get_nloc_lextokens(txt):
 - Display usage on --help, -h and no args.
 - Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
 - Tests display Pass/FAIL, each test outputs analysis to a log file in the `tests` folder.
+
+# Current iteration
+- Make `test2-mock.py` work from any folder (like test1 works), not just from parent folder.
+    - Create a bash version of test2 as `test2-mock.sh`, try to make it shorter than py version. 
+- Check that all tests that FAIL also display what failed.
+- There is `stirr-old.py` but that is too complex for human review. 
+    - Make a new `stirr.py` that is <1000 LTOK. 
+    - Use `stirr-old.py` to check LTOK.

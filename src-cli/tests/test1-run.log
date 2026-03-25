@@ -1,6 +1,0 @@
-USAGE:
-  stirr.py [--dry-run] PATH1 [PATH2 ...]
-  stirr.py --help
-
-  <PATHx> ...
-      A file(s)/dir(s) to check.
