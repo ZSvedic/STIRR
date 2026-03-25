@@ -1,0 +1,60 @@
+Edit the Expression & Text to see matches. Roll over matches or the expression for details. PCRE & JavaScript flavors of RegEx are supported. Validate your expression with Tests mode.
+
+The side bar includes a Cheatsheet, full Reference, and Help. You can also Save & Share with the Community and view patterns you create or favorite in My Patterns.
+
+Explore results with the Tools below. Replace & List output custom results. Details lists capture groups. Explain describes your expression in plain English.
+
+
+// comment
+#include <stdio.h>
+
+void unused() {
+    if (1) {
+        printf("This function is not used");
+    } else {
+        printf("This function is not used 2");
+    }
+}
+
+int main(){ printf("Hello\n"); printf("World\n"); return 0; }
+// comment
+function main(){ console.log("Hello"); console.log("World"); }
+
+function unused(){ if(true){ console.log("This function is not used"); } else { console.log("This function is not used 2"); } }
+
+main();
+# comment
+
+def unused():
+    if True:
+        print("This function is not used")
+    else:
+        print("This function is not used 2")
+
+def main():
+    print("Hello"); print("World")
+
+main()
+// comment
+function main(){ console.log("Hello"); console.log("World"); }
+
+function unused(){ if(true){ console.log("This function is not used"); } else { console.log("This function is not used 2"); } }
+
+
+
+main();
+// comment
+public class Main {
+
+    public static void unused() {
+        if (true) {
+            System.out.println("This function is not used");
+        } else {
+            System.out.println("This function is not used 2");
+        }
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("Hello"); System.out.println("World");
+    }
+}
