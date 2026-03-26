@@ -59,7 +59,7 @@ That also applies to legacy systems. Fully covering all legacy system behavior p
 
 ### `#TDD` — Test-Driven Development
 Test are generated from spec. 
-If AI-generated, they are reviewed by humans.
+If AI-generated, they are reviewed by humans.  
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
 The goal of implementation is to make all tests green.  
 Humans can't predict all ways software or AI can fail. Therefore, tests are added iteratively.
