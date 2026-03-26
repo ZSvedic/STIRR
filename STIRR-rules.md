@@ -13,7 +13,7 @@ Because [agents](https://simonwillison.net/guides/agentic-engineering-patterns/w
 - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
 - mock text UI ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
 - user UI ([HTML, CSS, and JS](https://en.wikipedia.org/wiki/Front-end_web_development)).
-- task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
+- task management (Markdown or [Org Mode](https://orgmode.org/)), etc.  
 
 Avoid specs in binary format.
 If you need images, use formats that multimodal LLMs understand (JPEG or PNG). 
@@ -33,7 +33,7 @@ To make text files manageable, use the following [convention over configuration]
   
   Explicit is better for practical reasons. 
   E.g. if each text file starts with owner and feature hashtags, 
-  find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
+  find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [rg in CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
 ### `#SDD` — Specification-Driven Development
 Write specs before implementation:
