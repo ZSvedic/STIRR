@@ -11,7 +11,8 @@ Because [agents](https://simonwillison.net/guides/agentic-engineering-patterns/w
 - tabular data ([CSV](https://en.wikipedia.org/wiki/Comma-separated_values)), 
 - hierarchical data ([JSON](https://www.json.org/json-en.html), [YAML](https://yaml.org/), or [TOML](https://toml.io/en/)), 
 - scripting ([CLI](https://en.wikipedia.org/wiki/Command-line_interface) and [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))), 
-- initial user interface ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
+- mock text UI ([TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)), 
+- user UI ([HTML, CSS, and JS](https://en.wikipedia.org/wiki/Front-end_web_development)).
 - task management (markdown or [Org Mode](https://orgmode.org/)), etc.  
 
 Avoid specs in binary format.
@@ -57,6 +58,8 @@ It is loaded in context only when a history of decisions is needed.
 That also applies to legacy systems. Fully covering all legacy system behavior produces specs that are too long. Even with full coverage spec, implementing it will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
 
 ### `#TDD` — Test-Driven Development
+Test are generated from spec. 
+If AI-generated, they are reviewed by humans.
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
 The goal of implementation is to make all tests green.  
 Humans can't predict all ways software or AI can fail. Therefore, tests are added iteratively.
@@ -81,7 +84,9 @@ I.e. don't optimize speed if the software is not working correctly.
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.  
-To reduce AI verbosity, specify max lexical token count (LTOK). `stirr.py` script has simple LTOK calculation that works for all languages and text files. 
+To reduce AI verbosity, specify max lexical token count (LTOK). 
+`stirr.py` script has simple LTOK calculation that works for all languages and text files. 
+1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is ~ 10 LTOK.
 
 - **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
 If that happens, create hidden tests that are executed manually.
