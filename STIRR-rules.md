@@ -1,6 +1,6 @@
 `#STIRR` (**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat) is an iterative AI dev system based on text conventions and is spec/test-driven. 
 
-`#STIRR` is tool-free, meaning it works with any AI agent. It is "implemented" by humans and AI reading the 7 rules below (~7min read). If you don't like something, just change it.
+`#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI by reading the 7 rules below (~7 min read). If you don't like something, just change it.
 
 ## Rules
 
@@ -27,25 +27,25 @@ To make text files manageable, use the following [convention over configuration]
   - `#Human` - Created or reviewed by human.
   - `#AI` - Created and modified by AI.
   
-- **Referencing hastags** — Hashtags are specified in two ways:
+- **Referencing hashtags** — Hashtags are specified in two ways:
   - **Explicit** — First hashtag at the top of a text file. Usually placed in the top comment or [frontmatter](https://jekyllrb.com/docs/front-matter/ "tags: #FooBar").
   - **Implicit** — A dummy directory file named `#FooBar` sets that tag for contained files. Only option for binary files.  
   
   Explicit is better for practical reasons. 
-  E.g. if each text file starts with owner and feature hashtags, 
+  E.g., if each text file starts with owner and feature hashtags, 
   find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [rg in CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
 ### `#SDD` — Specification-Driven Development
 Write specs before implementation:
 
 - **Be short** — Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
-A good rule of thumb is that specs size should be <30% of generated code size.
-If spec is larger, it is usually faster to write code directly.
+A good rule of thumb is that spec size should be <30% of generated code size.
+If the spec is larger, it is usually faster to write code directly.
 
 - **Example is worth a thousand words** — LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
 Give multiple examples and AI will infer a generalization.
-Examples are in [text](#textrl--text-for-everything) with irrelevant parts shortened with `...`, AI can figure it out. 
-Bootstrap examples using modified outputs from previous iteration for the next. 
+Examples are in [text](#textrl--text-for-everything) with irrelevant parts shortened with `...`; the AI can figure it out. 
+Bootstrap examples using modified outputs from the previous iteration for the next. 
 
 - **Code spec** — Code is often part of the spec, either embedded or in a separate file with `#Human` ownership.
 Code spec is used for critical parts, snippets shorter than their natural language description, and code that is considered final. 
@@ -58,16 +58,16 @@ It is loaded in context only when a history of decisions is needed.
 That also applies to legacy systems. Fully covering all legacy system behavior produces specs that are too long. Even with full coverage spec, implementing it will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
 
 ### `#TDD` — Test-Driven Development
-Test are generated from spec. 
+Tests are generated from the spec. 
 If AI-generated, they are reviewed by humans.  
-Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must fail (red). 
+Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must initially fail (red). 
 The goal of implementation is to make all tests green.  
 Humans can't predict all ways software or AI can fail. Therefore, tests are added iteratively.
 
 ### `#ImplementRL` — AI implementation 
-AI implements specs in code so the tests pass. 
+AI implements specs in code so that the tests pass. 
 
-Commit human edits *before* AI implementation to enable:
+Commit human edits *before* AI implementation to allow:
 - Reviewing AI changes as diffs.
 - Rolling back and changing spec, if AI went in completely wrong direction.  
 
@@ -79,22 +79,22 @@ After discovering an issue, the required specs, tests, or the journal are update
 
 - **The end goal is human satisfaction** — Long-term satisfaction of software users and maintainers depends on, 
 in the decreasing order of importance: correctness, usability, interoperability, maintainability, and speed.  
-I.e. don't optimize speed if the software is not working correctly.
+I.e., don't optimize speed if the software is not working correctly.
 
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.  
 To reduce AI verbosity, specify max lexical token count (10 LTOK ~ 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code")). 
-`stirr.py` script displays simple LTOK calculation for all text/code files. 
+The `stirr.py` script displays a simple LTOK calculation for all text/code files. 
 
 - **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
 If that happens, create hidden tests that are executed manually.
 
 ### `#RepeatRL` — Repeat
-Repeat the `Specify → Test → Implement → Review` loop, incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs have the required functionality, the tests pass, and the human has nothing to add.
+Repeat the `Specify → Test → Implement → Review` loop by incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs cover the required functionality, the tests pass, and the human has nothing to add.
 
 ## Next steps
-- Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or it as an [agent skill](https://agentskills.io/home).  
-- To check compliance, run `./stirr.py` script.  
+- Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or use it as an [agent skill](https://agentskills.io/home).  
+- To check compliance, run `./stirr.py`.  
 - Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
 If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.  
