@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 # #Human
-set -euo pipefail
+# Checks that `stirr-tree.py` shows help when run with `-h`, `--help`, or no arguments.
 
-cd "$(dirname "$0")/.."
-LOG="tests/test3-help.log"
-trap 's=$?; echo "FAIL: ${BASH_COMMAND} (exit $s)"; exit $s' ERR
+source "$(dirname "$0")/base-testing.sh" "$0"
 
 {
   ./stirr-tree.py -h

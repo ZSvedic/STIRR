@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # #Human
+# Runs current iteration of the implementation spec through Codex.
+
 set -euo pipefail
 
 codex exec \

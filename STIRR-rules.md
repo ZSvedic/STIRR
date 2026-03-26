@@ -83,8 +83,10 @@ I.e., don't optimize speed if the software is not working correctly.
 
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
-In any workflow, the bottleneck is the human reading speed.  
-To reduce AI verbosity, specify max lexical token count (10 LTOK ~ 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code")). 
+In any workflow, the bottleneck is human reading speed.  
+To reduce AI verbosity, specify a max lexical token count (LTOK).
+As identifiers are one LTOK, the AI has no incentive to use short names.
+For most programming languages, 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is ~10 LTOK. 
 The `stirr-tree.py` script displays a simple LTOK calculation for all text/code files. 
 
 - **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 

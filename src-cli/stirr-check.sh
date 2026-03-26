@@ -4,6 +4,7 @@
 # - Calls `stirr-tree.py` on provided paths, pipes output to a string.
 # - Constructs a validation prompt, including the tree output.
 # - Calls either Codex or Claude with a given prompt, no tools allowed. 
+
 set -euo pipefail
 
 usage() {
