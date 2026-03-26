@@ -14,7 +14,7 @@ printf '#foo-bar #Foo\n' > "$TMP/sub/b.txt"
 printf '#NOPE\n' > "$TMP/.hidden/skip.md"
 printf '\x00\x01\x02' > "$TMP/sub/bin.dat"
 
-./stirr.py "$TMP" > "$LOG" 2>&1
+./stirr-tree.py "$TMP" > "$LOG" 2>&1
 
 rg -q "a.md .*#Foo \(2#foo 1#bar\)" "$LOG"
 rg -q "b.txt .*#foo-bar \(1#foo-bar 1#foo\)" "$LOG"

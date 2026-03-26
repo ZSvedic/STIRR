@@ -6,7 +6,7 @@ TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
 LEXTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
 MAX_TEXT_FILE_SIZE = 128 * 1024
 HELP_TEXT = """USAGE:
-  stirr.py [--dry-run] PATH1 [PATH2 ...]
+  stirr-tree.py [--dry-run] PATH1 [PATH2 ...]
 """
 
 

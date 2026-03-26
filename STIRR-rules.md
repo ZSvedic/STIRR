@@ -85,7 +85,7 @@ I.e., don't optimize speed if the software is not working correctly.
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.  
 To reduce AI verbosity, specify max lexical token count (10 LTOK ~ 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code")). 
-The `stirr.py` script displays a simple LTOK calculation for all text/code files. 
+The `stirr-tree.py` script displays a simple LTOK calculation for all text/code files. 
 
 - **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
 If that happens, create hidden tests that are executed manually.
@@ -95,6 +95,6 @@ Repeat the `Specify → Test → Implement → Review` loop by incrementally exp
 
 ## Next steps
 - Add this document to the [repository root](https://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command "git rev-parse --show-toplevel") or use it as an [agent skill](https://agentskills.io/home).  
-- To check compliance, run `./stirr.py`.  
+- To check compliance, run `./stirr-tree.py`.  
 - Feel free to [fork](https://en.wikipedia.org/wiki/Fork_(software_development)), `#STIRR` is MIT licensed. 
 If you make major changes, don't forget to regenerate the stirr script from its `#STIRR` spec.  

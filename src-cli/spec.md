@@ -3,20 +3,20 @@ tags: #Human
 --
 
 - Read [#STIRR](../STIRR-rules.md). 
-- Implement the `stirr.py` script with py3 shebang, just py stdlib, `__main__` check.
+- Implement the `stirr-tree.py` script with py3 shebang, just py stdlib, `__main__` check.
 
 # Examples
 ```bash
-> ./stirr.py -h
+> ./stirr-tree.py -h
 USAGE: 
-  stirr.py [--dry-run] PATH1 [PATH2 ...]
-  stirr.py --help
+  stirr-tree.py [--dry-run] PATH1 [PATH2 ...]
+  stirr-tree.py --help
 
   <PATHx> ...
       A file(s)/dir(s) to check. 
   ...
 
-> ./stirr.py .
+> ./stirr-tree.py .
 == FILE TREE as NAME SIZE (LOC LTOK) #FirstTag (Top 3 tags) ===
 src-cli/ 121.92 KB (3246 LOC 28147 LTOK)
 ·ai-output.log 102.93 KB (2694 LOC 23685 LTOK) #AI (16#textrl 14#conventionrl 13#human)
@@ -81,4 +81,4 @@ def get_loc_lextokens(txt):
     - Append [STIRR-rules.md)](../STIRR-rules.md) to `llm_query` inside ```STIRR-rules.md ``` block.
     - Append `print_all` to `llm_query` inside ```bash ``` block.
     - If OPENAI_API_KEY or ANTHROPIC_API_KEY are provided, then make a call to with `llm_query` to one of them and print the result. If no key was provided, just print `llm_query` and print "COPY/PASTE TO YOUR LLM OF CHOICE."
-- 'stirr.py` < 1600 LTOK.
+- 'stirr-tree.py` < 1600 LTOK.
