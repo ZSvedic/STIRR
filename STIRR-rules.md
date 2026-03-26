@@ -69,7 +69,7 @@ AI implements specs in code so the tests pass.
 
 Commit human edits *before* AI implementation to enable:
 - Reviewing AI changes as diffs.
-- Rolling back and changing spec, if AI output is flawed.  
+- Rolling back and changing spec, if AI went in completely wrong direction.  
 
 *Implementation is non-deterministic* — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
@@ -78,14 +78,14 @@ The human manually tests an implementation and examines code diffs.
 After discovering an issue, the required specs, tests, or the journal are updated. 
 
 - **The end goal is human satisfaction** — Long-term satisfaction of software users and maintainers depends on, 
-in the decreasing order of importance: correctness, ease of use, use of open standards, maintainability, and speed.  
+in the decreasing order of importance: correctness, usability, interoperability, maintainability, and speed.  
 I.e. don't optimize speed if the software is not working correctly.
 
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is the human reading speed.  
 To reduce AI verbosity, specify max lexical token count (LTOK). 
-`stirr.py` script has simple LTOK calculation that works for all languages and text files. 
+`stirr.py` script displays simple LTOK calculation that for all text/code files. 
 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is ~ 10 LTOK.
 
 - **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
