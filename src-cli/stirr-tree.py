@@ -6,7 +6,7 @@ TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
 LEXTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
 MAX_TEXT_FILE_SIZE = 128 * 1024
 HELP_TEXT = """USAGE:
-  stirr-tree.py [--dry-run] PATH1 [PATH2 ...]
+  stirr-tree.py PATH1 [PATH2 ...]
 """
 
 
@@ -100,20 +100,17 @@ def print_hahstags(data):
 
 
 def print_all(data):
-    print_file_tree(data); print_hahstags(data)
-    print(f"OPENAI_API_KEY={os.getenv('OPENAI_API_KEY', '')}")
-    print(f"ANTHROPIC_API_KEY={os.getenv('ANTHROPIC_API_KEY', '')}")
+    print_file_tree(data); 
+    print_hahstags(data)
 
 
-def main(argv=None):
-    argv = sys.argv[1:] if argv is None else argv
-    if not argv or "-h" in argv or "--help" in argv: print(HELP_TEXT.rstrip()); return 0
-    dry = "--dry-run" in argv
-    paths = [a for a in argv if a != "--dry-run"]
-    if not paths: print(HELP_TEXT.rstrip()); return 0
-    if dry: print("DRY RUN")
-    print_all(traverse(paths)); return 0
+def main(argv):
+    if not argv or "-h" in argv or "--help" in argv:
+        print(HELP_TEXT.rstrip())
+    else:
+        print_all(traverse(argv))
+    return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

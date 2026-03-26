@@ -9,7 +9,7 @@ tags: #Human
 ```bash
 > ./stirr-tree.py -h
 USAGE: 
-  stirr-tree.py [--dry-run] PATH1 [PATH2 ...]
+  stirr-tree.py PATH1 [PATH2 ...]
   stirr-tree.py --help
 
   <PATHx> ...
@@ -28,8 +28,6 @@ src-cli/ 121.92 KB (3246 LOC 28147 LTOK)
 ...
 == TAG TOTALS ===
 22#human 17#foo 17#textrl 14#conventionrl ...
-OPENAI_API_KEY=oi...
-ANTHROPIC_API_KEY=an...
 ```
 
 # Code spec
@@ -65,7 +63,6 @@ def get_loc_lextokens(txt):
 - Separate pure from printing funcs: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.
 - Print tags and frequencies: top 3 per file, in the end all tags.
 - Display usage on --help, -h and no args.
-- Print API keys envs (OPENAI_API_KEY and ANTHROPIC_API_KEY) after all tags.
 - Each test:
     - Display Pass or FAIL: BashFailedCommandCommand.
     - Outputs analysis to a log file in the `tests` folder.
@@ -73,12 +70,3 @@ def get_loc_lextokens(txt):
 - Check that all tests pass.
 
 # Current iteration
-- Modify print functions to print to text stream.
-- If `--dry-run` then:
-    print to console
-  else: 
-    - Make a str/stream named `llm_query` with prompt to check project tree for #STIRR conformance. 
-    - Append [STIRR-rules.md)](../STIRR-rules.md) to `llm_query` inside ```STIRR-rules.md ``` block.
-    - Append `print_all` to `llm_query` inside ```bash ``` block.
-    - If OPENAI_API_KEY or ANTHROPIC_API_KEY are provided, then make a call to with `llm_query` to one of them and print the result. If no key was provided, just print `llm_query` and print "COPY/PASTE TO YOUR LLM OF CHOICE."
-- 'stirr-tree.py` < 1600 LTOK.
