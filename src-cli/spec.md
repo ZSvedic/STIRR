@@ -32,6 +32,14 @@ src-cli/ 121.92 KB (3246 LOC 28147 LTOK)
 
 # Code spec
 - Regex for hashtags is `r"(?<!\w)#[A-Za-z][\w-]*"`.
+- LOC and LTOK:
+```py
+LEXTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
+def get_loc_lextokens(txt):
+    lines = [l for l in txt.splitlines() if l.strip()]
+    tokens = LEXTOK_RE.findall(txt)
+    return (len(lines), len(tokens))
+```
 - Text and first tag detection:
 ```py
 def get_file_text_hashtag(path):
@@ -46,27 +54,36 @@ def get_file_text_hashtag(path):
     except:
         return (False, None)
 ```
-- LOC and LTOK:
+- `.gitignore` skipping:
 ```py
-LEXTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
-def get_loc_lextokens(txt):
-    lines = [l for l in txt.splitlines() if l.strip()]
-    tokens = LEXTOK_RE.findall(txt)
-    return (len(lines), len(tokens))
+def is_git_ignored(path, repo_root):
+    try:
+        r = subprocess.run(
+            ["git", "-C", repo_root, "check-ignore", "-q", path],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+        return r.returncode == 0
+    except:
+        return False
 ```
 
 # Details
 - Py func `traverse` traverses files/dirs and returns all info:
   - Dir size, loc, ltok calculated as sum(parsed files from that folder).
   - Use glob.glob() to recursively traverse non-hidden files (automatically skipped by glob). 
+  - Ignore all files/dirs specified in `.gitignore`.
 - For each file call function `get_text_file_info`, proceed only for text files <128KB. 
 - Separate pure from printing funcs: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.
 - Print tags and frequencies: top 3 per file, in the end all tags.
 - Display usage on --help, -h and no args.
 - Each test:
-    - Display Pass or FAIL: BashFailedCommandCommand.
+    - Display Pass or FAIL: BashFailedCommand.
     - Outputs analysis to a log file in the `tests` folder.
     - Works from any folder.
 - Check that all tests pass.
 
 # Current iteration
+- Create new test4-codex-call.sh that checks `test-dir` (see `test3-tree.sh`) with [implement-codex.sh](./implement-codex.sh). 
+    - LLM outputs are non-deterministic, check for some 3 text strings that should always be there, if the call was successful.
+    - Timeout 20 sec.
+    - Check that test4 works.

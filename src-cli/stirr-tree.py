@@ -2,7 +2,7 @@
 # #Human
 # Traverses provided paths and prints text file info like lexical tokens sizes and tags.
 
-import glob, os, re, sys
+import glob, os, re, sys, subprocess
 from collections import Counter
 
 # Regex for hashtags, test online at: https://regexr.com/8lduo
@@ -76,6 +76,16 @@ def traverse(paths):
     files, totals, dirs = [], Counter(), {}
     for root in roots:
         is_dir = os.path.isdir(root)
+        repo_root = None  # Detect git repo root (if any)
+        try:
+            r = subprocess.run(
+                ["git", "-C", root, "rev-parse", "--show-toplevel"],
+                capture_output=True, text=True
+            )
+            if r.returncode == 0:
+                repo_root = r.stdout.strip()
+        except:
+            pass
         if os.path.isdir(root):
             dirs.setdefault(root, [0, 0, 0])
             cands = glob.glob(os.path.join(root, "**", "*"), recursive=True)
@@ -83,7 +93,21 @@ def traverse(paths):
             cands = [root]
         else: 
             cands = []
+        ignored = set() # Batch check ignored paths via git
+        if repo_root and cands:
+            try:
+                r = subprocess.run(
+                    ["git", "-C", repo_root, "check-ignore", "--stdin"],
+                    input="\n".join(os.path.relpath(p, repo_root) for p in cands),
+                    text=True, capture_output=True
+                )
+                if r.returncode in (0, 1):
+                    ignored = set(r.stdout.splitlines())
+            except:
+                pass
         for p in cands:
+            if repo_root and os.path.relpath(p, repo_root) in ignored:
+                continue
             i = get_text_file_info(p)
             if not i: 
                 continue

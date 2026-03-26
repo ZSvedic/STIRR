@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 # #Human
-# This script:
-# - Calls `stirr-tree.py` on provided paths, pipes output to a string.
-# - Constructs a validation prompt, including the tree output.
-# - Calls either Codex or Claude with a given prompt, no tools allowed. 
 
 set -euo pipefail
 
 usage() {
-  echo "Usage: stirr-check.sh <codex|claude> PATH1 [PATH2 ...]"
+  echo "  Usage: stirr-check.sh <codex|claude> PATH1 [PATH2 ...]\n"
+  echo "  - Calls \`stirr-tree.py\` on provided paths, pipes output to a string."
+  echo "  - Constructs a validation prompt, including the tree output."
+  echo "  - Calls either Codex or Claude with a given prompt, no tools allowed."
   exit 1
 }
 
@@ -18,27 +17,27 @@ AGENT="$1"
 shift
 PATHS=("$@")
 
-TREE_OUTPUT=$(stirr-tree.py "${PATHS[@]}")
+TREE_OUTPUT=$($(dirname "$0")/stirr-tree.py "${PATHS[@]}")
 
 RULES="$(< "$(dirname "$0")/../stirr-rules.md")"
 
 PROMPT=$(cat <<EOF
 You are a project compliance checker, without access to external tools.
 Below are the STIRR rules and the CLI output of stirr-tree.py for specified paths.
-Check if the code structure and files comply with the STIRR rules, format the output for console.
+Check if the code structure and files comply with the STIRR rules, output pure text.
 
 === STIRR-rules.md:
-```md
+\`\`\`md
 $RULES
-```
+\`\`\`
 
 === PATHS:
 ${PATHS[*]}
 
 === stirr-tree.py output: 
-```console
+\`\`\`console
 $TREE_OUTPUT
-```
+\`\`\`
 EOF
 )
 
@@ -49,7 +48,7 @@ case "$AGENT" in
     ;;
   claude)
     echo "=== Claude: "
-    claude -p --tools none "$PROMPT"
+    claude -p "$PROMPT" --tools none 
     ;;
   *)
     usage
