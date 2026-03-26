@@ -17,14 +17,14 @@ USAGE:
   ...
 
 > ./stirr.py .
-== FILE TREE as NAME SIZE (NLOC LTOK) #FirstTag (Top 3 tags) ===
-src-cli/ 121.92 KB (3246 NLOC 28147 LTOK)
-·ai-output.log 102.93 KB (2694 NLOC 23685 LTOK) #AI (16#textrl 14#conventionrl 13#human)
-·implement.sh 0.18 KB (8 NLOC 54 LTOK) #Human (1#human)
+== FILE TREE as NAME SIZE (LOC LTOK) #FirstTag (Top 3 tags) ===
+src-cli/ 121.92 KB (3246 LOC 28147 LTOK)
+·ai-output.log 102.93 KB (2694 LOC 23685 LTOK) #AI (16#textrl 14#conventionrl 13#human)
+·implement.sh 0.18 KB (8 LOC 54 LTOK) #Human (1#human)
 ...
-··test-dir/ 0.08 KB (8 NLOC 32 LTOK)
-···#AI.#Test 0.00 KB (0 NLOC 0 LTOK)
-···test-hashtags.txt 0.08 KB (8 NLOC 32 LTOK) #human (4#foo 3#foobar 2#bar)
+··test-dir/ 0.08 KB (8 LOC 32 LTOK)
+···#AI.#Test 0.00 KB (0 LOC 0 LTOK)
+···test-hashtags.txt 0.08 KB (8 LOC 32 LTOK) #human (4#foo 3#foobar 2#bar)
 ...
 == TAG TOTALS ===
 22#human 17#foo 17#textrl 14#conventionrl ...
@@ -48,10 +48,10 @@ def get_file_text_hashtag(path):
     except:
         return (False, None)
 ```
-- NLOC and LTOK:
+- LOC and LTOK:
 ```py
 LEXTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
-def get_nloc_lextokens(txt):
+def get_loc_lextokens(txt):
     lines = [l for l in txt.splitlines() if l.strip()]
     tokens = LEXTOK_RE.findall(txt)
     return (len(lines), len(tokens))
@@ -59,7 +59,7 @@ def get_nloc_lextokens(txt):
 
 # Details
 - Py func `traverse` traverses files/dirs and returns all info:
-  - Dir size, nloc, ltok calculated as sum(parsed files from that folder).
+  - Dir size, loc, ltok calculated as sum(parsed files from that folder).
   - Use glob.glob() to recursively traverse non-hidden files (automatically skipped by glob). 
 - For each file call function `get_text_file_info`, proceed only for text files <128KB. 
 - Separate pure from printing funcs: `print_file_tree`, `print_file_info`, `print_hahstags`, and `print_all`.

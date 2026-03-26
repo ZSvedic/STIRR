@@ -1,4 +1,4 @@
-File                              | Lang   | NLOC(re) | NLOC(li) | NLOC× | Tok(re) | Tok(li) | Tok×
+File                              | Lang   | LOC(re) | LOC(li) | LOC× | Tok(re) | Tok(li) | Tok×
 ---|---|---:|---:|---:|---:|---:|---:
 ./test-files/c-hello-5.c          | C      | 10      | 9       | 1.11  | 54     | 42     | 1.29
 ./test-files/js-hello-4.js        | JS     | 4       | 3       | 1.33  | 56     | 45     | 1.24

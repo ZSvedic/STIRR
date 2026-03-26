@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 import re, os
 # #Human
-# A regex tokenizer that counts the # of lexical tokens / NLOC (non-empty lines) in each text file.
+# A regex tokenizer that counts the # of lexical tokens / LOC (non-empty lines) in each text file.
 
 # Test online: https://regexr.com/8ldco
 RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
 
-print(f"{'NLOC':<5} | {'SumToken':<8} | File")
+print(f"{'LOC':<5} | {'SumToken':<8} | File")
 
 for dp,_,fs in os.walk('.'):
     for f in fs:

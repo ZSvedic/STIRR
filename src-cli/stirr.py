@@ -19,7 +19,7 @@ def get_file_text_hashtag(path):
     except: return (False, None)
 
 
-def get_nloc_lextokens(txt):
+def get_loc_lextokens(txt):
     lines = [l for l in txt.splitlines() if l.strip()]
     tokens = LEXTOK_RE.findall(txt)
     return (len(lines), len(tokens))
@@ -35,10 +35,10 @@ def get_text_file_info(path):
         with open(path, "r", encoding="utf-8", errors="ignore") as f: txt = f.read()
     except OSError: return None
     tags = [t.lower() for t in TAG_RE.findall(txt)]
-    nloc, ltok = get_nloc_lextokens(txt)
+    loc, ltok = get_loc_lextokens(txt)
     return {
         "p": os.path.abspath(path), "n": os.path.basename(path), "s": size,
-        "nl": nloc, "lt": ltok, "f": first, "c": Counter(tags)
+        "nl": loc, "lt": ltok, "f": first, "c": Counter(tags)
     }
 
 
@@ -72,11 +72,11 @@ def print_file_info(info, indent=1):
     top = info["c"].most_common(3)
     top = f" ({' '.join(f'{n}{t}' for t, n in top)})" if top else ""
     first = f" {info['f']}" if info["f"] else ""
-    print(f"{'·' * indent}{info['n']} {info['s']/1024:.2f} KB ({info['nl']} NLOC {info['lt']} LTOK){first}{top}")
+    print(f"{'·' * indent}{info['n']} {info['s']/1024:.2f} KB ({info['nl']} LOC {info['lt']} LTOK){first}{top}")
 
 
 def print_file_tree(data):
-    print("== FILE TREE as NAME SIZE (NLOC LTOK) #FirstTag (Top 3 tags) ===")
+    print("== FILE TREE as NAME SIZE (LOC LTOK) #FirstTag (Top 3 tags) ===")
     files = data["files"]
     for root in data["roots"]:
         if not os.path.isdir(root):
@@ -85,7 +85,7 @@ def print_file_tree(data):
             continue
         s, nl, lt = data["dirs"].get(root, [0, 0, 0])
         rn = os.path.basename(root.rstrip(os.sep)) or root
-        print(f"{rn}/ {s/1024:.2f} KB ({nl} NLOC {lt} LTOK)")
+        print(f"{rn}/ {s/1024:.2f} KB ({nl} LOC {lt} LTOK)")
         for i in files:
             fp = i["p"]
             if not fp.startswith(root + os.sep): continue
