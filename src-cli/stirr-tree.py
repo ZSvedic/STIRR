@@ -219,7 +219,7 @@ def print_hahstags(totals):
 
 
 def print_all(nodes):
-    print("== FILE TREE as NAME SIZE (LOC LTOK) #FirstTag (Top 3 tags) ===")
+    print("== FILE TREE as NAME SIZE (LOC LTOK) FirstTag (Top 3 tags) ===")
     all_totals = Counter()
     for node in nodes:
         print_file_tree(node)

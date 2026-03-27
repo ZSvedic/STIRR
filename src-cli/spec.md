@@ -2,7 +2,7 @@
 tags: #Human
 --
 
-- Read [#STIRR](../STIRR-rules.md). 
+- Read [#STIRR](../stirr-skill/SKILL.md). 
 - Implement the `stirr-tree.py` script with py3 shebang, just py stdlib, `__main__` check.
 
 # Examples
@@ -17,7 +17,7 @@ USAGE:
   ...
 
 > ./stirr-tree.py .
-== FILE TREE as NAME SIZE (LOC LTOK) #FirstTag (Top 3 tags) ===
+== FILE TREE as NAME SIZE (LOC LTOK) FirstTag (Top 3 tags) ===
 src-cli/ 121.92 KB (3246 LOC 28147 LTOK)
 ·ai-output.log 102.93 KB (2694 LOC 23685 LTOK) #AI (16#textrl 14#conventionrl 13#human)
 ·implement.sh 0.18 KB (8 LOC 54 LTOK) #Human (1#human)

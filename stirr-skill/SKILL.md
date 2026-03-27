@@ -3,7 +3,7 @@ name: stirr-skill
 description: STIRR (Specify → Test → Implement → Review → Repeat) is an iterative AI dev system based on text conventions that is spec/test-driven. Use when directly invoked, when stirr is mentioned, or when the user is asking about TDD or SDD dev processes. 
 license: MIT
 metadata:
-  author: Zeljko Svedic
+  author: Zeljko Svedic #Human
   version: "0.4"
 ---
 

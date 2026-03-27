@@ -18,7 +18,7 @@ PATHS=("$@")
 
 TREE_OUTPUT=$($(dirname "$0")/stirr-tree.py "${PATHS[@]}")
 
-RULES="$(< "$(dirname "$0")/../stirr-rules.md")"
+RULES="$(< "$(dirname "$0")/../stirr-skill/SKILL.md")"
 
 PROMPT=$(cat <<EOF
 You are a project compliance checker that: 
@@ -30,7 +30,7 @@ Check if the code structure and files comply with the STIRR rules.
 You should output pure text for console, no Markdown. 
 Answer within 45 seconds (e.g. use \`date\` at the start). 
 
-=== STIRR-rules.md:
+=== STIRR rules (from SKILL.md):
 \`\`\`md
 $RULES
 \`\`\`
