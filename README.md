@@ -2,7 +2,7 @@
 
 `#STIRR` is tool-free, meaning that it works with any AI agent. It is "implemented" by humans and AI by reading the 7 rules (~7 min read). If you don't like something, just change it.
 
-Read the full rules inside [stirr-skill/SKILL.md](./stirr-skill/SKILL.md).
+Read the rules inside [stirr-skill/SKILL.md](./stirr-skill/SKILL.md).
 
 ## Next steps
 - Add [stirr-skill/](./stirr-skill/) as an [agent skill](https://agentskills.io/home).  
