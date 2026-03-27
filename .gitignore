@@ -1,1 +1,33 @@
-md
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# Packaging / builds
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Tests / tooling
+.pytest_cache/
+.coverage*
+.mypy_cache/
+.ruff_cache/
+
+# IDEs / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Other
+TEMP/
+*.log

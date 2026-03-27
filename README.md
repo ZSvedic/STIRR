@@ -1,1 +1,1 @@
-md
+`#STIRR` (**S**pecify → **T**est → **I**mplement → **R**eview → **R**epeat) is an iterative AI dev system based on text conventions and is spec/test-driven.
