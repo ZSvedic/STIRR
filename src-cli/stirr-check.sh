@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 # #Human
-
-set -euo pipefail
-
 usage() {
   echo "  Usage: stirr-check.sh <codex|claude> PATH1 [PATH2 ...]\n"
   echo "  - Calls \`stirr-tree.py\` on provided paths, pipes output to a string."
@@ -10,6 +7,8 @@ usage() {
   echo "  - Calls either Codex or Claude with a given prompt, no tools allowed."
   exit 1
 }
+
+set -euo pipefail
 
 [ "$#" -ge 2 ] || usage
 
@@ -43,11 +42,12 @@ EOF
 
 case "$AGENT" in
   codex)
-    echo "=== Codex: "
-    codex -a never -s read-only exec "$PROMPT"
+    echo "Running Codex..."
+    codex -a never -s read-only exec "$PROMPT" \
+      2>&1 | awk '/^=== PATHS:/,0' # Codex is a bit verbose, display only after path part.
     ;;
   claude)
-    echo "=== Claude: "
+    echo "Running Claude..."
     claude -p "$PROMPT" --tools none 
     ;;
   *)

@@ -77,13 +77,10 @@ def is_git_ignored(path, repo_root):
 - Print tags and frequencies: top 3 per file, in the end all tags.
 - Display usage on --help, -h and no args.
 - Each test:
-    - Display Pass or FAIL: BashFailedCommand.
+    - Display Pass or FAIL: bash_failed_cmd.
     - Outputs analysis to a log file in the `tests` folder.
     - Works from any folder.
 - Check that all tests pass.
 
 # Current iteration
-- Create new test4-codex-call.sh that checks `test-dir` (see `test3-tree.sh`) with [implement-codex.sh](./implement-codex.sh). 
-    - LLM outputs are non-deterministic, check for some 3 text strings that should always be there, if the call was successful.
-    - Timeout 20 sec.
-    - Check that test4 works.
+
