@@ -102,7 +102,10 @@ If that happens, create hidden tests that are executed manually.
 ### `#RepeatRL` — Repeat
 Repeat the `Specify → Test → Implement → Review` loop by incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs cover the required functionality, the tests pass, and the human has nothing to add.
 
-## Checking compliance
-- Run [`./stirr-tree.py`](./stirr-tree.py) to display the project file tree with LTOK counts and hashtags.
-- Run [`./stirr-check.sh`](./stirr-check.sh) to check compliance with the rules. 
-  It sends `stirr-tree.py` output to CLI coding agent of your choice (Codex/Claude).
+## Scripts
+- Install skill symlinks in all CLI agents: [./scripts/install-skill.sh](./scripts/install-skill.sh)
+- Check project for compliance:
+  - Run [`./scripts/stirr-tree.py`](./scripts/stirr-tree.py) to display the project file tree with LTOK counts and hashtags.
+  - Run [`./scripts/stirr-check.sh`](./scripts/stirr-check.sh) to check compliance with the rules. 
+    It sends `stirr-tree.py` output to CLI coding agent of your choice (Codex/Claude).
+- Implement by running: [./scripts/implement.sh](./scripts/implement.sh)

@@ -4,7 +4,7 @@ usage() {
   echo "  Usage: stirr-check.sh <codex|claude|copilot|cursor> PATH1 [PATH2 ...]\n"
   echo "  - Calls \`stirr-tree.py\` on provided paths, pipes output to a string."
   echo "  - Constructs a validation prompt, including the tree output."
-  echo "  - Calls either Codex or Claude with a given prompt, no tools allowed."
+  echo "  - Calls CLI agent with a given prompt."
   exit 1
 }
 
