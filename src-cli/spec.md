@@ -82,7 +82,7 @@ def is_git_ignored(path, repo_root):
     - Works from any folder.
 
 # Current iteration
-- Current `stirr-tree.py` is a restored older version (never version had a bug). 
+- Current `stirr-tree.py` is a restored older version (newer version had a bug). 
   Current works correctly and has minimal code, but doesn't do some things specfied:
     - Print `(... LOC ... LTOK)`.
     - Print help/usage.
