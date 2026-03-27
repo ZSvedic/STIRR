@@ -21,9 +21,14 @@ TREE_OUTPUT=$($(dirname "$0")/stirr-tree.py "${PATHS[@]}")
 RULES="$(< "$(dirname "$0")/../stirr-rules.md")"
 
 PROMPT=$(cat <<EOF
-You are a project compliance checker, without access to external tools.
-Below are the STIRR rules and the CLI output of stirr-tree.py for specified paths.
-Check if the code structure and files comply with the STIRR rules, output pure text.
+You are a project compliance checker that: 
+- Can read and search files in the project paths. 
+- Can read test logs. 
+- Can\'t modify files, execute tests or code, or access files outside the project paths. 
+Below are the STIRR rules and the CLI output of stirr-tree.py for the specified paths. 
+Check if the code structure and files comply with the STIRR rules. 
+You should output pure text for console, no Markdown. 
+Answer within 45 seconds (e.g. use \`date\` at the start). 
 
 === STIRR-rules.md:
 \`\`\`md
@@ -43,12 +48,12 @@ EOF
 case "$AGENT" in
   codex)
     echo "Running Codex..."
-    codex -a never -s read-only exec "$PROMPT" \
+    codex -a never -s workspace-write exec "$PROMPT" \
       2>&1 | awk '/^=== PATHS:/,0' # Codex is a bit verbose, display only after path part.
     ;;
   claude)
     echo "Running Claude..."
-    claude -p "$PROMPT" --tools none 
+    claude -p "$PROMPT" 
     ;;
   *)
     usage
