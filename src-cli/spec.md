@@ -93,6 +93,7 @@ def is_git_ignored(path, repo_root):
     2. Then fix all above in `stirr-tree.py` so that the tests 1-3 pass (test4 takes longer).
 - Implementation in `stirr-tree.py`:
     - Below 1500 LTOK.
+        - Use normal variable names like path and dir, not p and d. They are both 1 LTOK.  
     - No large functions, break into smaller ones.
     - Keep current recursive parsing architecture. 
     - Separate functions for git ignore check.
