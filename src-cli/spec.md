@@ -90,7 +90,7 @@ def is_git_ignored(path, repo_root):
     - Doesn't ignore files in repo `.gitignore`.
 - #TDD
     1. First update `test3-tree.sh` to correct file comparison.
-    2. Then fix all above in `stirr-tree.py` so that the all tests pass.
+    2. Then fix all above in `stirr-tree.py` so that the tests 1-3 pass (test4 takes longer).
 - Implementation in `stirr-tree.py`:
     - Below 1500 LTOK.
     - No large functions, break into smaller ones.
