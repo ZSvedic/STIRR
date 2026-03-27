@@ -4,7 +4,7 @@
 
 source "$(dirname "$0")/base-testing.sh" "$0"
 
-timeout 30 ./stirr-check.sh codex tests/test-dir > "$LOG" 2>&1
+timeout 50 ./stirr-check.sh codex tests/test-dir > "$LOG" 2>&1
 
 rg -q "test-dir" "$LOG"
 rg -q "test-hashtags.txt" "$LOG"

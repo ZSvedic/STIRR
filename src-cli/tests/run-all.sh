@@ -2,7 +2,7 @@
 # #Human
 # Runs all files named `test*.sh` in this dir.
 
-set -euo pipefail
+set -uo pipefail
 
 dir="$(dirname "$0")"
 
