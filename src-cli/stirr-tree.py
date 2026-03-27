@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# #AI
+# #Human
 import glob
 import os
 import re

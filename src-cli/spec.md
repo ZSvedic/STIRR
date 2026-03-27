@@ -86,3 +86,27 @@ def is_git_ignored(path, repo_root):
     - Keep current recursive parsing architecture. 
     - Separate functions for git ignore check.
 - You are done when tests 1-3 pass and .gitignore works.
+
+# Current iteration
+- `stirr-tree.py` and `tests/` are perfect, don't change them.
+- However `implement-*` and `stirr-check.sh`:
+    - Currently support only codex and claude agents.
+    - In `stirr-check.sh`: add support for 'copilot' (`copilot --help`) and 'cursor' (`agent --help`) commands, both are installed on this machine.
+    - Make new `implement.sh` with the same logic as `stirr-check.sh` (arg for provider): 
+      USAGE: implement.sh <codex|claude|copilot|cursor>
+    - Just add minimal lines to implement the changes above.
+- Make new `install-skill.sh` with installs [../stirr-skill/](../stirr-skill/) to 4 cli agent default path below. 
+    For first 3, take a look at paths from this unrelated skill:
+    ```bash
+    mkdir -p \
+    /root/.copilot/skills \
+    /root/.claude/skills \
+    /root/.codex/skills
+
+    cp -r /gembox-skills/gembox-skill /root/.copilot/skills/gembox-skill
+    cp -r /gembox-skills/gembox-skill /root/.claude/skills/gembox-skill
+    cp -r /gembox-skills/gembox-skill /root/.codex/skills/gembox-skill
+    ```
+    Google for def cursor path. 
+    But, try not to copy skill dir but make a symbolic link it, so it changes with updates to skill.
+    I will test that one manually.
