@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # #Human
+# A simple test runner. Reads tests from tests.csv, runs them, and compares .log to .correct.
 
 usage() { 
-    echo -e "USAGE: $0 -a | -c CATEGORY | -n NAME\n"
-    echo "  -a: Runs all tests"
-    echo "  -c CATEGORY: Runs tests in the CATEGORY."
-    echo "  -n NAME: Runs the test with the NAME."
+    printf "USAGE: %s -a | -c CATEGORY | -n NAME\n\n" "$0"
+    printf "  -a \t\tRuns all tests\n"
+    printf "  -c CATEGORY \tRuns all tests in the CATEGORY.\n"
+    printf "  -n NAME \tRuns the NAME test.\n"
     exit "${1:-1}" # Default exit code 1 for error, 0 for help.
 }
 
@@ -31,12 +32,12 @@ while IFS=, read -r NAME CATEGORY CMD; do # Read each row.
     c) [ "$VAL" = all ] || [ "$CATEGORY" = "$VAL" ] || continue ;;
     n) [ "$NAME" = "$VAL" ] || continue ;;
   esac
-  printf "Running %s... \t\t" "$NAME"
-  CMD="./../$CMD"
-  if eval "$CMD" > "$NAME.log" 2>&1 && diff -uw "$NAME.log" "$NAME.expected.log" > /dev/null; then
-    echo Pass
+  printf "Running %s...\t" "$NAME"
+  eval "./../$CMD" > "$NAME.log" 2>&1 # Run CMD with prefix and suffix, capture output.
+  if DIFF_OUT=$(diff -uw -U0 "$NAME.log" "$NAME.correct" 2>&1); then
+    printf "Pass\n"
   else
-    echo "FAIL: $CMD"
+    printf "FAIL\n$DIFF_OUT\n\n"
     RET=1
   fi
 done < tests.csv # Read tests from CSV.
