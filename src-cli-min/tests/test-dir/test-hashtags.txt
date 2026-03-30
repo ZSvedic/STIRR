@@ -1,0 +1,13 @@
+VALID:
+// #human 
+'`#FooBar``
+#FooBar
+#foobar
+#foo-bar
+#foo+bar (only foo is matched)
+#foo #Foo #fOO 
+#bar #Bar
+
+INVALID:
+#123ERROR #123ERROR #123ERROR #123ERROR #123ERROR #123ERROR #123ERROR #123ERROR 
+#_ERROR #_ERROR #_ERROR #_ERROR #_ERROR #_ERROR #_ERROR #_ERROR #_ERROR #_ERROR #_ERROR 
