@@ -1,5 +1,5 @@
 VALID:
-// #human 
+// #Human 
 '`#FooBar``
 #FooBar
 #foobar
@@ -7,7 +7,7 @@ VALID:
 #foo+bar (only foo is matched)
 #foo #Foo #fOO 
 #bar #Bar
-#Human #Human #Human
+#human #human #Human
 
 INVALID:
 #123ERROR #123ERROR #123ERROR #123ERROR #123ERROR #123ERROR #123ERROR #123ERROR 
