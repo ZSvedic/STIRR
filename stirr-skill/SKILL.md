@@ -47,9 +47,9 @@ Write specs before implementation:
 
 - **Be short** — Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
 A good rule of thumb is that spec size should be <30% of generated code size.
-If the spec is larger, it is usually faster to write code directly.
 
-- **Example is worth a thousand words** — LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
+- **Example is worth a thousand words** — Start with an example, then generalize.
+LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
 Give multiple examples and AI will infer a generalization.
 Examples are in [text](#textrl--text-for-everything) with irrelevant parts shortened with `...`; the AI can figure it out. 
 Bootstrap examples using modified outputs from the previous iteration for the next. 
@@ -74,19 +74,19 @@ Humans can't predict all ways software or AI can fail. Therefore, tests are adde
 ### `#ImplementRL` — AI implementation 
 AI implements specs in code so that the tests pass. 
 
-Commit human edits *before* AI implementation to allow:
-- Reviewing AI changes as diffs.
-- Rolling back and changing spec, if AI went in completely wrong direction.  
+- **Commit human edits before AI implementation** — That allows:
+  - Reviewing AI changes as diffs.
+  - Rolling back and changing spec, if AI went in completely wrong direction.  
 
-*Implementation is non-deterministic* — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
+- **Implementation is non-deterministic** — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
+
+- **Goals order** — Long-term satisfaction of software users and maintainers depends on, 
+in the decreasing order of importance: correctness, usability, interoperability, speed, and maintainability.  
+I.e., don't optimize speed if the software is not working correctly.
 
 ### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
 The human manually tests an implementation and examines code diffs. 
 After discovering an issue, the required specs, tests, or the journal are updated. 
-
-- **The end goal is human satisfaction** — Long-term satisfaction of software users and maintainers depends on, 
-in the decreasing order of importance: correctness, usability, interoperability, maintainability, and speed.  
-I.e., don't optimize speed if the software is not working correctly.
 
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
@@ -96,11 +96,14 @@ As identifiers are one LTOK, the AI has no incentive to use short names.
 For most programming languages, 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is ~10 LTOK. 
 The `stirr-tree.py` script displays a simple LTOK calculation for all text/code files. 
 
-- **Hidden tests** — Instead of fixing the underlying issue, AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
+- **Hidden tests** — Instead of fixing the underlying issue, 
+AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
 If that happens, create hidden tests that are executed manually.
 
 ### `#RepeatRL` — Repeat
-Repeat the `Specify → Test → Implement → Review` loop by incrementally expanding specs, tests, or the journal. With each iteration, more code should change to `#Human` ownership. The process is finished when the specs cover the required functionality, the tests pass, and the human has nothing to add.
+Repeat the `Specify → Test → Implement → Review` loop by incrementally expanding specs, tests, or the journal. 
+With each iteration, more code should change to `#Human` ownership. 
+The process is finished when the specs cover the required functionality, the tests pass, and the human has nothing to add.
 
 ## Scripts
 - Install skill symlinks in all CLI agents: [./scripts/install-skill.sh](./scripts/install-skill.sh)
