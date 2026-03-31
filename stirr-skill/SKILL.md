@@ -95,7 +95,7 @@ Human attention is not.
 In any workflow, the bottleneck is human reading speed.  
 To reduce AI verbosity, specify a max lexical token count (LTok).
 As identifiers are one LTok, the AI has no incentive to use short names.
-For most programming languages, 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is ~10 LTok. 
+Depending on the language, 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is 7-10 LTok. 
 The `stirr-tree.py` script displays a simple LTok calculation for all text/code files. 
 
 - **Hidden tests** — Instead of fixing the underlying issue, 
