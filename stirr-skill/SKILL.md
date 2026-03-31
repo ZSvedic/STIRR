@@ -112,5 +112,5 @@ The process is finished when the specs cover the required functionality, the tes
 - Check project for compliance:
   - Run [`./scripts/stirr-tree.py`](./scripts/stirr-tree.py) to display the project file tree with LTok counts and hashtags.
   - Run [`./scripts/stirr-check.sh`](./scripts/stirr-check.sh) to check compliance with the rules. 
-    It sends `stirr-tree.py` output to CLI coding agent of your choice (Codex/Claude).
+    It sends `stirr-tree.py` output to CLI coding agent of your choice.
 - Implement by running: [./scripts/implement.sh](./scripts/implement.sh)
