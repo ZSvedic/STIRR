@@ -12,7 +12,7 @@ usage() {
 
 set -uo pipefail # Exit on undefined variable or pipe failure.
 
-cd "$(dirname "$0")" # Change to the tests directory.
+cd "$(dirname "$0")" # Change to the tests dir.
 
 [ $# -gt 0 ] || usage # If no arguments, show usage.
 
