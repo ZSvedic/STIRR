@@ -58,3 +58,10 @@ Follow the goals order, first make it correct, then make it maintainable:
 - Have a docstring if non-trivial func.
 - Use normal var names like path and dir, not p and d. They are both 1 LTok.
 - Try to make it <1000 LTok.
+
+# DONE: Iteration 1
+- stirr-tree.py, 1540 LTok, - (290 LOC)
+
+# ToDo: Iteration 2
+- Everything works, but stirr-tree.py is too large for #HITL.
+  Make code simpler and shorter, below 900 LTok.
