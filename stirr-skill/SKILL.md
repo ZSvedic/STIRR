@@ -67,8 +67,10 @@ That also applies to legacy systems. Fully covering all legacy system behavior p
 ### `#TDD` — Test-Driven Development
 Tests are generated from the spec. 
 If AI-generated, they are reviewed by humans.  
+
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must initially fail (red). 
 The goal of implementation is to make all tests green.  
+
 Humans can't predict all ways software or AI can fail. Therefore, tests are added iteratively.
 
 ### `#ImplementRL` — AI implementation 
@@ -80,8 +82,8 @@ AI implements specs in code so that the tests pass.
 
 - **Implementation is non-deterministic** — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
-- **Goals order** — Long-term satisfaction of software users and maintainers depends on, 
-in the decreasing order of importance: correctness, usability, interoperability, speed, and maintainability.  
+- **Goals order** — Long-term human satisfaction depends on, in the decreasing order of importance: 
+correctness, usability, interoperability, speed, and maintainability.  
 I.e., don't optimize speed if the software is not working correctly.
 
 ### `#HITL` — [Human-in-the-loop](https://en.wikipedia.org/wiki/Human-in-the-loop)
