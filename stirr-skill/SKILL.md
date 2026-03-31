@@ -65,7 +65,7 @@ It is loaded in context only when a history of decisions is needed.
 That also applies to legacy systems. Fully covering all legacy system behavior produces specs that are too long. Even with full coverage spec, implementing it will reproduce the same app—with bugs, quirks, and bloat—without AI gains.
 
 ### `#TDD` — Test-Driven Development
-Tests are generated from the spec. 
+Tests follow from the spec. 
 If AI-generated, they are reviewed by humans.  
 
 Use [red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/), meaning that tests are written before implementation and must initially fail (red). 
@@ -82,7 +82,7 @@ AI implements specs in code so that the tests pass.
 
 - **Implementation is non-deterministic** — different AIs will generate different code. This is a good thing. In the future, better models will generate better apps from the same spec.
 
-- **Goals order** — Long-term human satisfaction depends on, in the decreasing order of importance: 
+- **Goals order** — Long-term human satisfaction depends on, in the decreasing order of importance:  
 correctness, usability, interoperability, speed, and maintainability.  
 I.e., don't optimize speed if the software is not working correctly.
 
@@ -93,10 +93,10 @@ After discovering an issue, the required specs, tests, or the journal are update
 - **Human is the bottleneck** — AI output is cheap. 
 Human attention is not. 
 In any workflow, the bottleneck is human reading speed.  
-To reduce AI verbosity, specify a max lexical token count (LTOK).
-As identifiers are one LTOK, the AI has no incentive to use short names.
-For most programming languages, 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is ~10 LTOK. 
-The `stirr-tree.py` script displays a simple LTOK calculation for all text/code files. 
+To reduce AI verbosity, specify a max lexical token count (LTok).
+As identifiers are one LTok, the AI has no incentive to use short names.
+For most programming languages, 1 [LOC](https://en.wikipedia.org/wiki/Source_lines_of_code "line-of-code") is ~10 LTok. 
+The `stirr-tree.py` script displays a simple LTok calculation for all text/code files. 
 
 - **Hidden tests** — Instead of fixing the underlying issue, 
 AI will sometimes make tests pass by adding workaround code, [just as people do](https://en.wikipedia.org/wiki/Volkswagen_emissions_scandal). 
@@ -110,7 +110,7 @@ The process is finished when the specs cover the required functionality, the tes
 ## Scripts
 - Install skill symlinks in all CLI agents: [./scripts/install-skill.sh](./scripts/install-skill.sh)
 - Check project for compliance:
-  - Run [`./scripts/stirr-tree.py`](./scripts/stirr-tree.py) to display the project file tree with LTOK counts and hashtags.
+  - Run [`./scripts/stirr-tree.py`](./scripts/stirr-tree.py) to display the project file tree with LTok counts and hashtags.
   - Run [`./scripts/stirr-check.sh`](./scripts/stirr-check.sh) to check compliance with the rules. 
     It sends `stirr-tree.py` output to CLI coding agent of your choice (Codex/Claude).
 - Implement by running: [./scripts/implement.sh](./scripts/implement.sh)
