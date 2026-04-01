@@ -1,254 +1,165 @@
 #!/usr/bin/env python3
-# #Human
-import glob
-import os
-import re
-import subprocess
-import sys
-from collections import Counter
+# #Human reviewed output of Copilot CLI 1.0.14. (harness) + claude-sonnet-4.6 (model). 
+# Prints a file tree with LTok counts and hashtag summaries.
 
+import sys, os, glob, re, subprocess
+
+USAGE = "USAGE:\n  stirr-tree.py PATH1 [PATH2 ...]\n  stirr-tree.py --help\n"
+# Regex for hashtags, test it online at: https://regexr.com/8lduo
 TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
-LEXTOK_RE = re.compile(r'"(?:\\.|[^"])*"|\'(?:\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
+# Regex for lexical tokens, test it online at: https://regexr.com/8ldco
+LTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
 
 
-def fmt_size(size_bytes):
-    return f"{size_bytes / 1024:.2f} KB"
-
-
-def get_loc_lextokens(text):
-    lines = [line for line in text.splitlines() if line.strip()]
-    tokens = LEXTOK_RE.findall(text)
-    return (len(lines), len(tokens))
-
-
-def get_file_text_hashtag(path):
+def get_file_text_tag(path):
+    '''Checks if a text file and returns the first tag.'''
     try:
-        with open(path, "rb") as file:
-            chunk = file.read(4096)
-        if b"\x00" in chunk:
+        with open(path, 'rb') as f:
+            chunk = f.read(4096)
+        if b'\x00' in chunk:
             return (False, None)
-        text = chunk.decode("utf-8", "ignore")
-        match = TAG_RE.search(text)
-        return (True, match.group(0) if match else None)
-    except Exception:
+        text = chunk.decode('utf-8', 'ignore')
+        m = TAG_RE.search(text)
+        return (True, m.group(0) if m else None)
+    except:
         return (False, None)
 
-
-def get_repo_root():
-    try:
-        result = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return result.stdout.strip()
-    except Exception:
-        return None
-
-
-def is_path_inside_repo(path, repo_root):
-    if not repo_root:
-        return False
-    abs_path = os.path.abspath(path)
-    try:
-        common = os.path.commonpath([abs_path, repo_root])
-    except ValueError:
-        return False
-    return common == repo_root
-
-
 def is_git_ignored(path, repo_root):
-    if not is_path_inside_repo(path, repo_root):
-        return False
+    '''Checks `.gitignore` skipping rules.'''
     try:
-        relative_path = os.path.relpath(os.path.abspath(path), repo_root)
-        result = subprocess.run(
-            ["git", "-C", repo_root, "check-ignore", "-q", relative_path],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+        rel = os.path.relpath(os.path.abspath(path), repo_root)
+        r = subprocess.run(
+            ["git", "-C", repo_root, "check-ignore", "-q", rel],
+             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
-        return result.returncode == 0
-    except Exception:
+        return r.returncode == 0
+    except:
         return False
 
-
-def tag_order_map(found_tags):
-    order = {}
-    for index, tag in enumerate(found_tags):
-        if tag not in order:
-            order[tag] = index
-    return order
-
-
-def get_text_file_info(path, repo_root):
-    if is_git_ignored(path, repo_root):
+def find_repo_root(path):
+    try:
+        r = subprocess.run(["git", "-C", path, "rev-parse", "--show-toplevel"],
+                           capture_output=True, text=True)
+        return r.stdout.strip() if r.returncode == 0 else None
+    except:
         return None
 
-    is_text, first_tag = get_file_text_hashtag(path)
+def get_text_file_info(path):
+    '''Returns (ltok, first_tag, tags) for a text file <128KB; first_tag and tags
+    count all occurrences except the first (which is displayed as FirstTag).'''
+    is_text, _ = get_file_text_tag(path)
     if not is_text:
         return None
-
     try:
-        size_bytes = os.path.getsize(path)
-        if size_bytes >= 128 * 1024:
+        if os.path.getsize(path) >= 128 * 1024:
             return None
-
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            text = file.read()
-
-        found_tags = [tag.lower() for tag in TAG_RE.findall(text)]
-        tags = Counter(found_tags)
-        order = tag_order_map(found_tags)
-        loc, ltok = get_loc_lextokens(text)
-        return {
-            "name": os.path.basename(path),
-            "path": path,
-            "size": size_bytes,
-            "loc": loc,
-            "ltok": ltok,
-            "first": first_tag,
-            "tags": tags,
-            "order": order,
-        }
-    except Exception:
+        text = open(path, 'rb').read().decode('utf-8', 'ignore')
+    except:
         return None
+    ltok = len(LTOK_RE.findall(text))
+    matches = [m.group(0) for m in TAG_RE.finditer(text)]
+    if not matches:
+        return (ltok, None, [])
+    first_tag = matches[0]
+    first_key = first_tag.lower()
+    counts = {}
+    for tag in matches[1:]:
+        key = tag.lower()
+        if key not in counts:
+            counts[key] = [first_tag if key == first_key else tag, 0]
+        counts[key][1] += 1
+    if first_key not in counts:
+        counts[first_key] = [first_tag, 0]
+    tags = sorted(counts.values(), key=lambda x: (-x[1], x[0].lower()))
+    return (ltok, first_tag, tags)
 
+def collect_global_tags(tag_infos):
+    '''Merges per-file tag info into global counts (restoring the first occurrence).
+    Returns list of (canonical, count) sorted by count desc then first-seen order.
+    '''
+    global_tags = {}
+    for info in tag_infos:
+        ltok, first_tag, tags = info
+        key = first_tag.lower()
+        if key not in global_tags:
+            global_tags[key] = [first_tag, 0]
+        global_tags[key][1] += 1
+        for canonical, count in tags:
+            k = canonical.lower()
+            if k not in global_tags:
+                global_tags[k] = [canonical, 0]
+            global_tags[k][1] += count
+    return sorted(global_tags.values(), key=lambda x: -x[1])
 
-def new_dir_node(path):
-    name = os.path.basename(path.rstrip(os.sep)) or "."
-    return {
-        "kind": "dir",
-        "name": name,
-        "path": path,
-        "size": 0,
-        "loc": 0,
-        "ltok": 0,
-        "dirs": [],
-        "files": [],
-        "totals": Counter(),
-    }
-
-
-def traverse_dir(path, repo_root):
-    node = new_dir_node(path)
-    for item_path in sorted(glob.glob(os.path.join(path, "*"))):
-        if is_git_ignored(item_path, repo_root):
+def traverse(root_path, repo_root):
+    '''Returns (dir_ltok, children) for a directory, skipping hidden/.gitignored items.
+    Each child is (name, is_dir, ltok, tag_info, sub_children).
+    '''
+    children = []
+    for item in sorted(glob.glob(os.path.join(root_path, '*'))):
+        if repo_root and is_git_ignored(item, repo_root):
             continue
-        if os.path.isdir(item_path):
-            child_dir = traverse_dir(item_path, repo_root)
-            node["dirs"].append(child_dir)
-            node["size"] += child_dir["size"]
-            node["loc"] += child_dir["loc"]
-            node["ltok"] += child_dir["ltok"]
-            node["totals"].update(child_dir["totals"])
-        elif os.path.isfile(item_path):
-            file_info = get_text_file_info(item_path, repo_root)
-            if file_info is None:
-                continue
-            node["files"].append(file_info)
-            node["size"] += file_info["size"]
-            node["loc"] += file_info["loc"]
-            node["ltok"] += file_info["ltok"]
-            node["totals"].update(file_info["tags"])
-    return node
+        name = os.path.basename(item)
+        if os.path.isdir(item):
+            sub_ltok, subs = traverse(item, repo_root)
+            children.append((name, True, sub_ltok, None, subs))
+        else:
+            info = get_text_file_info(item)
+            children.append((name, False, info[0] if info else 0, info, []))
+    return (sum(c[2] for c in children), children)
 
+def format_tags(first_tag, tags):
+    if first_tag is None:
+        return "-"
+    top3 = [f"{count}{canonical}" for canonical, count in tags[:3] if count > 0]
+    return (first_tag + " + " + " ".join(top3)) if top3 else first_tag
 
-def traverse_file(path, repo_root):
-    file_info = get_text_file_info(path, repo_root)
-    if file_info is None:
-        return None
-    return {
-        "kind": "dir",
-        "name": os.path.basename(path),
-        "path": path,
-        "size": file_info["size"],
-        "loc": file_info["loc"],
-        "ltok": file_info["ltok"],
-        "dirs": [],
-        "files": [file_info],
-        "totals": Counter(file_info["tags"]),
-    }
+def print_file_tree(children, indent=0):
+    prefix = "  " * indent
+    for name, is_dir, ltok, info, subs in children:
+        if is_dir:
+            print(f"{prefix}{name}/, {ltok} LTok, -")
+            print_file_tree(subs, indent + 1)
+        else:
+            first_tag = info[1] if info else None
+            tags = info[2] if info else []
+            print(f"{prefix}{name}, {ltok} LTok, {format_tags(first_tag, tags)}")
 
+def collect_all_tag_info(children):
+    result = []
+    for name, is_dir, ltok, info, subs in children:
+        if is_dir:
+            result.extend(collect_all_tag_info(subs))
+        elif info and info[1] is not None:
+            result.append(info)
+    return result
 
-def traverse(path, repo_root):
-    if is_git_ignored(path, repo_root):
-        return None
-    if os.path.isdir(path):
-        return traverse_dir(path, repo_root)
-    if os.path.isfile(path):
-        return traverse_file(path, repo_root)
-    return None
-
-
-def top_tags(file_info, limit=3):
-    items = sorted(
-        file_info["tags"].items(),
-        key=lambda kv: (-kv[1], file_info["order"].get(kv[0], 10**9), kv[0]),
-    )
-    return items[:limit]
-
-
-def print_file_info(file_info, indent=""):
-    first_tag = f" {file_info['first']}" if file_info["first"] else ""
-    tags = top_tags(file_info, limit=3)
-    tags_part = ""
-    if tags:
-        tags_part = " (" + " ".join(f"{count}{tag}" for tag, count in tags) + ")"
-    print(
-        f"{indent}{file_info['name']} {fmt_size(file_info['size'])} "
-        f"({file_info['loc']} LOC {file_info['ltok']} LTOK){first_tag}{tags_part}"
-    )
-
-
-def print_file_tree(node, indent=""):
-    print(
-        f"{indent}{node['name']}/ {fmt_size(node['size'])} "
-        f"({node['loc']} LOC {node['ltok']} LTOK)"
-    )
-    next_indent = indent + "  "
-    for child_dir in node["dirs"]:
-        print_file_tree(child_dir, next_indent)
-    for file_info in node["files"]:
-        print_file_info(file_info, next_indent)
-
-
-def print_hahstags(totals):
+def print_tags(global_tags):
     print("== TAG TOTALS ===")
-    print(" ".join(f"{count}{tag}" for tag, count in sorted(totals.items(), key=lambda kv: (-kv[1], kv[0]))))
+    print(" ".join(f"{count}{canonical}" for canonical, count in global_tags))
 
-
-def print_all(nodes):
-    print("== FILE TREE as NAME SIZE (LOC LTOK) FirstTag (Top 3 tags) ===")
-    all_totals = Counter()
-    for node in nodes:
-        print_file_tree(node)
-        all_totals.update(node["totals"])
-    print_hahstags(all_totals)
-
-
-def print_usage():
-    print("USAGE:")
-    print("  stirr-tree.py PATH1 [PATH2 ...]")
-    print("  stirr-tree.py --help")
-
-
-def main(argv):
-    if not argv or argv[0] in {"-h", "--help"}:
-        print_usage()
-        return 0
-
-    repo_root = get_repo_root()
-    nodes = []
-    for raw_path in argv:
-        path = os.path.normpath(raw_path)
-        node = traverse(path, repo_root)
-        if node is not None:
-            nodes.append(node)
-
-    print_all(nodes)
-    return 0
-
+def print_all(paths):
+    '''Main entry: traverses paths and prints file tree + tag totals.'''
+    root = paths[0] if os.path.isdir(paths[0]) else os.path.dirname(paths[0])
+    repo_root = find_repo_root(os.path.abspath(root))
+    all_children = []
+    for path in paths:
+        path = os.path.normpath(path)
+        if os.path.isdir(path):
+            dir_ltok, subs = traverse(path, repo_root)
+            all_children.append((os.path.basename(path), True, dir_ltok, None, subs))
+        elif os.path.isfile(path):
+            info = get_text_file_info(path)
+            all_children.append((os.path.basename(path), False, info[0] if info else 0, info, []))
+    print("== FILE TREE as Name, X LTok, FirstTag + Top3Tags ===")
+    print_file_tree(all_children)
+    tag_infos = collect_all_tag_info(all_children)
+    if tag_infos:
+        print_tags(collect_global_tags(tag_infos))
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1:]))
+    args = sys.argv[1:]
+    if not args or "--help" in args or "-h" in args:
+        print(USAGE, end="")
+        sys.exit(0)
+    print_all(args)

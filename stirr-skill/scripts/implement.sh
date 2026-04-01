@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 # #Human
-# Runs current iteration of the implementation spec through a selected agent.
-
-set -euo pipefail
 
 usage() {
-  echo "USAGE: implement.sh <codex|claude|copilot|cursor>"
+  printf "USAGE: %s <codex|claude|copilot|cursor>\n\n" "$0"
+  printf "Runs current iteration of the implementation spec through a selected agent.\n"
   exit 1
 }
 
-[ "$#" -eq 1 ] || usage
+set -euo pipefail # Exit on error, undefined variable, or pipe failure.
+
+[ "$#" -eq 1 ] || usage # If no arguments, show usage.
 
 PROVIDER="$1"
 PROMPT="Implement the spec."
 
+# Calls the appropriate agent and logs output.
 case "$PROVIDER" in
   codex)
     codex exec \
