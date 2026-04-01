@@ -116,4 +116,16 @@ The process is finished when the specs cover the required functionality, the tes
 ## Examples
 | Project | Spec LTok | Code LTok | Ratio | Note |
 | ------- | ----------| --------- | ----- | ---- |
-| This project | [613]("./stirr-tree.py spec.md tests/*.correct") | [1273]("./stirr-tree.py stirr-tree.py ") | 48% | `stirr-tree.py`Prints a tree with LTok counts/tags. |
+| This project | [613](#Examples "./stirr-tree.py spec.md tests/*.correct") | [1273](#Examples# "./stirr-tree.py stirr-tree.py ") | 48% | Produces `stirr-tree.py`. |
+
+| Project | Spec | Code | Ratio | Note |
+| ------- | -----| ---- | ----- | ---- |
+| 'stirr-cli' | `./stirr-tree.py spec.md tests/*.correct` = 613 LTok | `./stirr-tree.py stirr-tree.py` = 1273 LTok | 48% | Produces `stirr-tree.py`. |
+
+| Project | Spec | Code | Ratio | Note |
+| ------- | -----| ---- | ----- | ---- |
+| 'stirr-cli' | **613 LTok** `./stirr-tree.py spec.md tests/*.correct`| **1273 LTok** `./stirr-tree.py stirr-tree.py` | 48% | Produces `stirr-tree.py`. |
+
+| Project | Code | Spec | Ratio | Note |
+| ------- | -----| ---- | ----- | ---- |
+| 'stirr-cli' | **1273 LTok** `./stirr-tree.py stirr-tree.py` | **613 LTok** `./stirr-tree.py spec.md tests/*.correct` | 2.55 | Produces `stirr-tree.py`. |
