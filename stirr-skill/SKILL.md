@@ -114,6 +114,5 @@ The process is finished when the specs cover the required functionality, the tes
 - Implement by running: [./scripts/implement.sh](./scripts/implement.sh)
 
 ## Examples
-| Project  |  Spec LTok |  Code LTok |  Spec/Code Ratio |
-| :--      |        --: |        --: |              --: |
-| `stirr-tree.py` |  491 |  1251 |  39% |
+| Project | Spec/Code LTok Ratio |
+| `stirr-tree.py` |  491/1251 = 39% |
