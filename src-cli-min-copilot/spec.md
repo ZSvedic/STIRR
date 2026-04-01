@@ -50,10 +50,10 @@ def is_git_ignored(path, repo_root):
 
 # #TDD
 - Red/green `local` tests.
-- Manual `.gitignore` check.
 
 # #ImplementRL
 Follow the goals order, first make it correct, then make it maintainable:
+- Keep exact code spec, including comments. 
 - No large functions, break into smaller ones.
 - Have a docstring if non-trivial func.
 - Use normal var names like path and dir, not p and d. They are both 1 LTok.

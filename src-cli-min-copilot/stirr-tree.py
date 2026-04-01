@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-'''stirr-tree.py — prints a file tree with LTok counts and hashtag summaries.'''
+# #Human reviewed output of Copilot CLI 1.0.14. (harness) + claude-sonnet-4.6 (model). 
+# Prints a file tree with LTok counts and hashtag summaries.
 
 import sys, os, glob, re, subprocess
 
+USAGE = "USAGE:\n  stirr-tree.py PATH1 [PATH2 ...]\n  stirr-tree.py --help\n"
+# Regex for hashtags, test it online at: https://regexr.com/8lduo
 TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+# Regex for lexical tokens, test it online at: https://regexr.com/8ldco
 LTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
 
-USAGE = "USAGE:\n  stirr-tree.py PATH1 [PATH2 ...]\n  stirr-tree.py --help\n"
 
 def get_file_text_tag(path):
     '''Checks if a text file and returns the first tag.'''
@@ -24,9 +27,10 @@ def get_file_text_tag(path):
 def is_git_ignored(path, repo_root):
     '''Checks `.gitignore` skipping rules.'''
     try:
+        rel = os.path.relpath(os.path.abspath(path), repo_root)
         r = subprocess.run(
-            ["git", "-C", repo_root, "check-ignore", "-q", path],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            ["git", "-C", repo_root, "check-ignore", "-q", rel],
+             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         return r.returncode == 0
     except:
@@ -159,4 +163,3 @@ if __name__ == "__main__":
         print(USAGE, end="")
         sys.exit(0)
     print_all(args)
-
