@@ -60,8 +60,10 @@ Follow the goals order, first make it correct, then make it maintainable:
 - Try to make it <1000 LTok.
 
 # DONE: Iteration 1
-- stirr-tree.py, 1540 LTok, - (290 LOC)
+- Implement the above.
 
-# ToDo: Iteration 2
+# DONE: Iteration 2
 - Everything works, but stirr-tree.py is too large for #HITL.
   Make code simpler and shorter, below 900 LTok.
+
+# ToDo: Iteration X
