@@ -114,6 +114,10 @@ The process is finished when the specs cover the required functionality, the tes
 - Implement by running: [./scripts/implement.sh](./scripts/implement.sh)
 
 ## Examples
+| Project | Code | Spec | Code/Spec Ratio | Note |
+| ------- | ----------| --------- | ----- | ---- |
+| `../stirr-cli/` | [1273](#Examples "./stirr-tree.py stirr-tree.py ") | [613](#Examples "./stirr-tree.py spec.md tests/*.correct") | 2.55 | Produces `stirr-tree.py`. |
+
 | Project | Spec LTok | Code LTok | Ratio | Note |
 | ------- | ----------| --------- | ----- | ---- |
 | This project | [613](#Examples "./stirr-tree.py spec.md tests/*.correct") | [1273](#Examples# "./stirr-tree.py stirr-tree.py ") | 48% | Produces `stirr-tree.py`. |
