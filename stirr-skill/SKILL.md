@@ -116,7 +116,7 @@ The process is finished when the specs cover the required functionality, the tes
 ## Examples
 | Project | Code | Spec | Code/Spec Ratio | Note |
 | ------- | ----------| --------- | ----- | ---- |
-| `../stirr-cli/` | [1273](#Examples "./stirr-tree.py stirr-tree.py ") | [613](#Examples "./stirr-tree.py spec.md tests/*.correct") | 2.55 | Produces `stirr-tree.py`. |
+| [`../stirr-cli/`](`../stirr-cli/`) | [1273 LTok](#Examples "./stirr-tree.py stirr-tree.py ") | [613 LTok](#Examples "./stirr-tree.py spec.md tests/*.correct") | 2.55 | Produces `stirr-tree.py`. |
 
 | Project | Spec LTok | Code LTok | Ratio | Note |
 | ------- | ----------| --------- | ----- | ---- |
