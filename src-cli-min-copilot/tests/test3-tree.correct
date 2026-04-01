@@ -1,5 +1,5 @@
 == FILE TREE as Name, X LTok, FirstTag + Top3Tags ===
-test-dir/, 80 LTok, -
+test-dir/, 86 LTok, -
   #AI.#Test, 0 LTok, -
   test-hashtags.txt, 86 LTok, #Human + 4#foo 3#FooBar 3#Human
 == TAG TOTALS ===
