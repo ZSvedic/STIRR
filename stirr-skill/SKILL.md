@@ -44,7 +44,6 @@ To make text files manageable, use the following [convention over configuration]
 Write specs before implementation:
 
 - **Be short** — Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
-A rule of thumb is that spec size should be <50% of generated code size.
 
 - **Example is worth a thousand words** — Start with an example, then generalize.
 LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
@@ -116,20 +115,4 @@ The process is finished when the specs cover the required functionality, the tes
 ## Examples
 | Project | Code | Spec | Code/Spec Ratio | Note |
 | ------- | ----------| --------- | ----- | ---- |
-| [`../stirr-cli/`](`../stirr-cli/`) | [1273 LTok](#Examples "./stirr-tree.py stirr-tree.py ") | [613 LTok](#Examples "./stirr-tree.py spec.md tests/*.correct") | 2.55 | Produces `stirr-tree.py`. |
-
-| Project | Spec LTok | Code LTok | Ratio | Note |
-| ------- | ----------| --------- | ----- | ---- |
-| This project | [613](#Examples "./stirr-tree.py spec.md tests/*.correct") | [1273](#Examples# "./stirr-tree.py stirr-tree.py ") | 48% | Produces `stirr-tree.py`. |
-
-| Project | Spec | Code | Ratio | Note |
-| ------- | -----| ---- | ----- | ---- |
-| 'stirr-cli' | `./stirr-tree.py spec.md tests/*.correct` = 613 LTok | `./stirr-tree.py stirr-tree.py` = 1273 LTok | 48% | Produces `stirr-tree.py`. |
-
-| Project | Spec | Code | Ratio | Note |
-| ------- | -----| ---- | ----- | ---- |
-| 'stirr-cli' | **613 LTok** `./stirr-tree.py spec.md tests/*.correct`| **1273 LTok** `./stirr-tree.py stirr-tree.py` | 48% | Produces `stirr-tree.py`. |
-
-| Project | Code | Spec | Ratio | Note |
-| ------- | -----| ---- | ----- | ---- |
-| 'stirr-cli' | **1273 LTok** `./stirr-tree.py stirr-tree.py` | **613 LTok** `./stirr-tree.py spec.md tests/*.correct` | 2.55 | Produces `stirr-tree.py`. |
+| [`../src-cli/`](`../src-cli/`) | [1273 LTok](#Examples "./stirr-tree.py stirr-tree.py ") | [613 LTok](#Examples "./stirr-tree.py spec.md tests/*.correct") | 2.55 | Produces `stirr-tree.py`. |
