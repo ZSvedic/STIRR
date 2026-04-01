@@ -114,6 +114,6 @@ The process is finished when the specs cover the required functionality, the tes
 - Implement by running: [./scripts/implement.sh](./scripts/implement.sh)
 
 ## Examples
-| Project | Code/Spec LTok Ratio | Note |
-| ------- | -------------------- | ---- |
-| `stirr-tree.py` | 1251/491 = 2.55 | Prints a tree with LTok counts/tags. |
+| Project | Spec LTok | Code LTok | Ratio | Note |
+| ------- | ----------| --------- | ----- | ---- |
+| This project | [613]("./stirr-tree.py spec.md tests/*.correct") | [1273]("./stirr-tree.py stirr-tree.py ") | 48% | `stirr-tree.py`Prints a tree with LTok counts/tags. |

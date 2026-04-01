@@ -45,7 +45,7 @@ def is_git_ignored(path, repo_root):
     - Skip hidden (`glob.glob()` default) and `.gitignore` files/dirs.
     - LTok = sum(parsed files from that dir).
 - Func `get_text_file_info`, proceed only for text files <128KB. 
-- Separate pure from printing funcs: `print_file_tree`, `print_file_info`, `print_tags`, and `print_all`.
+- Separate pure from printing funcs: `print_file_tree`, `print_file_info`, `print_totals`, and `print_all`.
 - Print tags and frequencies: FirstTag + Top3Tags per file, in the end all tags.
 
 # #TDD
