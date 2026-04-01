@@ -17,27 +17,19 @@ AGENT="$1"
 shift
 PATHS=("$@")
 
-cd "$(dirname "$0")" # Change to the stirr-check.sh dir.
-
-TREE_OUTPUT=$(./stirr-tree.py "${PATHS[@]}") # Captures the stirr-tree.py output.
-
-RULES="$(< "../stirr-skill/SKILL.md")"
+DIR="$(cd "$(dirname "$0")" && pwd)"
+TREE_OUTPUT=$("$DIR/stirr-tree.py" "${PATHS[@]}")
 
 # Constructs the prompt with rules, paths, and tree output. 
 PROMPT=$(cat <<EOF
-You are a project compliance checker that: 
+You are the STIRR-skill project compliance checker that: 
 - Can read and search files in the project paths. 
 - Can read test logs. 
 - CANNOT modify files, execute tests or code, or access files outside the project paths. 
-Below are the STIRR rules and the CLI output of stirr-tree.py for the specified paths. 
-Check if the code structure and files comply with the STIRR rules. 
+Below is the CLI output of stirr-tree.py for the specified paths. 
+Check if the code structure and files comply with the #STIRR rules. 
 You should output pure text for console, no Markdown. 
-Answer within 45 seconds (e.g. use \`date\` at the start). 
-
-=== STIRR rules (from SKILL.md):
-\`\`\`md
-$RULES
-\`\`\`
+Answer within 40 seconds (e.g. use \`date\` at the start). 
 
 === PATHS:
 ${PATHS[*]}
@@ -51,24 +43,12 @@ EOF
 
 # Calls the appropriate agent.
 case "$AGENT" in
-  codex)
-    echo "Running Codex..."
-    codex -a never -s workspace-write exec "$PROMPT" 2>&1 \
-      | awk '/^=== PATHS:/,0' # Codex is a bit verbose, display only after path part.
-    ;;
-  claude)
-    echo "Running Claude..."
-    claude -p "$PROMPT" 2>&1
-    ;;
-  copilot)
-    echo "Running Copilot..."
-    copilot -p "$PROMPT" --allow-all-tools --allow-all-paths --allow-all-urls 2>&1
-    ;;
-  cursor)
-    echo "Running Cursor..."
-    agent --print --force --trust "$PROMPT" 2>&1
-    ;;
-  *)
-    usage
-    ;;
+  codex)   CMD=(codex -a never -s read-only exec "$PROMPT");;
+  claude)  CMD=(claude -p "$PROMPT");;
+  copilot) CMD=(copilot -p "$PROMPT");;
+  cursor)  CMD=(agent --print --trust "$PROMPT");;
+  *) usage;;
 esac
+
+printf "===== Running:\n${CMD[*]}\n=====\n"
+exec "${CMD[@]}"

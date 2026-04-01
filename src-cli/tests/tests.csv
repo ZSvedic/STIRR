@@ -1,5 +1,6 @@
 Name,Category,Cmd
-test1-noargs,local,stirr-tree.py 
-test2-help,local,stirr-tree.py -h
-test3-tree,local,stirr-tree.py test-dir
-test4-stirr-check,online,stirr-check.sh codex test-dir | (rg -Uq 'TOTALS(.|\n)*tokens' && echo BlockFound || echo BlockMissing)
+test1-noargs,local,./../stirr-tree.py 
+test2-help,local,./../stirr-tree.py -h
+test3-tree,local,./../stirr-tree.py test-dir
+test4-gitskip,local,echo "#IGNORE" > test-dir/ignore.txt; ./../stirr-tree.py test-dir
+test5-stirr-check,online,./../stirr-check.sh codex test-dir 2>&1 | (rg -Uq 'TOTALS(.|\n)*tokens' && echo BlockFound || echo BlockMissing)

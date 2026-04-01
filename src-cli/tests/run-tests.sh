@@ -33,7 +33,7 @@ while IFS=, read -r NAME CATEGORY CMD; do # Read each row.
     n) [ "$NAME" = "$VAL" ] || continue ;;
   esac
   printf "Running %s...\t" "$NAME"
-  eval "./../$CMD" > "$NAME.log" 2>&1 # Run CMD with prefix and suffix, capture output.
+  eval "$CMD" > "$NAME.log" 2>&1 # Run CMD and capture output.
   if DIFF_OUT=$(diff -uw -U0 "$NAME.log" "$NAME.correct" 2>&1); then
     printf "Pass\n"
   else
