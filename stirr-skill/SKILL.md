@@ -44,7 +44,7 @@ To make text files manageable, use the following [convention over configuration]
 Write specs before implementation:
 
 - **Be short** — Start minimal, for the simplest use case, on the simplest tech stack ([MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) spec).  
-A good rule of thumb is that spec size should be <30% of generated code size.
+A rule of thumb is that spec size should be <50% of generated code size.
 
 - **Example is worth a thousand words** — Start with an example, then generalize.
 LLMs infer more [from one example](https://arxiv.org/abs/2005.14165) than from paragraphs of text. 
@@ -114,6 +114,6 @@ The process is finished when the specs cover the required functionality, the tes
 - Implement by running: [./scripts/implement.sh](./scripts/implement.sh)
 
 ## Examples
-| Project | Spec/Code LTok Ratio | Note |
+| Project | Code/Spec LTok Ratio | Note |
 | ------- | -------------------- | ---- |
-| `stirr-tree.py` | 491/1251 = 39% | Tree with LTok counts and hashtags. |
+| `stirr-tree.py` | 1251/491 = 2.55 | Prints a tree with LTok counts/tags. |
