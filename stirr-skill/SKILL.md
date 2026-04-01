@@ -4,7 +4,7 @@ description: STIRR (Specify → Test → Implement → Review → Repeat) is an 
 license: MIT
 metadata:
   author: Zeljko Svedic #Human
-  version: "0.4"
+  version: "0.6"
 ---
 
 ## Rules
@@ -36,9 +36,7 @@ To make text files manageable, use the following [convention over configuration]
   - **Explicit** — First hashtag at the top of a text file. 
   Usually placed in the top comment or [frontmatter](https://jekyllrb.com/docs/front-matter/ "tags: #FooBar").
   - **Implicit** — A dummy directory file named `#Foo[.#Bar...]`  sets that tag(s) for contained files. 
-  Only option for binary files.  
   
-  Explicit is better for practical reasons. 
   E.g., if each text file starts with owner and feature hashtags, 
   find all signup specs by searching `#human #signup` in VSCode, GitHub search, or [rg in CLI](https://github.com/BurntSushi/ripgrep "rg '#human' | rg '#signup'").
 
@@ -114,3 +112,8 @@ The process is finished when the specs cover the required functionality, the tes
   - Run [`./scripts/stirr-check.sh`](./scripts/stirr-check.sh) to check compliance with the rules. 
     It sends `stirr-tree.py` output to CLI coding agent of your choice.
 - Implement by running: [./scripts/implement.sh](./scripts/implement.sh)
+
+## Examples
+| Project  |  Spec LTok |  Code LTok |  Spec/Code Ratio |
+| :--      |        --: |        --: |              --: |
+| `stirr-tree.py` |  491 |  1251 |  39% |
