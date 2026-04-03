@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# #Human
+# #Human 
 
 usage() {
   printf "USAGE: stirr-check.sh <codex|claude|copilot|cursor> PATH1 [PATH2 ...]\n\n"

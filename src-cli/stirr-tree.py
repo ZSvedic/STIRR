@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-# #Human reviewed output of Copilot CLI 1.0.14. (harness) + claude-sonnet-4.6 (model). 
+# #Human 
+# Reviewed and edited output of Copilot CLI 1.0.14. (harness) + claude-sonnet-4.6 (model). 
 # Prints a file tree with LTok counts and hashtag summaries.
 
 import sys, os, glob, re, subprocess
 
 USAGE = "USAGE:\n  stirr-tree.py PATH1 [PATH2 ...]\n  stirr-tree.py --help\n"
+
 # Regex for hashtags, test it online at: https://regexr.com/8lduo
 TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+
 # Regex for lexical tokens, test it online at: https://regexr.com/8ldco
 LTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
 
@@ -134,9 +137,8 @@ def collect_all_tag_info(children):
             result.append(info)
     return result
 
-def print_totals(total_ltok, global_tags):
-    print("== TOTALS ===")
-    print(f"{total_ltok} LTok")
+def print_tags(global_tags):
+    print("== TAG TOTALS ===")
     print(" ".join(f"{count}{canonical}" for canonical, count in global_tags))
 
 def print_all(paths):
@@ -152,12 +154,11 @@ def print_all(paths):
         elif os.path.isfile(path):
             info = get_text_file_info(path)
             all_children.append((os.path.basename(path), False, info[0] if info else 0, info, []))
-    total_ltok = sum(c[2] for c in all_children)
     print("== FILE TREE as Name, X LTok, FirstTag + Top3Tags ===")
     print_file_tree(all_children)
     tag_infos = collect_all_tag_info(all_children)
     if tag_infos:
-        print_totals(total_ltok, collect_global_tags(tag_infos))
+        print_tags(collect_global_tags(tag_infos))
 
 if __name__ == "__main__":
     args = sys.argv[1:]
