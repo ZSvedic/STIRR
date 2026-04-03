@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# #Human
+# #Human #STIRR #Include
 
 usage() {
   printf "USAGE: %s <codex|claude|copilot|cursor>\n\n" "$0"

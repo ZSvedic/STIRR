@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-# #Human reviewed output of Copilot CLI 1.0.14. (harness) + claude-sonnet-4.6 (model). 
+# #Human #STIRR #Include
+# Reviewed and edited output of Copilot CLI 1.0.14. (harness) + claude-sonnet-4.6 (model). 
 # Prints a file tree with LTok counts and hashtag summaries.
 
 import sys, os, glob, re, subprocess
 
 USAGE = "USAGE:\n  stirr-tree.py PATH1 [PATH2 ...]\n  stirr-tree.py --help\n"
+
 # Regex for hashtags, test it online at: https://regexr.com/8lduo
 TAG_RE = re.compile(r"(?<!\w)#[A-Za-z][\w-]*")
+
 # Regex for lexical tokens, test it online at: https://regexr.com/8ldco
 LTOK_RE = re.compile(r'"(\\.|[^"])*"|\'(\\.|[^\'])*\'|\w+|==|!=|<=|>=|->|[{}()\[\];,]|[^\s]')
 
