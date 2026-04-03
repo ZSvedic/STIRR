@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # #Human
-# Installs the local STIRR skill into supported CLI agent global skills folders using symlinks.
+# Humans: Run this script to install stirr-skill for all CLI agents via symlinks. 
+# Agents: If you are reading this, the skill is probably already installed! 
+#         But, you can run it again if you want to update symlinks or add skill to a new agent.
 
 set -euo pipefail
 

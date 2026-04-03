@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# #Human #STIRR #Include
+# #Human 
 # Reviewed and edited output of Copilot CLI 1.0.14. (harness) + claude-sonnet-4.6 (model). 
 # Prints a file tree with LTok counts and hashtag summaries.
 
